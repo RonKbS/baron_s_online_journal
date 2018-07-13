@@ -14,7 +14,7 @@
     <h1>o dear</h1>
     <div id='reg'><a href="create.html">Create Diary</a></div>
     <form action="" method="POST">
-        <table class="credentials">
+        <table id="credentials">
             <tr>
                 <td>
                     <label for="name">name</label>
@@ -38,12 +38,12 @@
             <tr><td><input type="submit" value="Open"></td></tr>
         </table>
     </form>
-    <table class="credentials">
-        <tr><td>Sign in with:</td></tr>
+    <table id="alt_credentials">
+        <tr><td class="alt_cred">Sign in with:</td></tr>
         <tr>
-            <td><button id="o_auth">google</button></td>
-            <td><button id="o_auth">microsoft</button></td>
-            <td><button id="o_auth">other email</button></td>
+            <td class="o_auth"><button>google</button></td>
+            <td class="o_auth"><button>microsoft</button></td>
+            <td class="o_auth"><button>email</button></td>
         </tr>
     </table>
 </body>
