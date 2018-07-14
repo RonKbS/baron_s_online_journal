@@ -13,8 +13,8 @@
 <body>
     <h1 class="appear">o dear</h1>
     <h2 class="appear">online diary</h2>
-    <div id='reg' class="appear"><a href="create.html">Create Diary</a></div>
-    <form action="" method="POST">
+    <div class="appear">Fill in the form to start an online diary:</div>
+    <form action="index.html" method="POST">
         <table id="credentials" class="appear">
             <tr>
                 <td>
@@ -23,39 +23,31 @@
             </tr>
             <tr>
                     <td>
-                        <input type="text" id="name" autocomplete="on" required>
+                        <input type="text" id="name" required>
                     </td>
                 </tr>
             <tr>
                 <td>
-                    <label for="lock">lock</label>
+                        <label for="mail">Email</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" id="mail" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="lock">lock key</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input type="password" id="lock" minlength="4" required>
                 </td>
-                </tr>
-            <tr><td><input type="submit" value="Open"></td></tr>
+            </tr>
+            <tr><td><input type="submit" value="Create"></td></tr>
         </table>
     </form>
-    <table id="alt_credentials" class="appear">
-        <tr><td class="alt_cred">Open with:</td></tr>
-        <tr>
-            <td class="o_auth"><button>google</button></td>
-            <td class="o_auth"><button>microsoft</button></td>
-            <td class="o_auth"><button>email</button></td>
-        </tr>
-    </table>
-    <div class="appear" id="native">
-        <table>
-            <tr><td>Download on the</td></tr>
-            <tr><td>App Store</td></tr>
-        </table>
-        <table>
-            <tr><td><a href="itunes.apple.com/ug/app/o_dear">Get it on</a></td></tr>
-            <tr><td><a href="play.google.com/ug/app/o_dear">Google Play</a></td></tr>
-        </table>
-    </div>
+    </form>
 </body>
-</html>
