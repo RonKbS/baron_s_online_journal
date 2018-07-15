@@ -28,6 +28,10 @@ a {
     color: rgba(26, 14, 14, 0.658);
     text-decoration: none;
 }
+button {
+    background-color: transparent;
+    border-color: transparent;
+}
 ::-webkit-input-placeholder {
     color: darkred;
 }
@@ -58,10 +62,6 @@ a {
     position: relative;
     left: -15%;
 }
-button {
-    background-color: transparent;
-    border-color: transparent;
-}
 input {
     outline: none;
     background-color: transparent;
@@ -79,7 +79,7 @@ input {
 /*Home page and Entry page*/
 #entry {
     outline: none;
-    width: 800px;
+    width: 70%;
     border-radius: 5px;
     background-color: transparent; 
     border-color: darkred;
