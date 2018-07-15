@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="min_functionality.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+    <link rel="stylesheet" href="styles.css">
+    <title>MyDiary</title>
+</head>
+<body>
+    <h1 class="appear">MyDiary</h1>
+    <h2 class="appear">online diary</h2>
+    <div class="appear">
+        <a href="home_page.html">Home</a>
+        ...or...
+        <a href="index.html">Close Diary</a>
+    </div>
+    <div class="account">
+        <table class="account_table">
+            <tr class="day_selector"><td class="remind appear">
+                <input type="checkbox" class="check">
+                Send reminders for new entry
+            </td></tr>
+            <tr><td class="remind appear">Select Days:</td></tr>
+            <tr>
+                <td class="remind appear"><input type="checkbox">Monday</td>
+                <td class="remind appear"><input type="checkbox">Tuesday</td>
+                <td class="remind appear"><input type="checkbox">Wednesday</td>
+                <td class="remind appear"><input type="checkbox">Thursday</td>
+                <td class="remind appear"><input type="checkbox">Friday</td>
+                <td class="remind appear"><input type="checkbox">Saturday</td>
+                <td class="remind appear"><input type="checkbox">Sunday</td>
+            </tr>
+        </table>
+        <table class="account_table account_settings">
+            <tr><td class="appear"><label for="email">Change mail</label></td></tr>
+            <tr><td><input type="email"></td></tr>
+        </table>
+    </div>
+</body>
+</html>

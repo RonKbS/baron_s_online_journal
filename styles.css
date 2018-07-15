@@ -1,0 +1,146 @@
+.links {
+    position: absolute;
+    display: none;
+    z-index: 1;
+}
+html {
+    background: linear-gradient(red, darkred);
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.appear {
+    font-style: italic;
+    font-weight: bold;
+    color: rgba(26, 14, 14, 0.658);
+    text-align: center;
+}
+h1{
+    width: 10%;
+}
+h2 { 
+    width: 20%;
+}
+table {
+    position: relative;
+}
+a {
+    color: rgba(26, 14, 14, 0.658);
+    text-decoration: none;
+}
+
+/*Login and sign up pages*/
+
+#reg {
+    text-align: right;
+    position: relative;
+    right: 40%;
+}
+#credentials {
+    font-size: 40px;
+    border: 5px;
+    background-color: transparent;
+    left: 40%;
+}
+#alt_credentials {
+    font-size: 20px;
+    left: 35%;
+}
+
+.alt_cred {
+    width: 25%;
+    left: 20%;
+}
+.o_auth {
+    position: relative;
+    left: -15%;
+}
+button {
+    background-color: transparent;
+    border-color: transparent;
+}
+input {
+    outline: none;
+    background-color: transparent;
+    border-color: darkred;
+    vertical-align: top;
+}
+#native {
+    position: absolute;
+    border: solid;
+    border-width: 2px;
+    border-radius: 5%;
+    min-width: 10%;
+}
+
+/*Home page and Entry page*/
+#entry {
+    outline: none;
+    width: 800px;
+    border-radius: 5px;
+    background-color: transparent; 
+    border-color: darkred;
+    border-width: 4px;
+    box-shadow: 6px 6px darkred;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.each {
+    height: 30px;
+    width: 700px;
+    border: solid;
+    border-width: 2px;
+    background-color: darkred;
+    border-color: darkred;
+    font-weight: bold;
+    cursor: pointer;
+    font-style: italic;
+}
+
+td.each :hover {
+    -webkit-transition-duration: 5s;
+    transition-duration: 5s;/*not yet there*/
+    text-transform: uppercase;
+    opacity: 0;
+}
+
+#del {
+    position: relative;
+    left: 40%;
+    cursor: pointer;
+    width: 10%;
+}
+.entry {
+    position: relative;
+}
+
+/*Account page*/
+.account {
+    display: flex;
+    flex-wrap: wrap;
+}
+.account_table {
+    position: absolute;
+    left: 15%;
+    border: solid darkred;
+    border-width: 3px;
+    border-radius: 5px;
+    box-shadow: 6px 6px darkred;
+}
+.remind {
+    background-color: transparent;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.check {/*adjust chcekbox color*/
+    appearance: none;
+    background-color: transparent;
+}
+
+.account_settings {
+    position: relative;
+    
+    left: 70%;
+}
