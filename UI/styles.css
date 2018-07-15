@@ -121,10 +121,12 @@ td.each :hover {
 /*Account page*/
 .account {
     width: auto;
-    height: 800px;
+    height: 5px;
+    display: flex;
+    flex-wrap: wrap;
 }
 .account_table {
-    left: 15%;
+    margin: 0 auto;
     border: solid darkred;
     border-width: 3px;
     border-radius: 5px;
@@ -142,9 +144,10 @@ td.each :hover {
 }
 
 .account_settings {
-    top: 25%;
-    left: 70%;
+    position: relative;
+    margin: 0 auto;
 }
 .password_settings {
-    left: 50%;
+    position: relative;
+    margin: 0 auto;
 }
