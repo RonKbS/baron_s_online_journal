@@ -28,6 +28,9 @@ a {
     color: rgba(26, 14, 14, 0.658);
     text-decoration: none;
 }
+::-webkit-input-placeholder {
+    color: darkred;
+}
 
 /*Login and sign up pages*/
 
@@ -117,11 +120,10 @@ td.each :hover {
 
 /*Account page*/
 .account {
-    display: flex;
-    flex-wrap: wrap;
+    width: auto;
+    height: 800px;
 }
 .account_table {
-    position: absolute;
     left: 15%;
     border: solid darkred;
     border-width: 3px;
@@ -140,7 +142,9 @@ td.each :hover {
 }
 
 .account_settings {
-    position: relative;
-    
+    top: 25%;
     left: 70%;
+}
+.password_settings {
+    left: 50%;
 }

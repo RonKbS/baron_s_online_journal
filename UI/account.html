@@ -36,8 +36,21 @@
             </tr>
         </table>
         <table class="account_table account_settings">
-            <tr><td class="appear"><label for="email">Change mail</label></td></tr>
-            <tr><td><input type="email"></td></tr>
+            <form action="">
+                <tr><td class="appear"><label for="email">Change mail</label></td></tr>
+                <tr><td><input type="email"></td></tr>
+                <tr><td class="appear"><input type="submit" value="save"></td></tr>
+            </form>
+        </table>
+        <table class="account_table password_settings">
+            <tr><td class="appear">Change Lock</td></tr>
+            <tr><td><input type="password" placeholder="old lock"></td></tr>
+            <form action="">
+                    <tr><td class="appear"><legend>New Lock</legend></td></tr>
+                    <tr><td class="appear"><input type="password" placeholder="lock" required></td></tr>
+                    <tr><td class="appear"><input type="password" placeholder="confirm new lock"></td></tr>
+                    <tr><td class="appear"><button type="submit">Save new lock</button></td></tr>
+            </form>
         </table>
     </div>
 </body>
