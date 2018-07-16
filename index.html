@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="min_functionality.js"></script>
-    <script src="jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
     <link rel="stylesheet" href="styles.css">
-    <title>O Dear</title>
+    <title>MyDiary</title>
 </head>
 <body>
-    <h1 class="appear">o dear</h1>
+    <h1 class="appear">MyDiary</h1>
     <h2 class="appear">online diary</h2>
     <div id='reg' class="appear"><a href="create.html">Create Diary</a></div>
-    <form action="" method="POST">
+    <form action="home_page.html">
         <table id="credentials" class="appear">
             <tr>
                 <td>
@@ -36,7 +33,7 @@
                     <input type="password" id="lock" minlength="4" required>
                 </td>
                 </tr>
-            <tr><td><input type="submit" value="Open"></td></tr>
+                <tr><td><input type="submit" value="open" class="appear"></td></tr>
         </table>
     </form>
     <table id="alt_credentials" class="appear">
@@ -50,11 +47,11 @@
     <div class="appear" id="native">
         <table>
             <tr><td>Download on the</td></tr>
-            <tr><td>App Store</td></tr>
+            <tr><td><a href="itunes.apple.com/">App Store</a></td></tr>
         </table>
         <table>
-            <tr><td><a href="itunes.apple.com/ug/app/o_dear">Get it on</a></td></tr>
-            <tr><td><a href="play.google.com/ug/app/o_dear">Google Play</a></td></tr>
+                <tr><td>Get it on</td></tr>
+            <tr><td><a href="play.google.com/">Google Play</a></td></tr>
         </table>
     </div>
 </body>
