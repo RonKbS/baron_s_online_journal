@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="min_functionality.js"></script>
-    <script src="jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
     <link rel="stylesheet" href="styles.css">
     <title>MyDiary</title>
 </head>
@@ -35,9 +32,22 @@
                 <td class="remind appear"><input type="checkbox">Sunday</td>
             </tr>
         </table>
+        <table class="account_table password_settings">
+            <tr><td class="appear">Change Lock</td></tr>
+            <tr><td><input type="password" placeholder="old lock"></td></tr>
+            <form action="">
+                <tr><td class="appear"><legend>New Lock</legend></td></tr>
+                <tr><td class="appear"><input type="password" placeholder="lock" required></td></tr>
+                <tr><td class="appear"><input type="password" placeholder="confirm new lock"></td></tr>
+                <tr><td><input type="submit" value="save new lock" class="appear"></td></tr>
+            </form>
+            </table>
         <table class="account_table account_settings">
-            <tr><td class="appear"><label for="email">Change mail</label></td></tr>
-            <tr><td><input type="email"></td></tr>
+            <form action="">
+                <tr><td class="appear"><label for="email">Change mail</label></td></tr>
+                <tr><td><input type="email"></td></tr>
+                <tr><td><input type="submit" value="save" class="appear"></td></tr>
+            </form>
         </table>
     </div>
 </body>
