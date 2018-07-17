@@ -1,0 +1,1 @@
+from MyDiary import app
