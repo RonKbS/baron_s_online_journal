@@ -1,6 +1,6 @@
-from flask import Flask, Blueprint
+from flask import Blueprint
 
 
 bp = Blueprint('api', __name__)
 
-from app.api import entries, errors, tokens
+from MyDiary.api import entries

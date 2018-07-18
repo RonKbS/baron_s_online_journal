@@ -14,12 +14,10 @@ class Diary:
         #create empty entry if entry has been used before
         self.entry = {}
         self.date = datetime.now()
+        self.content = 'Placeholder for content'
         self.entry = {
-            "Date": self.date
-            "content:": self.content
-            "_links": {
-                "current": url_for('api.get_user', date=self.date)
-            }
+            "Date": self.date,
+            "content": self.content
         }
         entries.append(entry)
         return entry
