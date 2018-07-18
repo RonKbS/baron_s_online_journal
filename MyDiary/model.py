@@ -8,39 +8,50 @@ class Diary:
         self.date = date
         self.content = content
         self.entries=[]
-        self.entry = {}
+        self.entry = entry
 
     def add_entry(self):
         #create empty entry if entry has been used before
         self.entry = {}
         self.date = datetime.now()
         self.entry = {
-            "Date": self.date.strftime('%A %B, %Y')
+            "Date": self.date
             "content:": self.content
+            "_links": {
+                "current": url_for('api.get_user', date=self.date)
+            }
         }
         entries.append(entry)
         return entry
     
     def find_entry_by_date(self, date):
-        specific_entries = []
+        group_entries = []
         for entry in self.entries:
-            if date == self.date:
+            if date == entry["Date"].strftime('%A.%B.%Y'):
                 return entry
+            #return not found if  full date is give by the followiing condition
+            elif len(date) > 10:
+                return 'No such entry'
         for entry in self.entries:
-            if date == self.date.strftime('%A') or date == self.date.strftime('%B') or date == self.date.strftime('%Y'):
-                specific_entries.append(entry)
+            if date == entry["Date"].strftime('%A') or date == entry["Date"].strftime('%B') or date == entry["Date"].strftime('%C'):
+                group_entries.append(entry)
+        specific_entries={"grouped": group_entries}
+        if group_entries == []:
+            return 'No such entries'
         return specific_entries
 
     def modify_entry(self, date):
         for entry in self.entries:
-            if date == self.date:
+            if date == entry["Date"].strftime('%A.%B.%Y'):
                 return self.entry["content"]
+        return 'No such entry'
 
     def delete_entry(self, date):
         for entry in self.entries:
-            if date == self.date:
+            if date == entry["Date"].strftime('%A.%B.%Y'):
                 self.entries.pop()
                 return "Entry Deleted"
+        return 'No such entry'
 
     @staticmethod
     def list_all_entries():
