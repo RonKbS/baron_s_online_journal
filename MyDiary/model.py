@@ -2,25 +2,30 @@ from datetime import datetime
 from flask import url_for
 
 
+Diaries = 0
 
 class Diary:
-    def __init__(self, entries, date, content, entry):
+    def __init__(self, name, email, password, entries, date, content, entry):
+        self.name = name
+        self.email = email
+        self.password = password
         self.date = date
         self.content = content
         self.entries=[]
         self.entry = entry
 
-    def add_entry(self):
+
+    def add_entry(self, enter_content):
         #create empty entry if entry has been used before
         self.entry = {}
         self.date = datetime.now()
-        self.content = 'Placeholder for content'
+        self.content = enter_content
         self.entry = {
             "Date": self.date,
             "content": self.content
         }
-        entries.append(entry)
-        return entry
+        self.entries.append(self.entry)
+        return self.entry
     
     def find_entry_by_date(self, date):
         group_entries = []
@@ -51,7 +56,6 @@ class Diary:
                 return "Entry Deleted"
         return 'No such entry'
 
-    @staticmethod
-    def list_all_entries():
-        if entries:
+    def list_all_entries(self):
+        if self.entries:
             return self.entries

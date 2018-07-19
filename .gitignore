@@ -1,0 +1,4 @@
+venv_mydiary/
+__pycache__/
+mydiary/__pycache__/
+mydiary/api/__pycache__/
