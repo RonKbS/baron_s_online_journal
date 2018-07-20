@@ -9,7 +9,7 @@ install:
   - pip install coveralls
 
 script:
-  - pytest mydiary/tests/ --with-coverage
+  - pytest --with-coverage
 
 after_success:
   - coveralls
