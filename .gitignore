@@ -4,3 +4,4 @@ mydiary/__pycache__/
 mydiary/api/__pycache__/
 .pytest_cache/
 MyDiary/api/__pycache__/entries.cpython-36.pyc
+htmlcov/
