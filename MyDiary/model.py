@@ -19,9 +19,15 @@ class Diary:
         '''create empty entry if entry has been used before'''
         entry = {}
         date = datetime.now()
+        day = date.strftime('%A')
+        month = date.strftime('%B')
+        year = date.strftime('%Y')
         content = enter_content
         entry = {
-            "Date": date,
+            "date": date.strftime('%A.%B.%Y'),
+            "day": day,
+            "month": month,
+            "year": year,
             "content": content
         }
         entries.append(entry)
@@ -31,12 +37,12 @@ class Diary:
     def find_entry_by_date(date):
         group_entries = []
         for entry in entries:
-            if date == entry["Date"].strftime('%A.%B.%Y'):
+            if date == entry["date"]:
                 return entry
             elif len(date) > 10:
                 return 'No such entry'
         for entry in entries:
-            if date == entry["Date"].strftime('%A') or date == entry["Date"].strftime('%B') or date == entry["Date"].strftime('%C'):
+            if date == entry["day"] or date == entry["month"] or date == entry["year"]:
                 group_entries.append(entry)
         specific_entries = {"grouped": group_entries}
         if group_entries == []:
@@ -46,14 +52,15 @@ class Diary:
     @staticmethod
     def modify_entry(date):
         for entry in entries:
-            if date == entry["Date"].strftime('%A.%B.%Y'):
+            if date == entry["date"].strftime('%A.%B.%Y'):
                 return entry["content"]
         return 'No such entry'
 
     @staticmethod
     def delete_entry(date):
         for entry in entries:
-            if date == entry["Date"].strftime('%A.%B.%Y'):
+            if date == entry['date'] or date == entry["day"] or date == entry["month"] or \
+             date == entry["year"]:
                 entries.remove(entry)
                 return "Entry Deleted"
         return 'No such entry'
