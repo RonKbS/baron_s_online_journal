@@ -1,6 +1,7 @@
 import json
 import pytest
 import unittest
+from datetime import datetime
 from MyDiary import app
 from mydiary.api import entries
 
@@ -13,7 +14,8 @@ def client(request):
 
 
 def post_json(client, url, json_dict):
-    return client.post(url, data=json.dumps(json_dict), content_type='application/json')
+    return client.post(url, data=json.dumps(json_dict),\
+     content_type='application/json')
 
 
 def json_reply(reponse):
@@ -25,6 +27,15 @@ def test_get_all_entries(client):
 
 
 def test_add_entry(client):
-    response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', {"content": 'New content added'})
+    response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',\
+     {"content": 'New content added'})
     assert response.status_code == 201
     assert json_reply(response) == {"201": 'Entry added'}
+
+
+def test_get_entry(client):
+    post_json(client, 'http://127.0.0.1:5000/api/v1/entries',\
+     {"content": 'New content added'})
+    date = datetime.now().strftime('%A.%B.%Y')
+    reponse = client.get('http://127.0.0.1:5000/api/v1/entries/' + date)
+    assert reponse.status_code == 200
