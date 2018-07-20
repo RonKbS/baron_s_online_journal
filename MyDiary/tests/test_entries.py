@@ -37,5 +37,14 @@ def test_get_entry(client):
     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',\
      {"content": 'New content added'})
     date = datetime.now().strftime('%A.%B.%Y')
-    reponse = client.get('http://127.0.0.1:5000/api/v1/entries/' + date)
-    assert reponse.status_code == 200
+    response = client.get('http://127.0.0.1:5000/api/v1/entries/' + date)
+    assert response.status_code == 200
+
+
+def test_delete_entry(client):
+    post_json(client, 'http://127.0.0.1:5000/api/v1/entries',\
+     {"content": 'New content to be deleted'})
+    date = datetime.now().strftime('%A.%B.%Y')
+    response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + date)
+    assert response.status_code == 200
+    assert json_reply(response) == {"200": 'Entry deleted'}

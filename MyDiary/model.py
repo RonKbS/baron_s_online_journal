@@ -59,10 +59,9 @@ class Diary:
     @staticmethod
     def delete_entry(date):
         for entry in entries:
-            if date == entry['date'] or date == entry["day"] or date == entry["month"] or \
-             date == entry["year"]:
+            if date == entry['date']:
                 entries.remove(entry)
-                return "Entry Deleted"
+                return "Entry deleted"
         return 'No such entry'
 
     @staticmethod
