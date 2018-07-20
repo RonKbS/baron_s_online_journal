@@ -1,7 +1,7 @@
 from flask import jsonify, request
-from mydiary import model
-from mydiary.api import bp
-from mydiary.model import Diary
+from MyDiary import model
+from MyDiary.api import bp
+from MyDiary.model import Diary
 
 
 @bp.route('/entries/<string:date>', methods=['GET'])

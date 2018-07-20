@@ -3,7 +3,7 @@ import pytest
 import unittest
 from datetime import datetime
 from MyDiary import app
-from mydiary.api import entries
+from MyDiary.api import entries
 
 
 @pytest.fixture
