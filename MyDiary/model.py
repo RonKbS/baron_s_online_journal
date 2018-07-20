@@ -42,7 +42,8 @@ class Diary:
             elif len(date) > 10:
                 return 'No such entry'
         for entry in entries:
-            if date == entry["day"] or date == entry["month"] or date == entry["year"]:
+            if date == entry["day"] or date == entry["month"] or\
+             date == entry["year"]:
                 group_entries.append(entry)
         specific_entries = {"grouped": group_entries}
         if group_entries == []:
