@@ -22,3 +22,9 @@ def json_reply(reponse):
 def test_get_all_entries(client):
     reponse = client.get('http://127.0.0.1:5000/api/v1/entries')
     assert reponse.status_code == 200
+
+
+def test_add_entry(client):
+    response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', {"content": 'New content added'})
+    assert response.status_code == 201
+    assert json_reply(response) == {"201": 'Entry added'}
