@@ -2,11 +2,11 @@
 body {
     background-image: url("dariusz-sankowski-56727-unsplash.jpg");
     background-size: 105%;
-    max-width: 100%;
+    max-width: 75%;
     height: 100%;
     background-repeat: repeat-y;
     background-attachment: fixed;
-    -webkit-text-fill-color: black;
+    -webkit-text-fill-color: rgb(20, 7, 7);
 }
 .appear {
     font-style: italic;
@@ -17,9 +17,11 @@ body {
     left: 25%;
 }
 h1{
+    -webkit-text-fill-color: rgba(8, 2, 2, 0.938);
     width: 10%;
 }
 h2 { 
+    -webkit-text-fill-color: rgba(8, 2, 2, 0.938);
     width: 20%;
 }
 table {
@@ -34,7 +36,7 @@ button {
     border-color: transparent;
 }
 ::-webkit-input-placeholder {
-    color: darkred;
+    color: rgb(63, 36, 36);
 }
 
 /*Login and sign up pages*/
@@ -49,7 +51,7 @@ button {
 
 #reg {
     box-shadow: 15%;
-    width: 350px;
+    width: 50%;
     border-radius: 10px;
     text-align: right;
     position: relative;
@@ -76,14 +78,16 @@ button {
     position: relative;
     left: -15%;
 }
+
 input {
     outline: none;
     background-color: transparent;
-    border-color: darkslategrey;
+    border-color: rgba(63, 36, 36, 0.473);
     vertical-align: top;
 }
 #native {
     position: absolute;
+    left: 50%;
     border: solid;
     border-width: 2px;
     border-radius: 5%;
@@ -92,13 +96,15 @@ input {
 
 /*Home page and Entry page*/
 #entry {
+    color: white;
     outline: none;
+    min-width: 100%;
     width: 70%;
     border-radius: 5px;
     background-color: transparent; 
-    border-color: rgb(21, 68, 68);;
+    border-color: rgba(63, 36, 36, 0.473);
     border-width: 4px;
-    box-shadow: 6px 6px rgb(21, 68, 68);;
+    box-shadow: 6px 6px rgba(245, 223, 223, 0.219);
     font-style: italic;
     font-weight: bold;
 }
@@ -108,11 +114,17 @@ input {
     width: 700px;
     border: solid;
     border-width: 2px;
-    background-color: rgba(245, 223, 223, 0.418);
-    border-color: rgba(245, 223, 223, 0.418);
+    background-color: rgba(245, 223, 223, 0.219);
+    border-color: transparent;
     font-weight: bold;
     cursor: pointer;
     font-style: italic;
+}
+
+#entries_block {
+    position: relative;
+    position: relative;
+    left: 25%;
 }
 
 td.each :hover {
@@ -141,12 +153,13 @@ td.each :hover {
 }
 .account_table {
     margin: 0 auto;
-    border: solid rgb(21, 68, 68);;
+    border: solid rgba(63, 36, 36, 0.473);
     border-width: 3px;
     border-radius: 5px;
-    box-shadow: 6px 6px rgb(21, 68, 68);;
+    box-shadow: 6px 6px rgba(63, 36, 36, 0.473);
 }
 .remind {
+    left: 5%;
     background-color: transparent;
     display: flex;
     flex-wrap: wrap;
