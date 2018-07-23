@@ -10,40 +10,46 @@
 <body>
     <h1 class="appear">MyDiary</h1>
     <h2 class="appear">online diary</h2>
-    <div id='reg' class="appear"><a href="create.html">Create Diary</a></div>
-    <form action="home_page.html">
-        <table id="credentials" class="appear">
-            <tr>
-                <td>
-                    <label for="name">name</label>
-                </td>
-            </tr>
-            <tr>
-                    <td>
-                        <input type="text" id="name" autocomplete="on" required>
-                    </td>
+    <div id='reg' class="appear">
+        <div class="create"><a href="create.html">Create Diary</a></div>
+            <div id="log_in">
+                <form action="home_page.html">
+                    <table id="credentials" class="appear">
+                        <tr>
+                            <td>
+                                <label for="name">name</label>
+                            </td>
+                        </tr>
+                        <tr>
+                                <td>
+                                    <input type="text" id="name" autocomplete="on" required>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td>
+                                <label for="lock">lock</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="password" id="lock" minlength="4" required>
+                            </td>
+                            </tr>
+                            <tr><td><input type="submit" value="open" class="appear"></td></tr>
+                    </table>
+                </form>
+            </div>
+        <div id="alt_credentials">
+            <table class="appear">
+                <tr><td class="alt_cred">Open with:</td></tr>
+                <tr>
+                    <td class="o_auth"><button>google</button></td>
+                    <td class="o_auth"><button>microsoft</button></td>
+                    <td class="o_auth"><button>email</button></td>
                 </tr>
-            <tr>
-                <td>
-                    <label for="lock">lock</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="password" id="lock" minlength="4" required>
-                </td>
-                </tr>
-                <tr><td><input type="submit" value="open" class="appear"></td></tr>
-        </table>
-    </form>
-    <table id="alt_credentials" class="appear">
-        <tr><td class="alt_cred">Open with:</td></tr>
-        <tr>
-            <td class="o_auth"><button>google</button></td>
-            <td class="o_auth"><button>microsoft</button></td>
-            <td class="o_auth"><button>email</button></td>
-        </tr>
-    </table>
+            </table>
+        </div>
+    </div>
     <div class="appear" id="native">
         <table>
             <tr><td>Download on the</td></tr>

@@ -1,19 +1,20 @@
-.links {
-    position: absolute;
-    display: none;
-    z-index: 1;
-}
-html {
-    background: linear-gradient(red, darkred);
+
+body {
+    background-image: url("dariusz-sankowski-56727-unsplash.jpg");
+    background-size: 105%;
+    max-width: 100%;
     height: 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-attachment: fixed;
+    -webkit-text-fill-color: black;
 }
 .appear {
     font-style: italic;
     font-weight: bold;
     color: rgba(26, 14, 14, 0.658);
     text-align: center;
+    position: relative;
+    left: 25%;
 }
 h1{
     width: 10%;
@@ -38,10 +39,21 @@ button {
 
 /*Login and sign up pages*/
 
+.create{
+    position: relative;
+    right: 20%;
+}
+#log_in {
+    text-align: left;
+}
+
 #reg {
+    box-shadow: 15%;
+    width: 350px;
+    border-radius: 10px;
     text-align: right;
     position: relative;
-    right: 40%;
+    left: 25%;
 }
 #credentials {
     font-size: 40px;
@@ -50,6 +62,8 @@ button {
     left: 40%;
 }
 #alt_credentials {
+    position: relative;
+    width: 50%;
     font-size: 20px;
     left: 35%;
 }
@@ -65,7 +79,7 @@ button {
 input {
     outline: none;
     background-color: transparent;
-    border-color: darkred;
+    border-color: darkslategrey;
     vertical-align: top;
 }
 #native {
@@ -82,9 +96,9 @@ input {
     width: 70%;
     border-radius: 5px;
     background-color: transparent; 
-    border-color: darkred;
+    border-color: rgb(21, 68, 68);;
     border-width: 4px;
-    box-shadow: 6px 6px darkred;
+    box-shadow: 6px 6px rgb(21, 68, 68);;
     font-style: italic;
     font-weight: bold;
 }
@@ -94,8 +108,8 @@ input {
     width: 700px;
     border: solid;
     border-width: 2px;
-    background-color: darkred;
-    border-color: darkred;
+    background-color: rgba(245, 223, 223, 0.418);
+    border-color: rgba(245, 223, 223, 0.418);
     font-weight: bold;
     cursor: pointer;
     font-style: italic;
@@ -127,10 +141,10 @@ td.each :hover {
 }
 .account_table {
     margin: 0 auto;
-    border: solid darkred;
+    border: solid rgb(21, 68, 68);;
     border-width: 3px;
     border-radius: 5px;
-    box-shadow: 6px 6px darkred;
+    box-shadow: 6px 6px rgb(21, 68, 68);;
 }
 .remind {
     background-color: transparent;
