@@ -19,15 +19,9 @@ class Diary:
         '''create empty entry if entry has been used before'''
         entry = {}
         date = datetime.now()
-        day = date.strftime('%A')
-        month = date.strftime('%B')
-        year = date.strftime('%Y')
         content = enter_content
         entry = {
             "date": date.strftime('%A.%B.%Y'),
-            "day": day,
-            "month": month,
-            "year": year,
             "content": content
         }
         entries.append(entry)
