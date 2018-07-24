@@ -34,17 +34,21 @@ def test_add_entry(client):
 
 
 def test_get_entry(client):
-    post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
+    post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
              {"content": 'New content added'})
-    date = datetime.now().strftime('%A.%B.%Y')
-    response = client.get('http://127.0.0.1:5000/api/v1/entries/' + date)
-    assert response.status_code == 200
+    id = 1
+    get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id))
+    assert post_response.status_code == 201
+    assert get_response.status_code == 200
+    client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id))
+
 
 
 def test_delete_entry(client):
     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
              {"content": 'New content to be deleted'})
-    date = datetime.now().strftime('%A.%B.%Y')
-    response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + date)
+    '''Following test to get entry, this is the second entry added hence the id of two'''
+    id = 1
+    response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id))
     assert response.status_code == 200
     assert json_reply(response) == {"200": 'Entry deleted'}

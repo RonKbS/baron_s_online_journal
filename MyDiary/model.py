@@ -6,6 +6,7 @@ which will enable more distinguishing between
 several users'''
 
 entries = []
+entry_id = 1
 
 
 class Diary:
@@ -20,41 +21,44 @@ class Diary:
         entry = {}
         date = datetime.now()
         content = enter_content
-        entry = {
+        new_entry = {
             "date": date.strftime('%A.%B.%Y'),
-            "content": content
+            "content": content,
+            "ID": entry_id
         }
-        entries.append(entry)
-        return entry
-
-    @staticmethod
-    def find_entry_by_date(date):
-        group_entries = []
         for entry in entries:
-            if date == entry["date"]:
+            if entries == []:
+                entries.append(new_entry)
                 return entry
-            elif len(date) > 10:
-                return 'No such entry'
-        for entry in entries:
-            if date == entry["day"] or date == entry["month"] or\
-             date == entry["year"]:
-                group_entries.append(entry)
-        specific_entries = {"grouped": group_entries}
-        if group_entries == []:
-            return 'No such entries'
-        return specific_entries
+            else:
+                if new_entry["content"] == entry["content"]:
+                    return "New entry is similar to older entry"
+                else:
+                    entry["ID"] = entry["ID"] + 1
+        entries.append(new_entry)
+        return new_entry
 
     @staticmethod
-    def modify_entry(date):
+    def find_entry_by_id(entry_id):
         for entry in entries:
-            if date == entry["date"].strftime('%A.%B.%Y'):
+            if entry_id == entry["ID"]:
+                return entry
+            else:
+                return 'No such entry'
+
+    
+    
+    @staticmethod
+    def modify_entry(entry_id):
+        for entry in entries:
+            if entry_id == entry["ID"]:
                 return entry["content"]
         return 'No such entry'
 
     @staticmethod
-    def delete_entry(date):
+    def delete_entry(entry_id):
         for entry in entries:
-            if date == entry['date']:
+            if entry_id == entry['ID']:
                 entries.remove(entry)
                 return "Entry deleted"
         return 'No such entry'
