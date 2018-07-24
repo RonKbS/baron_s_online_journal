@@ -3,3 +3,4 @@ MyDiary/__pycache__/
 MyDiary/tests/__pycache__/
 __pycache__/
 htmlcov/
+.pytest_cache/
