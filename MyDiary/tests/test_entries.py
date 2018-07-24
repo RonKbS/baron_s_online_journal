@@ -13,7 +13,7 @@ def client(request):
 
 
 def post_json(client, url, json_dict):
-    return client.post(url, data=json.dumps(json_dict),
+    return client.post(url, data = json.dumps(json_dict),
                        content_type='application/json')
 
 
@@ -31,6 +31,7 @@ def test_add_entry(client):
                         {"content": 'New content added'})
     assert response.status_code == 201
     assert json_reply(response) == {"201": 'Entry added'}
+    client.delete('http://127.0.0.1:5000/api/v1/entries/1')
 
 
 def test_get_entry(client):
@@ -41,7 +42,16 @@ def test_get_entry(client):
     get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id))
     assert post_response.status_code == 201
     assert get_response.status_code == 200
+    client.delete('http://127.0.0.1:5000/api/v1/entries/1')
 
+
+def test_modifiy_entry(client):
+    post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
+             {"content": ' content to be modified'})
+    response_to_change = client.put('http://127.0.0.1:5000/api/v1/entries/1', data=
+                                    json.dumps({"content": 'content modified'}), 
+                                    content_type = 'application/json')
+    assert response_to_change.status_code == 201
 
 
 def test_delete_entry(client):
