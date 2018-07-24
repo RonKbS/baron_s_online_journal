@@ -47,10 +47,11 @@ class Diary:
     
     
     @staticmethod
-    def modify_entry(entry_id):
+    def modify_entry(entry_id, content):
         for entry in entries:
             if entry_id == entry["ID"]:
-                return entry["content"]
+                entry["content"] = content
+                return entry
         return 'No such entry'
 
     @staticmethod

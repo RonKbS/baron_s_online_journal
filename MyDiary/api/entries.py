@@ -18,6 +18,7 @@ def get_all_entries():
 
 @bp.route('/entries', methods=['POST'])
 def add_entry():
+    '''Obtain the entry sent as a json file then append it to entries list'''
     new_entry = request.get_json() or {}
     new_entry_return = Diary.add_entry(new_entry["content"])
     if new_entry_return == "New entry is similar to older entry":
@@ -27,9 +28,10 @@ def add_entry():
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
 def change_entry(entry_id):
-    entry_change = request.get_json() or {}
-    Diary.modify_entry(entry_change["content"])
-    return jsonify({201: 'Entry has been modified'})
+    entry_change = Diary.find_entry_by_id(entry_id)
+    new_entry = request.get_json() or {}
+    Diary.modify_entry(entry_id, new_entry['content'])
+    return jsonify({201: 'Entry has been modified'}), 201
 
 
 @bp.route('/entries/<int:entry_id>', methods=['DELETE'])
