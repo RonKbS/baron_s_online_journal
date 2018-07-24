@@ -30,11 +30,10 @@ class Diary:
             if entries == []:
                 entries.append(new_entry)
                 return entry
+            elif new_entry["content"] == entry["content"]:
+                return "New entry is similar to older entry"
             else:
-                if new_entry["content"] == entry["content"]:
-                    return "New entry is similar to older entry"
-                else:
-                    entry["ID"] = entry["ID"] + 1
+                entry["ID"] = entry["ID"] + 1
         entries.append(new_entry)
         return new_entry
 
@@ -43,8 +42,7 @@ class Diary:
         for entry in entries:
             if entry_id == entry["ID"]:
                 return entry
-            else:
-                return 'No such entry'
+        return 'No such entry'
 
     
     

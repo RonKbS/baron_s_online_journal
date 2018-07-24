@@ -19,7 +19,9 @@ def get_all_entries():
 @bp.route('/entries', methods=['POST'])
 def add_entry():
     new_entry = request.get_json() or {}
-    Diary.add_entry(new_entry["content"])
+    new_entry_return = Diary.add_entry(new_entry["content"])
+    if new_entry_return == "New entry is similar to older entry":
+        return jsonify({403 : new_entry_return}), 403
     return jsonify({201: 'Entry added'}), 201
 
 

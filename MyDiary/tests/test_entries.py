@@ -34,13 +34,13 @@ def test_add_entry(client):
 
 
 def test_get_entry(client):
+    '''Create entry that has an id of one, changing previous content id to 2'''
     post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
-             {"content": 'New content added'})
+             {"content": 'More content added'})
     id = 1
     get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id))
     assert post_response.status_code == 201
     assert get_response.status_code == 200
-    client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id))
 
 
 
