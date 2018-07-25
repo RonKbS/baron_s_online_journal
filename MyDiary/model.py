@@ -1,19 +1,32 @@
 from datetime import datetime
 
 
-'''Note that user model has not been included
-which will enable more distinguishing between
-several users'''
-
 entries = []
 entry_id = 1
+users = []
+first_user_id = 1
 
 
-class Diary:
+class User:
     def __init__(self, name, email, password):
         self.name = name
         self.email = email
         self.password = password
+
+    user_id = first_user_id
+
+    def add_user(self, user_id):
+        User = {
+            'name': self.name,
+            'email': self.email,
+            'password': self.password,
+            'UserID': user_id
+        }
+        first_user_id += 1
+        users.append(User)
+        return User
+
+class Diary(User):
 
     @staticmethod
     def add_entry(enter_content):
@@ -24,7 +37,8 @@ class Diary:
         new_entry = {
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
-            "ID": entry_id
+            "ID": entry_id,
+            "UserID": Diary.user_id
         }
         for entry in entries:
             if entries == []:
