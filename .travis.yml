@@ -8,7 +8,7 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - pytest --cov=MyDiary MyDiary/tests/
+  - coverage run --source=MyDiary -m pytest
 
 after_success:
   - coveralls
