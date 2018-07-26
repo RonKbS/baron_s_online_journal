@@ -1,6 +1,6 @@
 
 body {
-    background-image: url("dariusz-sankowski-56727-unsplash.jpg");
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("dariusz-sankowski-56727-unsplash.jpg");
     background-size: 105%;
     max-width: 75%;
     height: 100%;
