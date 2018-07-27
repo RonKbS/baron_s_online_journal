@@ -18,7 +18,7 @@ def get_all_entries():
 
 @bp.route('/entries', methods=['POST'])
 def add_entry():
-    '''Obtain the entry sent as a dictionary then append it to entries list'''
+    '''Obtain the entry sent as a dictionary then append it_to entries list'''
     new_entry = request.get_json() or {}
     new_entry_return = Diary.add_entry(new_entry["content"])
     if new_entry_return == "New entry is similar to older entry":
