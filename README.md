@@ -44,6 +44,6 @@ coverage html
 API hosted at:
 http://baron-s-mydiary.herokuapp.com/api/v1/entries
 
-## Buit With
+## Built With
 
 [Flask](http://flask.pocoo.org/docs/1.0/)
