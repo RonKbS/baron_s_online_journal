@@ -1,0 +1,7 @@
+[report]
+omit =
+    */__pycache__/*
+    */venv_mydiary/*
+    mydiary/__init__.py
+    mydiary/api/__init__.py
+    mydiary/tests/__init__.py
