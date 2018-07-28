@@ -4,7 +4,10 @@ from config import config
 def add_entry():
     """Add new User to User table"""
     User = {
-            'user_id': 6, 'name': 'ron', 'email': 'ron@gmail.com', 'password': 'okay'
+            'user_id': 6,
+             'date': 'ron',
+             'content': 'hello everyone',
+              'entry_id': 1
         }
     # column_header = []
     # column_data = []
@@ -16,10 +19,10 @@ def add_entry():
     parameters = config()
     conn = psycopg2.connect(**parameters)
     cur = conn.cursor()
-    sql = '''INSERT INTO users ( %s ) VALUES ( %s )'''  % (columns, placeholders)
+    sql = '''INSERT INTO entries ( %s ) VALUES ( %s )'''  % (columns, placeholders)
     cur.execute (sql, list(User.values()))
     conn.commit()
     cur.close()
 
 if __name__ == '__main__':
-    add_user()
+    add_entry()
