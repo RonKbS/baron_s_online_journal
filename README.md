@@ -7,4 +7,4 @@
 A diary that can do everything a diary can, storing your thoughts safely online
 
 API hosted at:
-http://baron-s-mydiary.herokuapp.com/api/v1/entries
+http://bbron-s-mydiary.herokuapp.com/api/v1/entries
