@@ -1,20 +1,26 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from MyDiary import login
 
 
 '''Note that user model has not been included
 which will enable more distinguishing between
 several users'''
 
-entries = []
-users = []
-entry_id = 1
-users = []
-count_user_id = 1
 
+@login.diary_loader
+def load_diary(id):
+    return int(Diary.count_user_id)
 
-class Diary:
+class Diary(UserMixin):
+    entries = []
+    users = []
+    entry_id = 1
+    users = []
+    count_user_id = 1
 
+    '''Create hashes of user passwords, use next function to retrieve them'''
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -26,11 +32,11 @@ class Diary:
         User = {
             'name': name,
             'email': email,
-            'password': password,
-            'Userid': count_user_id
+            'password': Diary.set_password(password),
+            'Userid': Diary.count_user_id
         }
-        count_user_id += 1
-        users.append(User)
+        Diary.count_user_id += 1
+        Diary.users.append(User)
         return User
 
     @staticmethod
@@ -42,32 +48,31 @@ class Diary:
         new_entry = {
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
-            "ID": entry_id
-            "user"
+            "entry_id": Diary.entry_id,
+            "user_id": Diary.count_user_id
+
         }
-        for entry in entries:
-            if entries == []:
-                entries.append(new_entry)
+        for entry in Diary.entries:
+            if Diary.entries == []:
+                Diary.entries.append(new_entry)
                 return entry
             elif new_entry["content"] == entry["content"]:
                 return "New entry is similar to older entry"
             else:
                 entry["ID"] = entry["ID"] + 1
-        entries.append(new_entry)
+        Diary.entries.append(new_entry)
         return new_entry
 
     @staticmethod
     def find_entry_by_id(entry_id):
-        for entry in entries:
+        for entry in Diary.entries:
             if entry_id == entry["ID"]:
                 return entry
         return 'No such entry'
 
-    
-    
     @staticmethod
     def modify_entry(entry_id, content):
-        for entry in entries:
+        for entry in Diary.entries:
             if entry_id == entry["ID"]:
                 entry["content"] = content
                 return entry
@@ -75,14 +80,14 @@ class Diary:
 
     @staticmethod
     def delete_entry(entry_id):
-        for entry in entries:
+        for entry in Diary.entries:
             if entry_id == entry['ID']:
-                entries.remove(entry)
+                Diary.entries.remove(entry)
                 return "Entry deleted"
         return 'No such entry'
 
     @staticmethod
     def list_all_entries():
-        if entries != []:
-            return entries
+        if Diary.entries != []:
+            return Diary.entries
         return 'No entries'
