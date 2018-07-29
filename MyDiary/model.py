@@ -1,6 +1,5 @@
 from datetime import datetime
-import psycopg2
-from config import Config
+import testing_database
 
 '''Note that user model has not been included
 which will enable more distinguishing between
@@ -27,11 +26,12 @@ class User:
             'password': self.password,
             'Userid': count_user_id
         }
+        count_user_id += 1
         users.append(User)
         return User
 
 
-class Diary:
+class Diary(User):
     def __init__(self, name, email, password):
         self.name = name
         self.email = email
@@ -46,7 +46,8 @@ class Diary:
         new_entry = {
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
-            "ID": entry_id
+            "ID": entry_id,
+            "Userid": super.User.user_id
         }
         for entry in entries:
             if entries == []:

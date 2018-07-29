@@ -15,23 +15,17 @@ def create_tables():
         '''CREATE TABLE Entries (
             user_id INTEGER NOT NULL,
             date VARCHAR(15) NOT NULL,
-            content VARCHAR(500),
+            content VARCHAR(500) UNIQUE,
             entry_id INTEGER NOT NULL,
             FOREIGN KEY (user_id)
                 REFERENCES Users (user_id)
             )
             ''')
-    # (
+    # commands = (
     #     """
-    #     DROP TABLE vendors CASCADE
+    #     DROP TABLE users CASCADE
     #     """,
-    #     """ DROP TABLE parts CASCADE
-    #     """,
-    #     """
-    #     DROP TABLE part_drawings
-    #     """,
-    #     """
-    #     DROP TABLE vendor_parts
+    #     """ DROP TABLE entries
     #     """)
     conn = None
     try:

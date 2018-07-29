@@ -1,7 +1,7 @@
 import psycopg2
 from config import config
 
-def add_entry_user(User_or_entry):
+def add_entry_or_user(User_or_entry):
     """Add new User to User table"""
     placeholders = ', '.join(['%s'] * len(User_or_entry))
     columns = ', '.join(User_or_entry.keys())
