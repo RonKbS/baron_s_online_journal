@@ -1,7 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from MyDiary import login
+from mydiary import login
+import os
+import base64
 
 
 '''Note that user model has not been included
@@ -9,7 +11,7 @@ which will enable more distinguishing between
 several users'''
 
 
-@login.diary_loader
+@login.user_loader
 def load_diary(id):
     return int(Diary.count_user_id)
 
@@ -19,13 +21,36 @@ class Diary(UserMixin):
     entry_id = 1
     users = []
     count_user_id = 1
+    token = ''
+    toekn_expiration = datetime.now()
+
+    '''Return token to a user'''
+    def get_token(self, expires_in = 1800):
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        return self.token
+
+    def revoke_token(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds = 1)
+
+    @staticmethod
+    def check_token(token):
+        for user in Diary.users:
+            if user['token'] == token and user.token_expiration < datetime.utcnow():
+                return None
+        return user
 
     '''Create hashes of user passwords, use next function to retrieve them'''
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+    @classmethod
+    def set_password(cls, password):
+        cls.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    @staticmethod
+    def check_password(password):
+        return check_password_hash(Diary.set_password, password)
 
     @staticmethod
     def add_user(name, user_id, email, password, count_user_id):
@@ -33,6 +58,7 @@ class Diary(UserMixin):
             'name': name,
             'email': email,
             'password': Diary.set_password(password),
+            'token': Diary.get_token,
             'Userid': Diary.count_user_id
         }
         Diary.count_user_id += 1

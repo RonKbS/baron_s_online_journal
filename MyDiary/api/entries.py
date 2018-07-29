@@ -1,12 +1,14 @@
 from flask import jsonify, request
-from MyDiary import model
-from MyDiary.api import bp
-from MyDiary.model import Diary
+from mydiary import model
+from mydiary.api import bp
+from mydiary.model import Diary
 from flask_login import login_required
+from mydiary.api.authentication import token_auth
+
 
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
-@login_required
+@token_auth.login_required
 def get_entry(entry_id):
     if type(Diary.find_entry_by_id(entry_id)) == dict:
         return jsonify(Diary.find_entry_by_id(entry_id)), 200
@@ -14,13 +16,13 @@ def get_entry(entry_id):
 
 
 @bp.route('/entries', methods=['GET'])
-@login_required
+@token_auth.login_required
 def get_all_entries():
     return jsonify({'Entries': Diary.list_all_entries()})
 
 
 @bp.route('/entries', methods=['POST'])
-@login_required
+@token_auth.login_required
 def add_entry():
     '''Obtain the entry sent as a dictionary then append it to entries list'''
     new_entry = request.get_json() or {}
@@ -31,7 +33,7 @@ def add_entry():
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
-@login_required
+@token_auth.login_required
 def change_entry(entry_id):
     new_entry = request.get_json() or {}
     if Diary.modify_entry(entry_id, new_entry['content']) == 'No such entry':
@@ -41,7 +43,7 @@ def change_entry(entry_id):
 
 
 @bp.route('/entries/<int:entry_id>', methods=['DELETE'])
-@login_required
+@token_auth.login_required
 def delete_entry(entry_id):
     if type(Diary.find_entry_by_id(entry_id)) == dict:
         return jsonify({200: Diary.delete_entry(entry_id)}), 200
