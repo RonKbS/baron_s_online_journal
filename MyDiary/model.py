@@ -1,4 +1,5 @@
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 '''Note that user model has not been included
@@ -6,14 +7,31 @@ which will enable more distinguishing between
 several users'''
 
 entries = []
+users = []
 entry_id = 1
+users = []
+count_user_id = 1
 
 
 class Diary:
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    @staticmethod
+    def add_user(name, user_id, email, password, count_user_id):
+        User = {
+            'name': name,
+            'email': email,
+            'password': password,
+            'Userid': count_user_id
+        }
+        count_user_id += 1
+        users.append(User)
+        return User
 
     @staticmethod
     def add_entry(enter_content):
@@ -25,6 +43,7 @@ class Diary:
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
             "ID": entry_id
+            "user"
         }
         for entry in entries:
             if entries == []:
