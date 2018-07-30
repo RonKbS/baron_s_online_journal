@@ -3,26 +3,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from mydiary import login
 import os
-import base64
 
 
-'''Note that user model has not been included
-which will enable more distinguishing between
-several users'''
-
-
-@login.user_loader
-def load_diary(id):
-    return int(Diary.count_user_id)
-
-class Diary(UserMixin):
-    entries = []
-    users = []
-    entry_id = 1
+class Users(UserMixin):
     users = []
     count_user_id = 1
     token = ''
-    toekn_expiration = datetime.now()
 
     '''Create hashes of user passwords, use next function to retrieve them'''
     @classmethod
@@ -32,22 +18,35 @@ class Diary(UserMixin):
     @staticmethod
     def check_password(password):
         return check_password_hash(Diary.set_password, password)
-
+        
     @staticmethod
     def add_user(name, user_id, email, password, count_user_id):
         User = {
             'name': name,
             'email': email,
-            'password': Diary.set_password(password),
-            'token': Diary.get_token,
-            'Userid': Diary.count_user_id
+            'password': Users.set_password(password),
+            'Userid': count_user_id
         }
-        Diary.count_user_id += 1
+        Users.count_user_id += 1
         Diary.users.append(User)
         return User
 
     @staticmethod
-    def add_entry(enter_content):
+    def find_user_by_id(user_id):
+        for user in Diary.entries:
+            if user_id == user["ID"]:
+                return user
+        return 'No such entry'
+
+
+class Diary(Users, UserMixin):
+    entries = []
+    users = []
+    entry_id = 1
+    toekn_expiration = datetime.now()
+
+    @staticmethod
+    def add_entry(user_id, enter_content):
         '''create empty entry if entry has been used before'''
         entry = {}
         date = datetime.now()
@@ -56,7 +55,7 @@ class Diary(UserMixin):
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
             "entry_id": Diary.entry_id,
-            "user_id": Diary.count_user_id
+            "user_id": user_id
 
         }
         for entry in Diary.entries:
@@ -78,7 +77,7 @@ class Diary(UserMixin):
         return 'No such entry'
 
     @staticmethod
-    def modify_entry(entry_id, content):
+    def modify_entry(user_id, entry_id, content):
         for entry in Diary.entries:
             if entry_id == entry["ID"]:
                 entry["content"] = content
@@ -86,7 +85,7 @@ class Diary(UserMixin):
         return 'No such entry'
 
     @staticmethod
-    def delete_entry(entry_id):
+    def delete_entry(user_id, entry_id):
         for entry in Diary.entries:
             if entry_id == entry['ID']:
                 Diary.entries.remove(entry)
@@ -94,7 +93,7 @@ class Diary(UserMixin):
         return 'No such entry'
 
     @staticmethod
-    def list_all_entries():
+    def list_all_entries(user_id):
         if Diary.entries != []:
             return Diary.entries
         return 'No entries'
