@@ -20,13 +20,8 @@ mccabe==0.6.1
 more-itertools==4.2.0
 pluggy==0.6.0
 py==1.5.4
-<<<<<<< Updated upstream
-||||||| merged common ancestors
-pycparser==2.18
-=======
 pycparser==2.18
 PyJWT==1.6.4
->>>>>>> Stashed changes
 pylint==2.0.0
 pytest==3.6.3
 requests==2.19.1
