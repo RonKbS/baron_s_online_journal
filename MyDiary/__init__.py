@@ -1,8 +1,6 @@
 from flask import Flask
 
 app = Flask(__name__)
-login = LoginManager(app)
-login.login_view = 'login'
 app.config['SECRET_KEY'] = "\xb78\xd1\xd6\xff\x94IF\xbao\x13\xa8\x11\x94\xe0\x8d\xf3aU\xf7\xceK<\x97<x97"
 
 from MyDiary.api import bp as bp_api
