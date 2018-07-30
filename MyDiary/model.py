@@ -24,25 +24,6 @@ class Diary(UserMixin):
     token = ''
     toekn_expiration = datetime.now()
 
-    '''Return token to a user'''
-    def get_token(self, expires_in = 1800):
-        now = datetime.utcnow()
-        if self.token and self.token_expiration > now + timedelta(seconds=60):
-            return self.token
-        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
-        self.token_expiration = now + timedelta(seconds=expires_in)
-        return self.token
-
-    def revoke_token(self):
-        self.token_expiration = datetime.utcnow() - timedelta(seconds = 1)
-
-    @staticmethod
-    def check_token(token):
-        for user in Diary.users:
-            if user['token'] == token and user.token_expiration < datetime.utcnow():
-                return None
-        return user
-
     '''Create hashes of user passwords, use next function to retrieve them'''
     @classmethod
     def set_password(cls, password):
