@@ -1,14 +1,56 @@
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from mydiary import model
 from mydiary.api import bp
 from mydiary.model import Diary
 from flask_login import login_required
 from mydiary.api.authentication import token_auth
+import jwt
+from config import Config
+import datetime
+from functools import wraps
 
 
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        elif not token:
+            return jsonify({'token': 'token is missing'})
+        try:
+            data = jwt.decode(token, Config.SECRET_KEY)
+            # current_user = User.query.filter_by(public_id=data['public_id']).first()
+            for user in Users.users:
+                if user[Userid] = 
+        except:
+            return jsonify({'message' : 'Token is invalid!'}), 401
+        return f(current_user, *args, **kwargs)
+    return decorated
+
+@bp.route('/login')
+def login():
+    auth = request.authorization
+
+    if not auth or not auth.name or not auth.password:
+        return make_response('Could not verify', 401, 
+                            {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+    #user = User.query.filter_by(name=auth.name).first()
+    #if not user::
+        # return make_response('Could not verify', 401, 
+        #                     {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+
+    #if check_password_hash(User.password, auth.password):
+        # token = jwt.encode({'public_id': user.public_id), 'exp': datetime.datetime.utcnow()
+        #                     + datetime.timedelta(minutes=(1)}, app.config['SECRET KEY'])
+        # return jsonify({'token': token.decode(UTF-8)})
+    #token = jwt.encode({'public_id': user.public_id), 'exp': datetime.datetime.utcnow()
+        #                     + datetime.timedelta(minutes=(1)}, app.config['SECRET KEY'])
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
-@token_auth.login_required
+@token_required
 def get_entry(entry_id):
     if type(Diary.find_entry_by_id(entry_id)) == dict:
         return jsonify(Diary.find_entry_by_id(entry_id)), 200
@@ -16,13 +58,13 @@ def get_entry(entry_id):
 
 
 @bp.route('/entries', methods=['GET'])
-@token_auth.login_required
-def get_all_entries():
+@token_required
+def get_all_entries(user_id):
     return jsonify({'Entries': Diary.list_all_entries()})
 
 
 @bp.route('/entries', methods=['POST'])
-@token_auth.login_required
+@token_required
 def add_entry():
     '''Obtain the entry sent as a dictionary then append it to entries list'''
     new_entry = request.get_json() or {}
@@ -33,18 +75,18 @@ def add_entry():
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
-@token_auth.login_required
-def change_entry(entry_id):
+@token_required
+def change_entry(user_id, entry_id):
     new_entry = request.get_json() or {}
-    if Diary.modify_entry(entry_id, new_entry['content']) == 'No such entry':
+    if Diary.modify_entry(user_id, entry_id, new_entry['content']) == 'No such entry':
         return jsonify({404: 'No such entry'}), 404
-    Diary.modify_entry(entry_id, new_entry['content'])
+    Diary.modify_entry(user_id, entry_id, new_entry['content'])
     return jsonify({201: 'Entry has been modified'}), 201
 
 
 @bp.route('/entries/<int:entry_id>', methods=['DELETE'])
-@token_auth.login_required
-def delete_entry(entry_id):
-    if type(Diary.find_entry_by_id(entry_id)) == dict:
+@token_required
+def delete_entry(user_id, entry_id):
+    if type(Diary.find_entry_by_id(user_id, entry_id)) == dict:
         return jsonify({200: Diary.delete_entry(entry_id)}), 200
     return jsonify({404: Diary.find_entry_by_id(entry_id)}), 404
