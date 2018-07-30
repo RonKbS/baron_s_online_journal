@@ -1,8 +1,32 @@
+<<<<<<< Updated upstream
 from flask import jsonify, request
 from MyDiary import model
 from MyDiary.api import bp
 from MyDiary.model import Diary
+||||||| merged common ancestors
+from flask import jsonify, request
+from mydiary import model
+from mydiary.api import bp
+from mydiary.model import Diary
+from flask_login import login_required
+from mydiary.api.authentication import token_auth
 
+=======
+from flask import jsonify, request, make_response
+import datetime
+from mydiary import model
+from mydiary.api import bp
+from mydiary.model import Diary
+from flask_login import login_required
+from mydiary.api.authentication import token_auth
+
+>>>>>>> Stashed changes
+
+
+@bp.route('/login')
+def login():
+    
+    return make_response('Unable to verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
 def get_entry(entry_id):
