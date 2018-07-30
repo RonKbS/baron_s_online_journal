@@ -1,22 +1,11 @@
 import os
-from configparser import ConfigParser
+from dotenv import load_dotenv
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
 class Config(object):
+    '''Generated from print(uuid.uuid4().hex)'''
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'try_and_guess'
 
-    @staticmethod
-    def config(filename = 'db.ini', section = 'postgresql'):
-        parser = ConfigParser()
-        parser.read(filename)
-
-        db  = {}
-        if parser.has_section(section):
-            params = parser.items(section)
-            for param in params:
-                db[param[0]] = param[1]
-        else:
-            raise Exception('Section {0} not found in the {1} file'.format(
-                            section, filename))
-        return db
-
-    DATABASE_URI = os.environ.get('DATABASE_URL') or config()
+    # DATABASE_URI = os.environ.get('DATABASE_URL') or config()
