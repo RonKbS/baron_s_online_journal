@@ -1,9 +1,9 @@
 from flask import jsonify, request, make_response
 from mydiary import model
 from mydiary.api import bp
-from mydiary.model import Diary
+from mydiary.model import Diary, Users
 from flask_login import login_required
-from mydiary.api.authentication import token_auth
+from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from config import Config
 import datetime
@@ -22,9 +22,10 @@ def token_required(f):
             return jsonify({'token': 'token is missing'})
         try:
             data = jwt.decode(token, Config.SECRET_KEY)
-            # current_user = User.query.filter_by(public_id=data['public_id']).first()
             for user in Users.users:
-                if user[Userid] = 
+                if user['name'] == data['name']:
+                    current_user = user
+                    break
         except:
             return jsonify({'message' : 'Token is invalid!'}), 401
         return f(current_user, *args, **kwargs)
@@ -37,17 +38,20 @@ def login():
     if not auth or not auth.name or not auth.password:
         return make_response('Could not verify', 401, 
                             {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
-    #user = User.query.filter_by(name=auth.name).first()
-    #if not user::
-        # return make_response('Could not verify', 401, 
-        #                     {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+    for user in Users.users:
+        if user['name'] == auth.name:
+            logged_user = user
+            break
+    if not logged_user:
+        return make_response('Could not verify', 401, 
+                            {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
 
-    #if check_password_hash(User.password, auth.password):
-        # token = jwt.encode({'public_id': user.public_id), 'exp': datetime.datetime.utcnow()
-        #                     + datetime.timedelta(minutes=(1)}, app.config['SECRET KEY'])
-        # return jsonify({'token': token.decode(UTF-8)})
-    #token = jwt.encode({'public_id': user.public_id), 'exp': datetime.datetime.utcnow()
-        #                     + datetime.timedelta(minutes=(1)}, app.config['SECRET KEY'])
+    if check_password_hash(user['password'], auth.password):
+        token = jwt.encode({'public_id': user.public_id, 'exp': datetime.datetime.utcnow() +
+                             datetime.timedelta(minutes=(1))}, Config.SECRET_KEY)
+        return jsonify({'token': token.decode('UTF-8')})
+    token = jwt.encode({'password': logged_user['password'], 'exp': datetime.datetime.utcnow()
+                            + datetime.timedelta(minutes=(1))}, Config.SECRET_KEY)
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
 @token_required
