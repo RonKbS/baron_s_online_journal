@@ -49,5 +49,15 @@ def update_entry(user_id, entry_id, content):
     cur.execute(sql)
     connection.commit()
     cur.close()
+
+
+def delete_entry(user_id, entry_id):
+    parameters = config()
+    connection = psycopg2.connect(**parameters)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(user_id, entry_id)
+    cur.execute(sql)
+    connection.commit()
+    cur.close()
 # if __name__ == '__main__':
 #     find_entry()

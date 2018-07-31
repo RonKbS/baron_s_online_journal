@@ -95,7 +95,8 @@ def change_entry(user_id, entry_id):
 
 
 @bp.route('/entries/<int:entry_id>', methods=['DELETE'])
-def delete_entry(entry_id):
-    if type(Diary.find_entry_by_id(entry_id)) == dict:
-        return jsonify({200: Diary.delete_entry(entry_id)}), 200
-    return jsonify({404: Diary.find_entry_by_id(entry_id)}), 404
+@token_required
+def delete_entry(user_id, entry_id):
+    if Diary.delete_entry(user_id, entry_id) == 'Entry deleted':
+        return jsonify({200: 'Entry deleted'}), 200
+    return jsonify({404: Diary.find_entry_by_id(user_id, entry_id)}), 404
