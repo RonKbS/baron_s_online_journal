@@ -47,7 +47,7 @@ class Diary(Users, UserMixin):
         date = datetime.now()
         content = enter_content
         new_entry = {
-            "user_id": 1,
+            "user_id": user_id,
             "date": date.strftime('%a.%d.%B.%Y'),
             "content": content,
             "entry_id": Diary.entry_id

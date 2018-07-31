@@ -19,10 +19,11 @@ def token_required(f):
             return jsonify({'token': 'token is missing'})
         try:
             user_id = jwt.decode(token, Config.SECRET_KEY)
-            current_user = find_user_by_id(user_id)
+            current_user = find_user_by_id(user_id['id'])
         except:
+            #import pdb; pdb.set_trace()
             return jsonify({'message' : 'Token is invalid!'}), 401
-        return f(current_user, *args, **kwargs)
+        return f(current_user['user_id'], *args, **kwargs)
     return decorated
 
 
@@ -41,7 +42,7 @@ def login():
     #import pdb; pdb.set_trace()
     if Users.check_password(logged_user['password'], auth.password):
         token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
-                             datetime.timedelta(minutes=(1))}, Config.SECRET_KEY)
+                             datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
         return jsonify({'token': token.decode('UTF-8')})
     return make_response('No such user', 401, 
                         {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
@@ -59,7 +60,8 @@ def add_user():
     
 #     return make_response('Unable to verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
-@bp.route('/entries/<int:user_id>/<int:entry_id>', methods=['GET'])
+@bp.route('/entries/<int:entry_id>', methods=['GET'])
+@token_required
 def get_entry(user_id, entry_id):
     if Diary.find_entry_by_id(user_id, entry_id):
         return jsonify(Diary.find_entry_by_id(user_id, entry_id)), 200
@@ -71,7 +73,8 @@ def get_all_entries(user_id):
     return jsonify({'Entries': Diary.list_all_entries(user_id)})
 
 
-@bp.route('/entries/<int:user_id>', methods=['POST'])
+@bp.route('/entries', methods=['POST'])
+@token_required
 def add_entry(user_id):
     '''Obtain the entry sent as a dictionary then append it_to entries list'''
     new_entry = request.get_json() or {}
