@@ -7,7 +7,6 @@ import os
 
 
 class Users(UserMixin):
-
     '''Create hashes of user passwords, use next function to retrieve them'''
     @staticmethod
     def set_password(password):
@@ -15,8 +14,8 @@ class Users(UserMixin):
         return password_hash
 
     @staticmethod
-    def check_password(sent_password, password):
-        return check_password_hash(sent_password, password)
+    def check_password(saved_password, sent_password):
+        return check_password_hash(saved_password, sent_password)
         
     @staticmethod
     def add_user(name, email, password):
