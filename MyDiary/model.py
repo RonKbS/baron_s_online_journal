@@ -1,44 +1,51 @@
-from datetime import datetime
-import testing_database
-
-'''Note that user model has not been included
-which will enable more distinguishing between
-several users'''
-
-entries = []
-users = []
-entry_id = 1
-users = []
-count_user_id = 1
+from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+import os
 
 
-class User:
-    def __init__(self, name, email, password, user_id):
-        self.name = name
-        self.email = email
-        self.password = password
-        self.user_id = count_user_id
+class Users(UserMixin):
+    users = []
+    count_user_id = 1
+    token = ''
 
-    def add_user(self, user_id, count_user_id):
-        User = {
-            'name': self.name,
-            'email': self.email,
-            'password': self.password,
-            'Userid': count_user_id
-        }
-        count_user_id += 1
-        users.append(User)
-        return User
-
-
-class Diary(User):
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
+    '''Create hashes of user passwords, use next function to retrieve them'''
+    @staticmethod
+    def set_password(password):
+        password_hash = generate_password_hash(password)
+        return password_hash
 
     @staticmethod
-    def add_entry(enter_content, count_user_id):
+    def check_password(sent_password, password):
+        return check_password_hash(sent_password, password)
+        
+    @staticmethod
+    def add_user(name, email, password):
+        User = {
+            'name': name,
+            'email': email,
+            'password': password,
+            'Userid': Users.count_user_id
+        }
+        Users.count_user_id += 1
+        Users.users.append(User)
+        return User
+
+    @staticmethod
+    def find_user_by_id(user_id):
+        for user in Diary.entries:
+            if user_id == user["ID"]:
+                return user
+        return 'No such entry'
+
+
+class Diary(Users, UserMixin):
+    entries = []
+    entry_id = 1
+    toekn_expiration = datetime.now()
+
+    @staticmethod
+    def add_entry(user_id, enter_content):
         '''create empty entry if entry has been used before'''
         entry = {}
         date = datetime.now()
@@ -47,49 +54,45 @@ class Diary(User):
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
             "entry_id": Diary.entry_id,
-            "user_id": count_user_id
+            "user_id": user_id
 
         }
-        for user in Diary.users:
-            if user['Userid'] == count_user_id:
-                for entry in Diary.entries:
-                    if Diary.entries == []:
-                        Diary.entries.append(new_entry)
-                        return entry
-                    elif new_entry["content"] == entry["content"]:
-                        return "New entry is similar to older entry"
-                    else:
-                        entry["ID"] = entry["ID"] + 1
+        for entry in Diary.entries:
+            if Diary.entries == []:
+                Diary.entries.append(new_entry)
+                return entry
+            elif new_entry["content"] == entry["content"]:
+                return "New entry is similar to older entry"
+            else:
+                entry["ID"] = entry["ID"] + 1
         Diary.entries.append(new_entry)
         return new_entry
 
     @staticmethod
-    def find_entry_by_id(entry_id):
-        for entry in entries:
+    def find_entry_by_id(user_id, entry_id):
+        for entry in Diary.entries:
             if entry_id == entry["ID"]:
                 return entry
         return 'No such entry'
 
-    
-    
     @staticmethod
-    def modify_entry(entry_id, content):
-        for entry in entries:
+    def modify_entry(user_id, entry_id, content):
+        for entry in Diary.entries:
             if entry_id == entry["ID"]:
                 entry["content"] = content
                 return entry
         return 'No such entry'
 
     @staticmethod
-    def delete_entry(entry_id):
-        for entry in entries:
+    def delete_entry(user_id, entry_id):
+        for entry in Diary.entries:
             if entry_id == entry['ID']:
-                entries.remove(entry)
+                Diary.entries.remove(entry)
                 return "Entry deleted"
         return 'No such entry'
 
     @staticmethod
-    def list_all_entries():
-        if entries != []:
-            return entries
+    def list_all_entries(user_id):
+        if Diary.entries != []:
+            return Diary.entries
         return 'No entries'
