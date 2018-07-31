@@ -1,8 +1,28 @@
-from flask import jsonify, request, make_response
+import jwt
 import datetime
+from flask import jsonify, request, make_response
 from mydiary import model
 from mydiary.api import bp
 from mydiary.model import Users, Diary
+from functools import wraps
+from testing_database.find_edit import find_user
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        elif not token:
+            return jsonify({'token': 'token is missing'})
+        try:
+            data = jwt.decode(token, Config.SECRET_KEY)
+            current_user = find_user(user_id)
+        except:
+            return jsonify({'message' : 'Token is invalid!'}), 401
+        return f(current_user, *args, **kwargs)
+    return decorated
 
 
 @bp.route('/auth/signup', methods=['POST'])
@@ -25,8 +45,8 @@ def get_entry(user_id, entry_id):
 
 
 @bp.route('/entries', methods=['GET'])
-def get_all_entries():
-    return jsonify({'Entries': Diary.list_all_entries()})
+def get_all_entries(user_id):
+    return jsonify({'Entries': Diary.list_all_entries(user_id)})
 
 
 @bp.route('/entries', methods=['POST'])
