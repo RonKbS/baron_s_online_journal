@@ -14,7 +14,7 @@ def create_tables():
             ''',
         '''CREATE TABLE Entries (
             user_id INTEGER NOT NULL,
-            date VARCHAR(15) NOT NULL,
+            date VARCHAR(30) NOT NULL,
             content VARCHAR(500) UNIQUE,
             entry_id INTEGER NOT NULL,
             FOREIGN KEY (user_id)

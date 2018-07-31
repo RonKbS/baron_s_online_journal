@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from testing_database.add import add_entry, add_user
 import os
 
 
@@ -45,27 +46,20 @@ class Diary(Users, UserMixin):
     toekn_expiration = datetime.now()
 
     @staticmethod
-    def add_entry(user_id, enter_content):
+    def add_entry(enter_content):
         '''create empty entry if entry has been used before'''
-        entry = {}
+        # entry = {}
         date = datetime.now()
         content = enter_content
         new_entry = {
+            "user_id": 6,
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
-            "entry_id": Diary.entry_id,
-            "user_id": user_id
+            "entry_id": Diary.entry_id
 
         }
-        for entry in Diary.entries:
-            if Diary.entries == []:
-                Diary.entries.append(new_entry)
-                return entry
-            elif new_entry["content"] == entry["content"]:
-                return "New entry is similar to older entry"
-            else:
-                entry["ID"] = entry["ID"] + 1
-        Diary.entries.append(new_entry)
+        Diary.entry_id = Diary.entry_id + 1
+        add_entry(new_entry)
         return new_entry
 
     @staticmethod
