@@ -6,7 +6,7 @@ def create_tables():
     """create tables in the PostgreSQL database"""
     commands = (
         '''CREATE TABLE Users (
-            user_id INTEGER NOT NULL UNIQUE,
+            user_id SERIAL PRIMARY KEY,
             name VARCHAR(50) NOT NULL,
             email VARCHAR(50) NOT NULL,
             password VARCHAR(25) NOT NULL
