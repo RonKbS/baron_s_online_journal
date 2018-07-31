@@ -6,16 +6,16 @@ from mydiary.model import Diary
 
 
 
-@bp.route('/login')
-def login():
+# @bp.route('/login')
+# def login():
     
-    return make_response('Unable to verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+#     return make_response('Unable to verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
-@bp.route('/entries/<int:entry_id>', methods=['GET'])
-def get_entry(entry_id):
-    if type(Diary.find_entry_by_id(entry_id)) == dict:
-        return jsonify(Diary.find_entry_by_id(entry_id)), 200
-    return jsonify({404: Diary.find_entry_by_id(entry_id)}), 404
+@bp.route('/entries/<int:user_id>/<int:entry_id>', methods=['GET'])
+def get_entry(user_id, entry_id):
+    if Diary.find_entry_by_id(user_id, entry_id):
+        return jsonify(Diary.find_entry_by_id(user_id, entry_id)), 200
+    return jsonify({404: Diary.find_entry_by_id(user_id, entry_id)}), 404
 
 
 @bp.route('/entries', methods=['GET'])
