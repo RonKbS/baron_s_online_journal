@@ -85,11 +85,12 @@ def add_entry(user_id):
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
-def change_entry(entry_id):
+@token_required
+def change_entry(user_id, entry_id):
     new_entry = request.get_json() or {}
-    if Diary.modify_entry(entry_id, new_entry['content']) == 'No such entry':
+    if Diary.modify_entry(entry_id, entry_id, new_entry['content']) == 'No such entry':
         return jsonify({404: 'No such entry'}), 404
-    Diary.modify_entry(entry_id, new_entry['content'])
+    Diary.modify_entry(entry_id, entry_id, new_entry['content'])
     return jsonify({201: 'Entry has been modified'}), 201
 
 

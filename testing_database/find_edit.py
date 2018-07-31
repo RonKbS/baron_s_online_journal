@@ -40,5 +40,14 @@ def find_entry(user_id, entry_id):
     cur.close()
     return entry
 
+
+def update_entry(user_id, entry_id, content):
+    parameters = config()
+    connection = psycopg2.connect(**parameters)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    sql = "UPDATE entries SET content ='{0}' WHERE user_id='{1}' AND entry_id='{2}'".format(content, user_id, entry_id)
+    cur.execute(sql)
+    connection.commit()
+    cur.close()
 # if __name__ == '__main__':
 #     find_entry()
