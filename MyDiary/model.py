@@ -7,9 +7,6 @@ import os
 
 
 class Users(UserMixin):
-    users = []
-    count_user_id = 1
-    token = ''
 
     '''Create hashes of user passwords, use next function to retrieve them'''
     @staticmethod
@@ -26,11 +23,9 @@ class Users(UserMixin):
         User = {
             'name': name,
             'email': email,
-            'password': password,
-            'Userid': Users.count_user_id
+            'password': password
         }
-        Users.count_user_id += 1
-        Users.users.append(User)
+        add_user(User)
         return User
 
     @staticmethod
@@ -47,14 +42,14 @@ class Diary(Users, UserMixin):
     toekn_expiration = datetime.now()
 
     @staticmethod
-    def add_entry(enter_content):
+    def add_entry(enter_content, user_id):
         '''create empty entry if entry has been used before'''
         # entry = {}
         date = datetime.now()
         content = enter_content
         new_entry = {
             "user_id": 6,
-            "date": date.strftime('%A.%B.%Y'),
+            "date": date.strftime('%a.%d.%B.%Y'),
             "content": content,
             "entry_id": Diary.entry_id
 

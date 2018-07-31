@@ -2,8 +2,14 @@ from flask import jsonify, request, make_response
 import datetime
 from mydiary import model
 from mydiary.api import bp
-from mydiary.model import Diary
+from mydiary.model import Users, Diary
 
+
+@bp.route('/auth/signup', methods=['POST'])
+def add_user():
+    user = request.get_json() or {}
+    Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
+    return jsonify({201: 'User added'}), 201
 
 
 # @bp.route('/login')
