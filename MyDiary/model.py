@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from mydiary import login
 import os
 
 
@@ -11,24 +10,25 @@ class Users(UserMixin):
     token = ''
 
     '''Create hashes of user passwords, use next function to retrieve them'''
-    @classmethod
-    def set_password(cls, password):
-        cls.password_hash = generate_password_hash(password)
+    @staticmethod
+    def set_password(password):
+        password_hash = generate_password_hash(password)
+        return password_hash
 
     @staticmethod
-    def check_password(password):
-        return check_password_hash(Diary.set_password, password)
+    def check_password(sent_password, password):
+        return check_password_hash(sent_password, password)
         
     @staticmethod
-    def add_user(name, user_id, email, password, count_user_id):
+    def add_user(name, email, password):
         User = {
             'name': name,
             'email': email,
-            'password': Users.set_password(password),
-            'Userid': count_user_id
+            'password': password,
+            'Userid': Users.count_user_id
         }
         Users.count_user_id += 1
-        Diary.users.append(User)
+        Users.users.append(User)
         return User
 
     @staticmethod
@@ -41,7 +41,6 @@ class Users(UserMixin):
 
 class Diary(Users, UserMixin):
     entries = []
-    users = []
     entry_id = 1
     toekn_expiration = datetime.now()
 
@@ -70,7 +69,7 @@ class Diary(Users, UserMixin):
         return new_entry
 
     @staticmethod
-    def find_entry_by_id(entry_id):
+    def find_entry_by_id(user_id, entry_id):
         for entry in Diary.entries:
             if entry_id == entry["ID"]:
                 return entry
