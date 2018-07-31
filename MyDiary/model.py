@@ -46,40 +46,10 @@ class Diary(User):
         new_entry = {
             "date": date.strftime('%A.%B.%Y'),
             "content": content,
-<<<<<<< Updated upstream
-            "ID": entry_id,
-            "Userid": super.User.user_id
-||||||| merged common ancestors
-            "entry_id": Diary.entry_id,
-            "user_id": Diary.count_user_id
-
-=======
             "entry_id": Diary.entry_id,
             "user_id": count_user_id
 
->>>>>>> Stashed changes
         }
-<<<<<<< Updated upstream
-        for entry in entries:
-            if entries == []:
-                entries.append(new_entry)
-                return entry
-            elif new_entry["content"] == entry["content"]:
-                return "New entry is similar to older entry"
-            else:
-                entry["ID"] = entry["ID"] + 1
-        entries.append(new_entry)
-||||||| merged common ancestors
-        for entry in Diary.entries:
-            if Diary.entries == []:
-                Diary.entries.append(new_entry)
-                return entry
-            elif new_entry["content"] == entry["content"]:
-                return "New entry is similar to older entry"
-            else:
-                entry["ID"] = entry["ID"] + 1
-        Diary.entries.append(new_entry)
-=======
         for user in Diary.users:
             if user['Userid'] == count_user_id:
                 for entry in Diary.entries:
@@ -91,7 +61,6 @@ class Diary(User):
                     else:
                         entry["ID"] = entry["ID"] + 1
         Diary.entries.append(new_entry)
->>>>>>> Stashed changes
         return new_entry
 
     @staticmethod
