@@ -1,5 +1,6 @@
 import jwt
 import datetime
+from pyisemail import is_email
 from config import Config
 from flask import jsonify, request, make_response
 from mydiary import model
@@ -51,14 +52,11 @@ def login():
 @bp.route('/auth/signup', methods=['POST'])
 def add_user():
     user = request.get_json() or {}
-    Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
-    return jsonify({201: 'User added'}), 201
+    if (not find_user_by_name(user['name'])) and is_email(user['email']):
+        Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
+        return jsonify({201: 'User added'}), 201
+    return jsonify({401: 'Invalid credentials'}), 401
 
-
-# @bp.route('/login')
-# def login():
-    
-#     return make_response('Unable to verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
 @token_required
@@ -68,7 +66,8 @@ def get_entry(user_id, entry_id):
     return jsonify({404: Diary.find_entry_by_id(user_id, entry_id)}), 404
 
 
-@bp.route('/entries/<int:user_id>', methods=['GET'])
+@bp.route('/entries', methods=['GET'])
+@token_required
 def get_all_entries(user_id):
     return jsonify({'Entries': Diary.list_all_entries(user_id)})
 

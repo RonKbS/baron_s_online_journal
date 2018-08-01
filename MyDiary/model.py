@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from testing_database.add import add_entry, add_user
-from testing_database.find_edit import find_entry, update_entry, delete_entry
+from testing_database.find_edit import find_entry, update_entry, delete_entry, find_entries
 import os
 
 
@@ -82,6 +82,7 @@ class Diary(Users, UserMixin):
 
     @staticmethod
     def list_all_entries(user_id):
-        if Diary.entries != []:
-            return Diary.entries
+        entries = find_entries(user_id)
+        if entries:
+            return entries
         return 'No entries'
