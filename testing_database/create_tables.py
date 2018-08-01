@@ -17,7 +17,7 @@ def create_tables(users, entries):
             date VARCHAR(30) NOT NULL,\
             content VARCHAR(500) UNIQUE,\
             entry_id INTEGER NOT NULL,\
-            FOREIGN KEY (user_id)  ON DELETE CASCADE\
+            FOREIGN KEY (user_id)\
                 REFERENCES Users (user_id)\
             )".format(entries)
             )

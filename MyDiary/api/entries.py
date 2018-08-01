@@ -14,10 +14,10 @@ def token_required(f):
     def decorated(*args, **kwargs):
         token = None
 
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
+        if 'token' in request.headers:
+            token = request.headers['token']
         elif not token:
-            return jsonify({'token': 'token is missing'})
+            return jsonify({'token': 'token is missing'}), 401
         try:
             user_id = jwt.decode(token, Config.SECRET_KEY)
             current_user = find_user_by_id(user_id['id'])

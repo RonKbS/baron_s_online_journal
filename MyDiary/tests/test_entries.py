@@ -15,8 +15,9 @@ user_sign_in = {'name': 'jon', 'password': 'words'}
 entry ={'content': 'words words'}
 
 def post_json(client, url, json_dict):
-    return client.post(url, data = json.dumps(json_dict),
-                       content_type='application/json')
+    return client.post(url, data = json.dumps(json_dict), 
+                        headers=sample_login(client), 
+                        content_type='application/json')
 
 def json_reply(reponse):
     return json.loads(reponse.data.decode())
@@ -34,13 +35,15 @@ def client(request):
 
     yield test_client
 
-    command = (
-        "DELETE FROM users WHERE name='{0}'"
-        ).format('jon')
+    commands = (
+        "DELETE FROM entries WHERE entry_id='{}'".format(1),
+        "DELETE FROM users WHERE name='{}'".format('jon')
+        )
     params = config.config()
     conn = psycopg2.connect(**params)
     cur = conn.cursor()
-    cur.execute(command)
+    for command in commands:
+        cur.execute(command)
     cur.close()
     conn.commit()
     conn.close() 
@@ -52,21 +55,25 @@ def test_login(client):
     assert user.status_code == 200
 
 
-
-def test_get_all_entries(client):
+'''Generate token to pass'''
+def sample_login(client):
     response = client.post('http://127.0.0.1:5000/api/v1/login',
                      data=json.dumps(user_sign_in), content_type='application/json')
-    reply = json.loads(response.data.decode('utf-8'))
-    reply = client.get('/api/v1/entries', headers=reply)
+    gets = json.loads(response.data.decode('utf-8'))
+    return gets
+
+def test_get_all_entries(client):
+    reply = client.get('/api/v1/entries', headers=sample_login(client))
+    # import pdb; pdb.set_trace()
     assert reply.status_code == 200
 
 
-# def test_add_entry(client):
-#     response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-#                         {"content": 'New content added'})
-#     assert response.status_code == 201
-#     assert json_reply(response) == {"201": 'Entry added'}
-#     client.delete('http://127.0.0.1:5000/api/v1/entries/1')
+def test_add_entry(client):
+    response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
+                        {"content": 'New content added'})
+    assert response.status_code == 201
+    assert json_reply(response) == {"201": 'Entry added'}
+    # client.delete('http://127.0.0.1:5000/api/v1/entries/1')
 
 
 # def test_get_entry(client):
@@ -97,3 +104,5 @@ def test_get_all_entries(client):
 #     response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id))
 #     assert response.status_code == 200
 #     assert json_reply(response) == {"200": 'Entry deleted'}
+if __name__ == '__main__':
+    create_tables()
