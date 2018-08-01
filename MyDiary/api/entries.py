@@ -28,20 +28,20 @@ def token_required(f):
     return decorated
 
 
-@bp.route('/login')
+@bp.route('/login', methods=['POST'])
 def login():
-    auth = request.authorization
+    auth = request.get_json() or {}
 
-    if not auth or not auth.username or not auth.password:
+    if not auth or not auth['name'] or not auth['password']:
         return make_response('Could not verify', 401, 
                             {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
-    logged_user = find_user_by_name(auth.username)
+    logged_user = find_user_by_name(auth['name'])
         # elif not logged_user:
         #     return make_response('No such user', 401, 
         #                     {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
 
     #import pdb; pdb.set_trace()
-    if Users.check_password(logged_user['password'], auth.password):
+    if Users.check_password(logged_user['password'], auth['password']):
         token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
                              datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
         return jsonify({'token': token.decode('UTF-8')})

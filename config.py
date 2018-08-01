@@ -7,5 +7,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 class Config(object):
     '''Generated from print(uuid.uuid4().hex)'''
-    db = os.environ.get('DATABASE_URL') or create_tables('users' , 'entries')
+    '''Create tables, automatically if on local'''
+    db = os.environ.get('DATABASE_URL')
+    create_tables('users', 'entries')
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'try_and_guess'

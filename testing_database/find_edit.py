@@ -6,37 +6,44 @@ from testing_database.config import config
 def find_user_by_id(user_id):
     parameters = config()
     connection = psycopg2.connect(**parameters)
-    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     sql = "SELECT * FROM users WHERE user_id='{}'".format(user_id)
     cur.execute(sql)
     user = cur.fetchone()
-    connection.commit()
     cur.close()
     return user
 
 def find_user_by_name(name):
     parameters = config()
     connection = psycopg2.connect(**parameters)
-    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     sql = "SELECT * FROM users WHERE name='{}'".format(name)
     cur.execute(sql)
     user = cur.fetchone()
-    connection.commit()
     cur.close()
-    return user
+    if user:
+        return user
+    return False
 
 
-# def find_entries:
+def find_entries(user_id):
+    parameters = config()
+    connection = psycopg2.connect(**parameters)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    sql = '''SELECT * FROM entries WHERE user_id=%s'''  % (user_id)
+    cur.execute(sql)
+    entries = cur.fetchall()
+    cur.close()
+    return entries
 
 
 def find_entry(user_id, entry_id):
     parameters = config()
     connection = psycopg2.connect(**parameters)
-    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     sql = '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s'''  % (user_id, entry_id)
     cur.execute(sql)
     entry = cur.fetchone()
-    connection.commit()
     cur.close()
     return entry
 
@@ -44,7 +51,7 @@ def find_entry(user_id, entry_id):
 def update_entry(user_id, entry_id, content):
     parameters = config()
     connection = psycopg2.connect(**parameters)
-    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     sql = "UPDATE entries SET content ='{0}' WHERE user_id='{1}' AND entry_id='{2}'".format(content, user_id, entry_id)
     cur.execute(sql)
     connection.commit()
@@ -54,7 +61,7 @@ def update_entry(user_id, entry_id, content):
 def delete_entry(user_id, entry_id):
     parameters = config()
     connection = psycopg2.connect(**parameters)
-    cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(user_id, entry_id)
     cur.execute(sql)
     connection.commit()

@@ -1,12 +1,16 @@
 from configparser import ConfigParser
+import os
+# from mydiary import app
  
  
-def config(filename="C:\\Users\\Ron\\Desktop\\baron_s_o_dear\\testing_database\database.ini", section='postgresql'):
-    # create a parser
+def config(filename="C:\\Users\\Ron\\Desktop\\baron_s_o_dear\\testing_database\\database.ini", section='postgresql'):
+    if os.environ.get('DATABASE_URL'):
+        db = os.environ.get('DATABASE_URL')
+        return db
+
     parser = ConfigParser()
     # read config file
     parser.read(filename)
- 
     # get section, default to postgresql
     db = {}
     if parser.has_section(section):
