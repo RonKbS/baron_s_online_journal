@@ -33,9 +33,8 @@ def login():
     try:
         auth = request.get_json() or {}
 
-        if not auth or not auth['name'] or not auth['password']:
-            return make_response('Could not verify', 401, 
-                                {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+        if not auth['name'] or not auth['password']:
+            return jsonify({'Error': 'Wrong credentials entered'})
         logged_user = find_user_by_name(auth['name'])
         if Users.check_password(logged_user['password'], auth['password']):
             token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
@@ -44,7 +43,7 @@ def login():
         return make_response('No such user', 401, 
                             {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
     except:
-        return jsonify({'error': 'Wrong format used'})
+        return jsonify({'Error': 'Wrong format used'})
 
 
 @bp.route('/auth/signup', methods=['POST'])
