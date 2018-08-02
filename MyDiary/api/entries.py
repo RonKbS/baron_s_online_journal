@@ -23,7 +23,7 @@ def token_required(f):
             current_user = find_user_by_id(user_id['id'])
         except:
             #import pdb; pdb.set_trace()
-            return jsonify({'message' : 'Token is invalid!'}), 401
+            return jsonify({'message': 'Token is invalid!'}), 401
         return f(current_user['user_id'], *args, **kwargs)
     return decorated
 
@@ -40,7 +40,7 @@ def login():
             token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
             return jsonify({'token': token.decode('UTF-8')})
-        return make_response('No such user', 401, 
+        return make_response('No such user', 401,
                             {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
     except:
         return jsonify({'Error': 'Wrong format used'})
@@ -48,11 +48,18 @@ def login():
 
 @bp.route('/auth/signup', methods=['POST'])
 def add_user():
-    user = request.get_json() or {}
-    if (not find_user_by_name(user['name'])) and is_email(user['email']):
-        Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
-        return jsonify({201: 'User added'}), 201
-    return jsonify({'Message': 'Invalid credentials'}), 200
+    try:
+        user = request.get_json() or {}
+
+        if (not find_user_by_name(user['name'])) and is_email(user['email']):
+            Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
+            return jsonify({201: 'User added'}), 201
+
+        if (len(user['name']) and len(user['password'])) < 5:
+            return jsonify({'Error': 'Password and/or username too short'}), 200
+        return jsonify({'Error': 'User exists'}), 200
+    except:
+        return jsonify({'Error': 'Wrong format used'})
 
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
