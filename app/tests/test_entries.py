@@ -1,10 +1,7 @@
 import json
 import pytest
 import unittest
-import psycopg2
-from testing_database import config
-from testing_database.create_tables import create_tables
-import testing.postgresql
+from database.queries import db
 from datetime import datetime
 from app import app
 from app.api import entries
@@ -38,14 +35,11 @@ def client(request):
         "DELETE FROM entries",
         "DELETE FROM users WHERE name='{}'".format('jon')
         )
-    params = config.config()
-    conn = psycopg2.connect(**params)
-    cur = conn.cursor()
+    ob = db()
+    cur = ob.connection.cursor()
     for command in commands:
         cur.execute(command)
     cur.close()
-    conn.commit()
-    conn.close() 
 
 
 def test_login(client):

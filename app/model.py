@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
-from testing_database.add import add_entry, add_user
-from testing_database.find_edit import db, update_entry, delete_entry
+from database.queries import db
 import os
 
 
@@ -23,7 +22,7 @@ class Users:
             'email': email,
             'password': password
         }
-        add_user(User)
+        db.adds_a(User)
         return User
 
     @staticmethod
@@ -40,8 +39,7 @@ class Diary(Users):
 
     @staticmethod
     def add_entry(title, enter_content, user_id):
-        '''create empty entry if entry has been used before'''
-        # entry = {}
+        '''create new entry for a specific user'''
         date = datetime.now()
         content = enter_content
         new_entry = {
@@ -50,7 +48,7 @@ class Diary(Users):
             "title": title,
             "content": content
         }
-        add_entry(new_entry)
+        db.adds(new_entry)
         return new_entry
 
     @staticmethod
@@ -64,7 +62,7 @@ class Diary(Users):
     def modify_entry(user_id, entry_id, title, content):
         entry = db.find_entry(user_id, entry_id)
         if entry:
-            update_entry(user_id, entry_id, title, content)
+            db.update_entry(user_id, entry_id, title, content)
             return True
         return 'No such entry'
 
@@ -72,7 +70,7 @@ class Diary(Users):
     def delete_entry(user_id, entry_id):
         entry = db.find_entry(user_id, entry_id)
         if entry:
-            delete_entry(user_id, entry_id)
+            db.deletes(user_id, entry_id)
             return 'Entry deleted'
         return 'No such entry'
 

@@ -1,7 +1,6 @@
 import os
 import psycopg2
 import psycopg2.extras
-from testing_database.config import config
 
 
 class db:
@@ -38,12 +37,32 @@ class db:
         for command in commands:
             cur.execute(command)
         cur.close()
-        # self.connection.commit()
         self.connection.close()
 
     @staticmethod
+    def adds(entry):
+        """Add new entry to entry table"""
+        placeholders = ', '.join(['%s'] * len(entry))
+        columns = ', '.join(entry.keys())
+        ob = db()
+        cur = ob.connection.cursor()
+        sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (columns, placeholders)
+        cur.execute (sql, list(entry.values()))
+        cur.close()
+
+    @staticmethod
+    def adds_a(user):
+        """Add new usser to user table"""
+        placeholders = ', '.join(['%s'] * len(user))
+        columns = ', '.join(user.keys())
+        ob = db()
+        cur = ob.connection.cursor()
+        sql = '''INSERT INTO users ( %s ) VALUES ( %s )'''  % (columns, placeholders)
+        cur.execute (sql, list(user.values()))
+        cur.close()
+    
+    @staticmethod
     def find_user_by_id(user_id):
-        # parameters = config()
         ob = db()
         cur = ob.connection.cursor(cursor_factory=
                                    psycopg2.extras.RealDictCursor)
@@ -89,26 +108,19 @@ class db:
         cur.close()
         return entry
 
+    @staticmethod
+    def update_entry(user_id, entry_id, title, content):
+        ob = db()
+        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = "UPDATE entries SET title ='{0}', content ='{1}\
+                ' WHERE user_id='{2}' AND entry_id='{3}'".format(title, content, user_id, entry_id)
+        cur.execute(sql)
+        cur.close()
 
-def update_entry(user_id, entry_id, title, content):
-    # parameters = config()
-    connection = psycopg2.connect(database='users', user='postgres',
-                                password='lefty3064', host='localhost',
-                                port='5432')
-    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = "UPDATE entries SET title ='{0}', content ='{1}' WHERE user_id='{2}' AND entry_id='{3}'".format(title, content, user_id, entry_id)
-    cur.execute(sql)
-    connection.commit()
-    cur.close()
-
-
-def delete_entry(user_id, entry_id):
-    # parameters = config()
-    connection = psycopg2.connect(database='users', user='postgres',
-                                password='lefty3064', host='localhost',
-                                port='5432')
-    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(user_id, entry_id)
-    cur.execute(sql)
-    connection.commit()
-    cur.close()
+    @staticmethod
+    def deletes(user_id, entry_id):
+        ob = db()
+        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(user_id, entry_id)
+        cur.execute(sql)
+        cur.close()

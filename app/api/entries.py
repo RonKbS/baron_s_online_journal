@@ -7,7 +7,7 @@ from app import model
 from app.api import bp
 from app.model import Users, Diary
 from functools import wraps
-from testing_database.find_edit import db
+from database.queries import db
 
 def token_required(f):
     @wraps(f)
