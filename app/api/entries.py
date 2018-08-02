@@ -7,7 +7,7 @@ from app import model
 from app.api import bp
 from app.model import Users, Diary
 from functools import wraps
-from testing_database.find_edit import find_user_by_name, find_user_by_id
+from testing_database.find_edit import db
 
 def token_required(f):
     @wraps(f)
@@ -20,7 +20,7 @@ def token_required(f):
             return jsonify({'token': 'Token is missing'}), 401
         try:
             user_id = jwt.decode(token, Config.SECRET_KEY)
-            current_user = find_user_by_id(user_id['id'])
+            current_user = db.find_user_by_id(user_id['id'])
         except:
             #import pdb; pdb.set_trace()
             return jsonify({'message': 'Token is invalid!'}), 401
@@ -35,9 +35,12 @@ def login():
 
         if not auth['name'] or not auth['password']:
             return jsonify({'Error': 'Wrong credentials entered'})
-        logged_user = find_user_by_name(auth['name'])
+
+        logged_user = db.find_user_by_name(auth['name'])
+
         if Users.check_password(logged_user['password'], auth['password']):
-            token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
+            token = jwt.encode({'id': logged_user['user_id'],
+                                'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
             return jsonify({'token': token.decode('UTF-8')})
         return make_response('No such user', 401,
@@ -51,7 +54,7 @@ def add_user():
     try:
         user = request.get_json() or {}
 
-        if (not find_user_by_name(user['name'])) and is_email(user['email']):
+        if (not db.find_user_by_name(user['name'])) and is_email(user['email']):
             Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
             return jsonify({201: 'User added'}), 201
 

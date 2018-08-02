@@ -10,6 +10,8 @@ class db:
                         psycopg2.connect(database='users', user='postgres',
                                 password='lefty3064', host='localhost',
                                 port='5432')
+                        # psycopg2.connect(
+                        #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
 
     def create_tables(self, users, entries):
@@ -36,63 +38,56 @@ class db:
         for command in commands:
             cur.execute(command)
         cur.close()
+        # self.connection.commit()
+        self.connection.close()
 
-        
-
-
-
-def find_user_by_id(user_id):
-    # parameters = config()
-    connection = psycopg2.connect(database='users', user='postgres',
-                                password='lefty3064', host='localhost',
-                                port='5432')
-    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = "SELECT * FROM users WHERE user_id='{}'".format(user_id)
-    cur.execute(sql)
-    user = cur.fetchone()
-    cur.close()
-    return user
-
-
-def find_user_by_name(name):
-    # parameters = config()
-    connection = psycopg2.connect(database='users', user='postgres',
-                                password='lefty3064', host='localhost',
-                                port='5432')
-    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = "SELECT * FROM users WHERE name='{}'".format(name)
-    cur.execute(sql)
-    user = cur.fetchone()
-    cur.close()
-    if user:
+    @staticmethod
+    def find_user_by_id(user_id):
+        # parameters = config()
+        ob = db()
+        cur = ob.connection.cursor(cursor_factory=
+                                   psycopg2.extras.RealDictCursor)
+        sql = "SELECT * FROM users WHERE user_id='{}'".format(user_id)
+        cur.execute(sql)
+        user = cur.fetchone()
+        cur.close()
+        ob.connection.close()
         return user
-    return False
 
+    @staticmethod
+    def find_user_by_name(name):
+        ob = db()
+        cur = ob.connection.cursor(cursor_factory=
+                                     psycopg2.extras.RealDictCursor)
+        sql = "SELECT * FROM users WHERE name='{}'".format(name)
+        cur.execute(sql)
+        user = cur.fetchone()
+        cur.close()
+        ob.connection.close()
+        if user:
+            return user
+        return False
 
-def find_entries(user_id):
-    parameters = config()
-    connection = psycopg2.connect(database='users', user='postgres',
-                                password='lefty3064', host='localhost',
-                                port='5432')
-    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = '''SELECT * FROM entries WHERE user_id=%s'''  % (user_id)
-    cur.execute(sql)
-    entries = cur.fetchall()
-    cur.close()
-    return entries
+    @staticmethod
+    def find_entries(user_id):
+        ob = db()
+        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = '''SELECT * FROM entries WHERE user_id=%s'''  % (user_id)
+        cur.execute(sql)
+        entries = cur.fetchall()
+        ob.connection.close()
+        cur.close()
+        return entries
 
-
-def find_entry(user_id, entry_id):
-    # parameters = config()
-    connection = psycopg2.connect(database='users', user='postgres',
-                                password='lefty3064', host='localhost',
-                                port='5432')
-    cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s'''  % (user_id, entry_id)
-    cur.execute(sql)
-    entry = cur.fetchone()
-    cur.close()
-    return entry
+    @staticmethod
+    def find_entry(user_id, entry_id):
+        ob = db()
+        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s'''  % (user_id, entry_id)
+        cur.execute(sql)
+        entry = cur.fetchone()
+        cur.close()
+        return entry
 
 
 def update_entry(user_id, entry_id, title, content):

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from testing_database.add import add_entry, add_user
-from testing_database.find_edit import find_entry, update_entry, delete_entry, find_entries
+from testing_database.find_edit import db, update_entry, delete_entry
 import os
 
 
@@ -55,14 +55,14 @@ class Diary(Users):
 
     @staticmethod
     def find_entry_by_id(user_id, entry_id):
-        entry = find_entry(user_id, entry_id)
+        entry = db.find_entry(user_id, entry_id)
         if entry: 
             return entry
         return 'No such entry'
 
     @staticmethod
     def modify_entry(user_id, entry_id, title, content):
-        entry = find_entry(user_id, entry_id)
+        entry = db.find_entry(user_id, entry_id)
         if entry:
             update_entry(user_id, entry_id, title, content)
             return True
@@ -70,7 +70,7 @@ class Diary(Users):
 
     @staticmethod
     def delete_entry(user_id, entry_id):
-        entry = find_entry(user_id, entry_id)
+        entry = db.find_entry(user_id, entry_id)
         if entry:
             delete_entry(user_id, entry_id)
             return 'Entry deleted'
@@ -78,7 +78,7 @@ class Diary(Users):
 
     @staticmethod
     def list_all_entries(user_id):
-        entries = find_entries(user_id)
+        entries = db.find_entries(user_id)
         if entries:
             return entries
         return 'No entries'
