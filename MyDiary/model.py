@@ -36,11 +36,10 @@ class Users:
 
 class Diary(Users):
     entries = []
-    entry_id = 1
     toekn_expiration = datetime.now()
 
     @staticmethod
-    def add_entry(enter_content, user_id):
+    def add_entry(title, enter_content, user_id):
         '''create empty entry if entry has been used before'''
         # entry = {}
         date = datetime.now()
@@ -48,26 +47,24 @@ class Diary(Users):
         new_entry = {
             "user_id": user_id,
             "date": date.strftime('%a.%d.%B.%Y'),
-            "content": content,
-            "entry_id": Diary.entry_id
-
+            "title": title,
+            "content": content
         }
-        Diary.entry_id = Diary.entry_id + 1
         add_entry(new_entry)
         return new_entry
 
     @staticmethod
     def find_entry_by_id(user_id, entry_id):
         entry = find_entry(user_id, entry_id)
-        if entry:
+        if entry: 
             return entry
         return 'No such entry'
 
     @staticmethod
-    def modify_entry(user_id, entry_id, content):
+    def modify_entry(user_id, entry_id, title, content):
         entry = find_entry(user_id, entry_id)
         if entry:
-            update_entry(user_id, entry_id, content)
+            update_entry(user_id, entry_id, title, content)
             return True
         return 'No such entry'
 

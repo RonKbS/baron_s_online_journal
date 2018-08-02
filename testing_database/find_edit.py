@@ -1,7 +1,7 @@
 import psycopg2
 import psycopg2.extras
-'''Remove the testing_database namespace when running the file alone'''
 from testing_database.config import config
+
 
 def find_user_by_id(user_id):
     parameters = config()
@@ -12,6 +12,7 @@ def find_user_by_id(user_id):
     user = cur.fetchone()
     cur.close()
     return user
+
 
 def find_user_by_name(name):
     parameters = config()
@@ -48,11 +49,11 @@ def find_entry(user_id, entry_id):
     return entry
 
 
-def update_entry(user_id, entry_id, content):
+def update_entry(user_id, entry_id, title, content):
     parameters = config()
     connection = psycopg2.connect(**parameters)
     cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sql = "UPDATE entries SET content ='{0}' WHERE user_id='{1}' AND entry_id='{2}'".format(content, user_id, entry_id)
+    sql = "UPDATE entries SET title ='{0}', content ='{1}' WHERE user_id='{2}' AND entry_id='{3}'".format(title, content, user_id, entry_id)
     cur.execute(sql)
     connection.commit()
     cur.close()
@@ -66,5 +67,3 @@ def delete_entry(user_id, entry_id):
     cur.execute(sql)
     connection.commit()
     cur.close()
-# if __name__ == '__main__':
-#     find_entry()

@@ -15,18 +15,13 @@ def create_tables(users, entries):
         "CREATE TABLE IF NOT EXISTS {} (\
             user_id INTEGER NOT NULL,\
             date VARCHAR(30) NOT NULL,\
-            content VARCHAR(500) UNIQUE,\
-            entry_id INTEGER NOT NULL,\
+            title VARCHAR(30),\
+            content VARCHAR(500),\
+            entry_id SERIAL PRIMARY KEY,\
             FOREIGN KEY (user_id)\
                 REFERENCES Users (user_id)\
             )".format(entries)
             )
-    # commands = (
-    #     """
-    #     DROP TABLE users CASCADE
-    #     """,
-    #     """ DROP TABLE entries
-    #     """)
     conn = None
     try:
         # read the connection parameters
@@ -46,7 +41,3 @@ def create_tables(users, entries):
     finally:
         if conn is not None:
             conn.close()
-
-
-# if __name__ == '__main__':
-#     create_tables()

@@ -81,17 +81,20 @@ def get_all_entries(user_id):
 def add_entry(user_id):
     '''Obtain the entry sent as a dictionary then append it_to entries list'''
     new_entry = request.get_json() or {}
-    Diary.add_entry(new_entry["content"], user_id)
-    return jsonify({"Message": 'Entry added'}), 201
+    if new_entry:
+        Diary.add_entry(new_entry["title"], new_entry["content"], user_id)
+        return jsonify({"Message": 'Entry added'}), 201
+    else:
+        jsonify({'Error':'Wrong format used to send data'})
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
 @token_required
 def change_entry(user_id, entry_id):
     new_entry = request.get_json() or {}
-    if Diary.modify_entry(user_id, entry_id, new_entry['content']) == 'No such entry':
+    if Diary.modify_entry(user_id, entry_id, new_entry['title'], new_entry['content']) == 'No such entry':
         return jsonify({"Error": 'No such entry'}), 200
-    Diary.modify_entry(entry_id, entry_id, new_entry['content'])
+    Diary.modify_entry(entry_id, entry_id, new_entry['title'],  new_entry['content'])
     return jsonify({"Message": 'Entry has been modified'}), 200
 
 
