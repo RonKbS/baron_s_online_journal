@@ -1,6 +1,44 @@
+import os
 import psycopg2
 import psycopg2.extras
 from testing_database.config import config
+
+
+class db:
+    def __init__(self):
+        self.connection = os.environ.get('DATABASE_URI') or \
+                        psycopg2.connect(database='users', user='postgres',
+                                password='lefty3064', host='localhost',
+                                port='5432')
+        self.connection.autocommit = True
+
+    def create_tables(self, users, entries):
+        """create tables in the PostgreSQL database"""
+        commands = (
+        "CREATE TABLE IF NOT EXISTS {} (\
+            user_id SERIAL PRIMARY KEY,\
+            name VARCHAR(50) NOT NULL,\
+            email VARCHAR(50) NOT NULL,\
+            password VARCHAR(150) NOT NULL\
+            )".format(users)
+            ,
+        "CREATE TABLE IF NOT EXISTS {} (\
+            user_id INTEGER NOT NULL,\
+            date VARCHAR(30) NOT NULL,\
+            title VARCHAR(30),\
+            content VARCHAR(500),\
+            entry_id SERIAL PRIMARY KEY,\
+            FOREIGN KEY (user_id)\
+                REFERENCES Users (user_id)\
+            )".format(entries)
+            )
+        cur = self.connection.cursor()
+        for command in commands:
+            cur.execute(command)
+        cur.close()
+
+        
+
 
 
 def find_user_by_id(user_id):
