@@ -4,8 +4,8 @@ import os
  
  
 def config(filename="C:\\Users\\Ron\\Desktop\\baron_s_o_dear\\testing_database\\database.ini", section='postgresql'):
-    if os.environ.get('DATABASE_URL'):
-        db = os.environ.get('DATABASE_URL')
+    if os.environ.get('DATABASE_URI'):
+        db = os.environ.get('DATABASE_URI')
         return db
 
     parser = ConfigParser()

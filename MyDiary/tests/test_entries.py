@@ -38,8 +38,8 @@ def client(request):
     commands = (
         # "DROP TABLE users CASCADE",
         # "DROP TABLE entries"
-        # "DELETE FROM entries WHERE entry_id='{}'".format(1),
-        # "DELETE FROM users WHERE name='{}'".format('jon')
+        "DELETE FROM entries WHERE entry_id='{}'".format(1),
+        "DELETE FROM users WHERE name='{}'".format('jon')
         )
     params = config.config()
     conn = psycopg2.connect(**params)
@@ -77,16 +77,15 @@ def test_add_entry(client):
     assert json_reply(response) == {"201": 'Entry added'}
 
 
-def test_get_entry(client):
-    '''Create entry that has an id of one, changing previous content id to 2'''
-    post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
-             {"content": 'More content added'})
-    id = 1
-    get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id),
-                                headers=sample_login(client))
-    assert post_response.status_code == 201
-    assert get_response.status_code == 200
-    client.delete('http://127.0.0.1:5000/api/v1/entries/1')
+# def test_get_entry(client):
+#     '''Create entry that has an id of one, changing previous content id to 2'''
+#     post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
+#              {"content": 'More content added'})
+#     id = 1
+#     get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id),
+#                                 headers=sample_login(client))
+#     assert post_response.status_code == 201
+#     assert get_response.status_code == 200
 
 
 # def test_modifiy_entry(client):

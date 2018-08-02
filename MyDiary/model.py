@@ -1,12 +1,11 @@
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
 from testing_database.add import add_entry, add_user
 from testing_database.find_edit import find_entry, update_entry, delete_entry, find_entries
 import os
 
 
-class Users(UserMixin):
+class Users:
     '''Create hashes of user passwords, use next function to retrieve them'''
     @staticmethod
     def set_password(password):
@@ -35,7 +34,7 @@ class Users(UserMixin):
         return 'No such entry'
 
 
-class Diary(Users, UserMixin):
+class Diary(Users):
     entries = []
     entry_id = 1
     toekn_expiration = datetime.now()
