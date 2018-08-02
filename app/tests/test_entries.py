@@ -6,8 +6,8 @@ from testing_database import config
 from testing_database.create_tables import create_tables
 import testing.postgresql
 from datetime import datetime
-from mydiary import app
-from mydiary.api import entries
+from app import app
+from app.api import entries
 
 
 user = {'name': 'jon', 'email': 'ron@gmail.com', 'password': 'words'}
