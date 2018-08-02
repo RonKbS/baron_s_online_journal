@@ -30,23 +30,26 @@ def token_required(f):
 
 @bp.route('/login', methods=['POST'])
 def login():
-    auth = request.get_json() or {}
+    try:
+        auth = request.get_json() or {}
 
-    if not auth or not auth['name'] or not auth['password']:
-        return make_response('Could not verify', 401, 
+        if not auth or not auth['name'] or not auth['password']:
+            return make_response('Could not verify', 401, 
+                                {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+        logged_user = find_user_by_name(auth['name'])
+            # elif not logged_user:
+            #     return make_response('No such user', 401, 
+            #                     {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+
+        #import pdb; pdb.set_trace()
+        if Users.check_password(logged_user['password'], auth['password']):
+            token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
+                                datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
+            return jsonify({'token': token.decode('UTF-8')})
+        return make_response('No such user', 401, 
                             {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
-    logged_user = find_user_by_name(auth['name'])
-        # elif not logged_user:
-        #     return make_response('No such user', 401, 
-        #                     {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
-
-    #import pdb; pdb.set_trace()
-    if Users.check_password(logged_user['password'], auth['password']):
-        token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
-                             datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
-        return jsonify({'token': token.decode('UTF-8')})
-    return make_response('No such user', 401, 
-                        {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
+    except:
+        return jsonify({'error': 'Wrong format used'})
 
 
 @bp.route('/auth/signup', methods=['POST'])
@@ -61,7 +64,7 @@ def add_user():
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
 @token_required
 def get_entry(user_id, entry_id):
-    if Diary.find_entry_by_id(user_id, entry_id):
+    if Diary.find_entry_by_id(user_id, entry_id) != 'No such entry':
         return jsonify(Diary.find_entry_by_id(user_id, entry_id)), 200
     return jsonify({404: Diary.find_entry_by_id(user_id, entry_id)}), 404
 
@@ -87,7 +90,7 @@ def add_entry(user_id):
 @token_required
 def change_entry(user_id, entry_id):
     new_entry = request.get_json() or {}
-    if Diary.modify_entry(entry_id, entry_id, new_entry['content']) == 'No such entry':
+    if Diary.modify_entry(user_id, entry_id, new_entry['content']) == 'No such entry':
         return jsonify({404: 'No such entry'}), 404
     Diary.modify_entry(entry_id, entry_id, new_entry['content'])
     return jsonify({201: 'Entry has been modified'}), 201
