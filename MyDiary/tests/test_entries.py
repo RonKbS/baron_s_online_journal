@@ -74,7 +74,7 @@ def test_add_entry(client):
     response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
                         {"content": 'New content added'})
     assert response.status_code == 201
-    assert json_reply(response) == {"201": 'Entry added'}
+    assert json_reply(response) == {"Message": 'Entry added'}
 
 
 # def test_get_entry(client):

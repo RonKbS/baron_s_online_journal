@@ -17,7 +17,7 @@ def token_required(f):
         if 'token' in request.headers:
             token = request.headers['token']
         elif not token:
-            return jsonify({'token': 'token is missing'}), 401
+            return jsonify({'token': 'Token is missing'}), 401
         try:
             user_id = jwt.decode(token, Config.SECRET_KEY)
             current_user = find_user_by_id(user_id['id'])
@@ -37,11 +37,6 @@ def login():
             return make_response('Could not verify', 401, 
                                 {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
         logged_user = find_user_by_name(auth['name'])
-            # elif not logged_user:
-            #     return make_response('No such user', 401, 
-            #                     {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
-
-        #import pdb; pdb.set_trace()
         if Users.check_password(logged_user['password'], auth['password']):
             token = jwt.encode({'id': logged_user['user_id'], 'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
@@ -58,7 +53,7 @@ def add_user():
     if (not find_user_by_name(user['name'])) and is_email(user['email']):
         Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
         return jsonify({201: 'User added'}), 201
-    return jsonify({401: 'Invalid credentials'}), 401
+    return jsonify({'Message': 'Invalid credentials'}), 200
 
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
@@ -66,7 +61,7 @@ def add_user():
 def get_entry(user_id, entry_id):
     if Diary.find_entry_by_id(user_id, entry_id) != 'No such entry':
         return jsonify(Diary.find_entry_by_id(user_id, entry_id)), 200
-    return jsonify({404: Diary.find_entry_by_id(user_id, entry_id)}), 404
+    return jsonify({"Error": Diary.find_entry_by_id(user_id, entry_id)}), 200
 
 
 @bp.route('/entries', methods=['GET'])
@@ -80,10 +75,8 @@ def get_all_entries(user_id):
 def add_entry(user_id):
     '''Obtain the entry sent as a dictionary then append it_to entries list'''
     new_entry = request.get_json() or {}
-    new_entry_return = Diary.add_entry(new_entry["content"], user_id)
-    if new_entry_return == "New entry is similar to older entry":
-        return jsonify({403 : new_entry_return}), 403
-    return jsonify({201: 'Entry added'}), 201
+    Diary.add_entry(new_entry["content"], user_id)
+    return jsonify({"Message": 'Entry added'}), 201
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
@@ -91,14 +84,14 @@ def add_entry(user_id):
 def change_entry(user_id, entry_id):
     new_entry = request.get_json() or {}
     if Diary.modify_entry(user_id, entry_id, new_entry['content']) == 'No such entry':
-        return jsonify({404: 'No such entry'}), 404
+        return jsonify({"Error": 'No such entry'}), 200
     Diary.modify_entry(entry_id, entry_id, new_entry['content'])
-    return jsonify({201: 'Entry has been modified'}), 201
+    return jsonify({"Message": 'Entry has been modified'}), 200
 
 
 @bp.route('/entries/<int:entry_id>', methods=['DELETE'])
 @token_required
 def delete_entry(user_id, entry_id):
     if Diary.delete_entry(user_id, entry_id) == 'Entry deleted':
-        return jsonify({200: 'Entry deleted'}), 200
-    return jsonify({404: Diary.find_entry_by_id(user_id, entry_id)}), 404
+        return jsonify({"Message": 'Entry deleted'}), 200
+    return jsonify({"Error": Diary.find_entry_by_id(user_id, entry_id)}), 404
