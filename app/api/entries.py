@@ -3,9 +3,9 @@ import datetime
 from pyisemail import is_email
 from config import Config
 from flask import jsonify, request, make_response
-from mydiary import model
-from mydiary.api import bp
-from mydiary.model import Users, Diary
+from app import model
+from app.api import bp
+from app.model import Users, Diary
 from functools import wraps
 from testing_database.find_edit import find_user_by_name, find_user_by_id
 

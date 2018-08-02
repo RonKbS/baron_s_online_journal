@@ -25,9 +25,11 @@ def create_tables(users, entries):
     conn = None
     try:
         # read the connection parameters
-        params = config()
+        # params = config()
         # connect to the PostgreSQL server
-        conn = psycopg2.connect(**params)
+        conn = psycopg2.connect(database='users', user='postgres',
+                                password='lefty3064', host='localhost',
+                                port='5432')
         cur = conn.cursor()
         # create table one by one
         for command in commands:

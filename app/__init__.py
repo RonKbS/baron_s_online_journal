@@ -9,7 +9,7 @@ app.config['TESTING'] = False
 # create_tables('users' , 'entries')
 Config.db
 
-from mydiary.api import bp as bp_api
+from MyDiary.api import bp as bp_api
 app.register_blueprint(bp_api, url_prefix='/api/v1')
 
 #from MyDiary import routes
