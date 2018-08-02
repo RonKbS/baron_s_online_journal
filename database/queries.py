@@ -5,7 +5,9 @@ import psycopg2.extras
 
 class db:
     def __init__(self):
-        self.connection = psycopg2.connect(os.environ.get('DATABASE_URL')) or \
+        self.connection = psycopg2.connect(database='travis_ci_test', user='postgres',
+                                password=' ', host='localhost',
+                                port='5432') or \
                         psycopg2.connect(database='users', user='postgres',
                                 password='lefty3064', host='localhost',
                                 port='5432')
