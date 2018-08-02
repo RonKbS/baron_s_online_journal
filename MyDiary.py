@@ -1,3 +1,3 @@
-from mydiary import app
-from mydiary.model import Diary
-from mydiary.api import entries
+from app import app
+from app.model import Diary
+from app.api import entries
