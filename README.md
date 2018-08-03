@@ -10,8 +10,9 @@ The MyDiary app is one that stores your thoughts safely online. It includes html
 UI branch and a python-flask API on the api_branch
 
 # Getting started
+To run the MyDiary app on pc, create a postgres database for a postgres user and a blank password,
 
-To run the MyDiary app on pc, clone from the following url:
+Then clone from the following url:
 ````
 https://github.com/RonKbS/baron_s_online_journal.git
 ````
