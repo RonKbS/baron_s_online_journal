@@ -51,7 +51,7 @@ coverage html
 ## Deployment
 
 API hosted at:
-http://bbron-s-mydiary.herokuapp.com/api/v1/entries
+https://baron-s-mydiary.herokuapp.com/api/v1/auth/signup
 
 ## Built With
 
