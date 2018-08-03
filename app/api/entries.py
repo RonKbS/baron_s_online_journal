@@ -59,10 +59,10 @@ def add_user():
             return jsonify({201: 'User added'}), 201
 
         if (len(user['name']) and len(user['password'])) < 5:
-            return jsonify({'Error': 'Password and/or username too short'}), 200
-        return jsonify({'Error': 'User exists'}), 200
+            return jsonify({'Error': 'Password and/or username too short'}), 400
+        return jsonify({'Error': 'User exists'}), 400
     except:
-        return jsonify({'Error': 'Wrong format used'})
+        return jsonify({'Error': 'Wrong format used'}), 400
 
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
@@ -88,7 +88,7 @@ def add_entry(user_id):
         Diary.add_entry(new_entry["title"], new_entry["content"], user_id)
         return jsonify({"Message": 'Entry added'}), 201
     else:
-        jsonify({'Error':'Wrong format used to send data'})
+        jsonify({'Error':'Wrong format used to send data'}), 400
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
