@@ -5,9 +5,7 @@ import psycopg2.extras
 
 class db:
     def __init__(self):
-        self.connection = psycopg2.connect(database='travis_ci_test', user='postgres',
-                                password=' ', host='localhost',
-                                port='5432')
+        self.connection = psycopg2.connect('postgres://ntnaqpbctmhcvn:722352cc7650b34da9c4435577f4d15b82c897d3dfb454c8f0a50cf3cae7dd2a@ec2-23-23-242-163.compute-1.amazonaws.com:5432/d757e8sddf09d9')
                         # psycopg2.connect(
                         #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
