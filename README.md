@@ -21,10 +21,19 @@ https://github.com/RonKbS/baron_s_online_journal.git
 
 Set up a virtual environment and activate it, there after running the following from the same folder:
 ````
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ````
 This will install all required packages
 Note that python needs to be installed globally
+
+### Run the app
+The application is then run by:
+````
+set FLASK_APP=MyDiary
+
+flask run
+````
+Note: Replace set with export if running linux
 
 ## Running tests
 
