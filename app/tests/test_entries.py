@@ -1,6 +1,5 @@
 import json
 import pytest
-import unittest
 from database.queries import db
 from datetime import datetime
 from app import app
@@ -14,8 +13,8 @@ entry = {"title": "Title", "content": 'New content added', "entry_id": 1}
 
 def post_json(client, url, json_dict):
     return client.post(url, data=json.dumps(json_dict),
-                        headers=sample_login(client),
-                        content_type='application/json')
+                       headers=sample_login(client),
+                       content_type='application/json')
 
 
 def json_reply(reponse):
@@ -25,7 +24,7 @@ def json_reply(reponse):
 @pytest.fixture
 def client(request):
     test_client = app.test_client()
-    test_client.post('http://127.0.0.1:5000/api/v1/auth/signup', 
+    test_client.post('http://127.0.0.1:5000/api/v1/auth/signup',
                      data=json.dumps(user),
                      content_type='application/json')
 
@@ -34,7 +33,7 @@ def client(request):
     commands = (
         "DELETE FROM entries",
         "DELETE FROM users WHERE name='{}'".format('jon')
-        )
+    )
     ob = db()
     cur = ob.connection.cursor()
     for command in commands:
@@ -43,17 +42,24 @@ def client(request):
 
 
 def test_login(client):
-    user = client.post('http://127.0.0.1:5000/api/v1/login',
-                     data=json.dumps(user_sign_in), content_type='application/json')
+    user = client.post(
+        'http://127.0.0.1:5000/api/v1/login',
+        data=json.dumps(user_sign_in),
+        content_type='application/json')
     assert user.status_code == 200
 
 
 '''Generate token to pass'''
+
+
 def sample_login(client):
-    response = client.post('http://127.0.0.1:5000/api/v1/login',
-                     data=json.dumps(user_sign_in), content_type='application/json')
+    response = client.post(
+        'http://127.0.0.1:5000/api/v1/login',
+        data=json.dumps(user_sign_in),
+        content_type='application/json')
     gets = json.loads(response.data.decode('utf-8'))
     return gets
+
 
 def test_get_all_entries(client):
     reply = client.get('/api/v1/entries', headers=sample_login(client))
@@ -62,14 +68,14 @@ def test_get_all_entries(client):
 
 def test_add_entry(client):
     response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-                          entry)
+                         entry)
     assert response.status_code == 201
     assert json_reply(response) == {"Message": 'Entry added'}
 
 
 # def test_get_entry(client):
 #     '''Create entry that has an id of one, changing previous content id to 2'''
-#     post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
+#     post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
 #              {"content": 'More content added'})
 #     id = 1
 #     get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id),
@@ -79,10 +85,10 @@ def test_add_entry(client):
 
 
 # def test_modifiy_entry(client):
-#     post_json(client, 'http://127.0.0.1:5000/api/v1/entries', 
+#     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
 #              {"content": ' content to be modified'})
 #     response_to_change = client.put('http://127.0.0.1:5000/api/v1/entries/1', data=
-#                                     json.dumps({"content": 'content modified'}), 
+#                                     json.dumps({"content": 'content modified'}),
 #                                     content_type = 'application/json')
 #     assert response_to_change.status_code == 201
 

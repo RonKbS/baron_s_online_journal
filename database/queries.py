@@ -5,24 +5,26 @@ import psycopg2.extras
 
 class db:
     def __init__(self):
-        self.connection = psycopg2.connect(database='travis_ci_test', user='postgres',
-                                password=' ', host='localhost',
-                                port='5432')
-                        # psycopg2.connect(
-                        #     'postgresql://postgres:lefty3064@localhost:5432')
+        self.connection = psycopg2.connect(
+            database='travis_ci_test',
+            user='postgres',
+            password=' ',
+            host='localhost',
+            port='5432')
+        # psycopg2.connect(
+        #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
 
     def create_tables(self, users, entries):
         """create tables in the PostgreSQL database"""
         commands = (
-        "CREATE TABLE IF NOT EXISTS {} (\
+            "CREATE TABLE IF NOT EXISTS {} (\
             user_id SERIAL PRIMARY KEY,\
             name VARCHAR(50) NOT NULL,\
             email VARCHAR(50) NOT NULL,\
             password VARCHAR(150) NOT NULL\
-            )".format(users)
-            ,
-        "CREATE TABLE IF NOT EXISTS {} (\
+            )".format(users),
+            "CREATE TABLE IF NOT EXISTS {} (\
             user_id INTEGER NOT NULL,\
             date VARCHAR(30) NOT NULL,\
             title VARCHAR(30),\
@@ -31,7 +33,7 @@ class db:
             FOREIGN KEY (user_id)\
                 REFERENCES Users (user_id)\
             )".format(entries)
-            )
+        )
         cur = self.connection.cursor()
         for command in commands:
             cur.execute(command)
@@ -45,8 +47,9 @@ class db:
         columns = ', '.join(entry.keys())
         ob = db()
         cur = ob.connection.cursor()
-        sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (columns, placeholders)
-        cur.execute (sql, list(entry.values()))
+        sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (
+            columns, placeholders)
+        cur.execute(sql, list(entry.values()))
         cur.close()
 
     @staticmethod
@@ -56,15 +59,16 @@ class db:
         columns = ', '.join(user.keys())
         ob = db()
         cur = ob.connection.cursor()
-        sql = '''INSERT INTO users ( %s ) VALUES ( %s )'''  % (columns, placeholders)
-        cur.execute (sql, list(user.values()))
+        sql = '''INSERT INTO users ( %s ) VALUES ( %s )''' % (
+            columns, placeholders)
+        cur.execute(sql, list(user.values()))
         cur.close()
-    
+
     @staticmethod
     def find_user_by_id(user_id):
         ob = db()
-        cur = ob.connection.cursor(cursor_factory=
-                                   psycopg2.extras.RealDictCursor)
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
         sql = "SELECT * FROM users WHERE user_id='{}'".format(user_id)
         cur.execute(sql)
         user = cur.fetchone()
@@ -75,8 +79,8 @@ class db:
     @staticmethod
     def find_user_by_name(name):
         ob = db()
-        cur = ob.connection.cursor(cursor_factory=
-                                     psycopg2.extras.RealDictCursor)
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
         sql = "SELECT * FROM users WHERE name='{}'".format(name)
         cur.execute(sql)
         user = cur.fetchone()
@@ -89,8 +93,9 @@ class db:
     @staticmethod
     def find_entries(user_id):
         ob = db()
-        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = '''SELECT * FROM entries WHERE user_id=%s'''  % (user_id)
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = '''SELECT * FROM entries WHERE user_id=%s''' % (user_id)
         cur.execute(sql)
         entries = cur.fetchall()
         ob.connection.close()
@@ -100,8 +105,10 @@ class db:
     @staticmethod
     def find_entry(user_id, entry_id):
         ob = db()
-        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s'''  % (user_id, entry_id)
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s''' % (
+            user_id, entry_id)
         cur.execute(sql)
         entry = cur.fetchone()
         cur.close()
@@ -110,7 +117,8 @@ class db:
     @staticmethod
     def update_entry(user_id, entry_id, title, content):
         ob = db()
-        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
         sql = "UPDATE entries SET title ='{0}', content ='{1}\
                 ' WHERE user_id='{2}' AND entry_id='{3}'".format(title, content, user_id, entry_id)
         cur.execute(sql)
@@ -119,7 +127,9 @@ class db:
     @staticmethod
     def deletes(user_id, entry_id):
         ob = db()
-        cur = ob.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(user_id, entry_id)
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(
+            user_id, entry_id)
         cur.execute(sql)
         cur.close()

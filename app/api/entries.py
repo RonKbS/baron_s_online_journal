@@ -9,6 +9,7 @@ from app.model import Users, Diary
 from functools import wraps
 from database.queries import db
 
+
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -21,7 +22,7 @@ def token_required(f):
         try:
             user_id = jwt.decode(token, Config.SECRET_KEY)
             current_user = db.find_user_by_id(user_id['id'])
-        except:
+        except BaseException:
             #import pdb; pdb.set_trace()
             return jsonify({'message': 'Token is invalid!'}), 401
         return f(current_user['user_id'], *args, **kwargs)
@@ -34,7 +35,7 @@ def login():
         auth = request.get_json() or {}
 
         if not auth['name'] or not auth['password']:
-            return jsonify({'Error': 'Wrong credentials entered'})
+            return jsonify({'Error': 'Wrong credentials entered'}), 400
 
         logged_user = db.find_user_by_name(auth['name'])
 
@@ -43,10 +44,9 @@ def login():
                                 'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
             return jsonify({'token': token.decode('UTF-8')})
-        return make_response('No such user', 401,
-                            {'WWW-Authenticate': 'Basic Realm = "Login Required"'})
-    except:
-        return jsonify({'Error': 'Wrong format used'})
+        return jsonify({'Error': 'No such user'}), 400
+    except BaseException:
+        return jsonify({'Error': 'Wrong format used'}), 400
 
 
 @bp.route('/auth/signup', methods=['POST'])
@@ -54,15 +54,21 @@ def add_user():
     try:
         user = request.get_json() or {}
 
-        if (not db.find_user_by_name(user['name'])) and is_email(user['email']):
-            Users.add_user(user['name'], user['email'], Diary.set_password(user['password']))
-            return jsonify({201: 'User added'}), 201
+        if (not db.find_user_by_name(
+                user['name'])) and is_email(user['email']):
+            Users.add_user(
+                user['name'],
+                user['email'],
+                Diary.set_password(
+                    user['password']))
+            return jsonify({'Message': 'User added'}), 201
 
         if (len(user['name']) and len(user['password'])) < 5:
-            return jsonify({'Error': 'Password and/or username too short'}), 200
-        return jsonify({'Error': 'User exists'}), 200
-    except:
-        return jsonify({'Error': 'Wrong format used'})
+            return jsonify(
+                {'Error': 'Password and/or username too short'}), 400
+        return jsonify({'Error': 'User exists'}), 400
+    except BaseException:
+        return jsonify({'Error': 'Wrong format used'}), 400
 
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
@@ -70,7 +76,7 @@ def add_user():
 def get_entry(user_id, entry_id):
     if Diary.find_entry_by_id(user_id, entry_id) != 'No such entry':
         return jsonify(Diary.find_entry_by_id(user_id, entry_id)), 200
-    return jsonify({"Error": Diary.find_entry_by_id(user_id, entry_id)}), 200
+    return jsonify({"Error": Diary.find_entry_by_id(user_id, entry_id)}), 404
 
 
 @bp.route('/entries', methods=['GET'])
@@ -88,16 +94,24 @@ def add_entry(user_id):
         Diary.add_entry(new_entry["title"], new_entry["content"], user_id)
         return jsonify({"Message": 'Entry added'}), 201
     else:
-        jsonify({'Error':'Wrong format used to send data'})
+        jsonify({'Error': 'Wrong format used to send data'}), 400
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
 @token_required
 def change_entry(user_id, entry_id):
     new_entry = request.get_json() or {}
-    if Diary.modify_entry(user_id, entry_id, new_entry['title'], new_entry['content']) == 'No such entry':
+    if Diary.modify_entry(
+            user_id,
+            entry_id,
+            new_entry['title'],
+            new_entry['content']) == 'No such entry':
         return jsonify({"Error": 'No such entry'}), 200
-    Diary.modify_entry(entry_id, entry_id, new_entry['title'],  new_entry['content'])
+    Diary.modify_entry(
+        entry_id,
+        entry_id,
+        new_entry['title'],
+        new_entry['content'])
     return jsonify({"Message": 'Entry has been modified'}), 200
 
 
