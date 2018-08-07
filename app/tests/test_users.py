@@ -51,3 +51,26 @@ class TestUsers(unittest.TestCase):
         self.assertEqual(request2.status_code, 400)
         reponse = json.loads(request2.data.decode())
         self.assertIn(reponse['Error'], 'User exists')
+
+    def test_correct_login(self):
+        self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/auth/signup',
+            data=json.dumps(user),
+            content_type='application/json')
+        request2 = self.test_client.post('http://127.0.0.1:5000/api/v1/login',
+                               data=json.dumps(user_sign_in),
+                               content_type='application/json')
+        self.assertTrue(request2.status_code, 200)
+
+    def test_wrong_login(self):
+        self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/auth/signup',
+            data=json.dumps(user),
+            content_type='application/json')
+        request2 = self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/login',
+                               data=json.dumps(wrong_user),
+                               content_type='application/json')
+        self.assertTrue(request2.status_code, 400)
+        response = json.loads(request2.data.decode())
+        self.assertIn(response['Error'], 'Wrong credentials entered')
