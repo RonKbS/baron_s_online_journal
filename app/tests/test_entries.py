@@ -8,7 +8,7 @@ from app.api import entries
 
 user = {'name': 'jon', 'email': 'ron@gmail.com', 'password': 'words'}
 user_sign_in = {'name': 'jon', 'password': 'words'}
-entry = {"title": "Title", "content": 'New content added', "entry_id": 1}
+entry = {"title": "Title", "content": 'New content added'}
 
 
 def post_json(client, url, json_dict):
@@ -41,17 +41,7 @@ def client(request):
     cur.close()
 
 
-def test_login(client):
-    user = client.post(
-        'http://127.0.0.1:5000/api/v1/login',
-        data=json.dumps(user_sign_in),
-        content_type='application/json')
-    assert user.status_code == 200
-
-
 '''Generate token to pass'''
-
-
 def sample_login(client):
     response = client.post(
         'http://127.0.0.1:5000/api/v1/login',
@@ -75,13 +65,18 @@ def test_add_entry(client):
 
 # def test_get_entry(client):
 #     '''Create entry that has an id of one, changing previous content id to 2'''
-#     post_response = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-#              {"content": 'More content added'})
-#     id = 1
-#     get_response = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id),
+#     post_entry = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
+#              entry)
+#     get_id = client.get('http://127.0.0.1:5000/api/v1/entries',
 #                                 headers=sample_login(client))
-#     assert post_response.status_code == 201
-#     assert get_response.status_code == 200
+#     id = json_reply(get_id)
+#     '''get_id receives a dictionary containing a list'''
+#     get_entry = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id['entry_id']),
+#                                 headers=sample_login(client))
+#     assert post_entry.status_code == 201
+#     assert get_entry.status_code == 200
+#     message = json_reply(get_entry)
+#     assert message['title'] == 'Title'
 
 
 # def test_modifiy_entry(client):

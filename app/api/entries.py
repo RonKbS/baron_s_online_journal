@@ -34,17 +34,17 @@ def login():
     try:
         auth = request.get_json() or {}
 
-        if not auth['name'] or not auth['password']:
-            return jsonify({'Error': 'Wrong credentials entered'}), 400
-
         logged_user = db.find_user_by_name(auth['name'])
+
+        if not logged_user:
+            return jsonify({'Error': 'Wrong credentials entered'}), 400
 
         if Users.check_password(logged_user['password'], auth['password']):
             token = jwt.encode({'id': logged_user['user_id'],
                                 'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
             return jsonify({'token': token.decode('UTF-8')})
-        return jsonify({'Error': 'No such user'}), 400
+        return jsonify({'Error': 'Wrong credentials entered'}), 400
     except BaseException:
         return jsonify({'Error': 'Wrong format used'}), 400
 
