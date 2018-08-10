@@ -22,7 +22,7 @@ class Users:
             'email': email,
             'password': password
         }
-        db.adds_a(User)
+        db.adds(User)
         return User
 
     @staticmethod

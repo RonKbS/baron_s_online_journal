@@ -47,21 +47,13 @@ class db:
         columns = ', '.join(entry.keys())
         ob = db()
         cur = ob.connection.cursor()
-        sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (
+        if len(entry) == 4:
+            sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (
             columns, placeholders)
+        elif len(entry) < 4:
+            sql = '''INSERT INTO users ( %s ) VALUES ( %s )''' % (
+                columns, placeholders)
         cur.execute(sql, list(entry.values()))
-        cur.close()
-
-    @staticmethod
-    def adds_a(user):
-        """Add new usser to user table"""
-        placeholders = ', '.join(['%s'] * len(user))
-        columns = ', '.join(user.keys())
-        ob = db()
-        cur = ob.connection.cursor()
-        sql = '''INSERT INTO users ( %s ) VALUES ( %s )''' % (
-            columns, placeholders)
-        cur.execute(sql, list(user.values()))
         cur.close()
 
     @staticmethod
