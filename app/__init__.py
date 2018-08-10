@@ -4,6 +4,7 @@ from config import Config
 import os
 
 app = Flask(__name__)
+app.config.from_object(Config)
 app.config['TESTING'] = False
 datab = db()
 datab.create_tables('users', 'entries')
