@@ -12,6 +12,7 @@ user_sign_in = {'name': 'jon', 'password': 'words'}
 entry = {"title": "Title", "content": 'New content added'}
 moded_entry = {"title": "Changed Title", "content": 'Modified content'}
 
+
 def post_json(client, url, json_dict):
     return client.post(url, data=json.dumps(json_dict),
                        headers=sample_login(client),
@@ -67,12 +68,15 @@ def test_add_entry(client):
 
 
 def test_get_entry(client):
-    '''Create entry that has an id of one, changing previous content id to 2'''
-    post_entry = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-             entry)
+    '''Create entry that has an id of one'''
+    post_entry = post_json(
+        client,
+        'http://127.0.0.1:5000/api/v1/entries',
+        entry)
     '''get_id receives a dictionary containing a list'''
-    get_entry = client.get('http://127.0.0.1:5000/api/v1/entries/1',
-                                headers=sample_login(client))
+    get_entry = client.get(
+        'http://127.0.0.1:5000/api/v1/entries/1',
+        headers=sample_login(client))
     assert post_entry.status_code == 201
     assert get_entry.status_code == 200
     message = json_reply(get_entry)
@@ -81,20 +85,21 @@ def test_get_entry(client):
 
 def test_modifiy_entry(client):
     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-             entry)
-    response_to_change = client.put('http://127.0.0.1:5000/api/v1/entries/1', 
-                                    headers=sample_login(client),
-                                    data = json.dumps(moded_entry),
-                                    content_type = 'application/json')
+              entry)
+    response_to_change = client.put(
+        'http://127.0.0.1:5000/api/v1/entries/1',
+        headers=sample_login(client),
+        data=json.dumps(moded_entry),
+        content_type='application/json')
     assert response_to_change.status_code == 201
 
 
 def test_delete_entry(client):
     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-             entry)
-    '''Following test to get entry, this is the second entry added hence the id of two'''
+              entry)
     id = 1
-    response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id),
-                              headers=sample_login(client))
+    response = client.delete(
+        'http://127.0.0.1:5000/api/v1/entries/' + str(id),
+        headers=sample_login(client))
     assert response.status_code == 200
     assert json_reply(response) == {"Message": 'Entry deleted'}

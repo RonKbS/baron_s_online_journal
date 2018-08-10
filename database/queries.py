@@ -107,7 +107,8 @@ class db:
         ob = db()
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s''' % (
+        sql = \
+        '''SELECT * FROM entries WHERE user_id=%s AND entry_id=%s''' % (
             user_id, entry_id)
         cur.execute(sql)
         entry = cur.fetchone()
@@ -120,7 +121,8 @@ class db:
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
         sql = "UPDATE entries SET title ='{0}', content ='{1}\
-                ' WHERE user_id='{2}' AND entry_id='{3}'".format(title, content, user_id, entry_id)
+                ' WHERE user_id='{2}' AND entry_id='{3}'"\
+                .format(title, content, user_id, entry_id)
         cur.execute(sql)
         cur.close()
 
@@ -129,7 +131,8 @@ class db:
         ob = db()
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'".format(
-            user_id, entry_id)
+        sql = \
+        "DELETE FROM entries WHERE user_id='{0}' AND entry_id='{1}'"\
+        .format(user_id, entry_id)
         cur.execute(sql)
         cur.close()

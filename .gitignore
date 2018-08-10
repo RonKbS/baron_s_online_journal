@@ -3,3 +3,4 @@ venv_mydiary/
 .pytest_cache/
 htmlcov/
 .coverage
+app/.env
