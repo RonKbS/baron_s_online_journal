@@ -1,5 +1,6 @@
 import json
 import pytest
+import psycopg2
 from database.queries import db
 from datetime import datetime
 from app import app
@@ -23,6 +24,15 @@ def json_reply(reponse):
 
 @pytest.fixture
 def client(request):
+    # test_db.create_tables('users', 'entries')
+    app.config['datab.connection'] = psycopg2.connect(
+            database='users',
+            user='postgres',
+            password=' ',
+            host='localhost',
+            port='5432')
+    test_db = db()
+    test_db.create_tables('users', 'entries')
     test_client = app.test_client()
     test_client.post('http://127.0.0.1:5000/api/v1/auth/signup',
                      data=json.dumps(user),
@@ -31,8 +41,8 @@ def client(request):
     yield test_client
 
     commands = (
-        "DELETE FROM entries",
-        "DELETE FROM users WHERE name='{}'".format('jon')
+        "DROP TABLE entries",
+        "DROP TABLE users"
     )
     ob = db()
     cur = ob.connection.cursor()
@@ -63,20 +73,17 @@ def test_add_entry(client):
     assert json_reply(response) == {"Message": 'Entry added'}
 
 
-# def test_get_entry(client):
-#     '''Create entry that has an id of one, changing previous content id to 2'''
-#     post_entry = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-#              entry)
-#     get_id = client.get('http://127.0.0.1:5000/api/v1/entries',
-#                                 headers=sample_login(client))
-#     id = json_reply(get_id)
-#     '''get_id receives a dictionary containing a list'''
-#     get_entry = client.get('http://127.0.0.1:5000/api/v1/entries/' + str(id['entry_id']),
-#                                 headers=sample_login(client))
-#     assert post_entry.status_code == 201
-#     assert get_entry.status_code == 200
-#     message = json_reply(get_entry)
-#     assert message['title'] == 'Title'
+def test_get_entry(client):
+    '''Create entry that has an id of one, changing previous content id to 2'''
+    post_entry = post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
+             entry)
+    '''get_id receives a dictionary containing a list'''
+    get_entry = client.get('http://127.0.0.1:5000/api/v1/entries/1',
+                                headers=sample_login(client))
+    assert post_entry.status_code == 201
+    assert get_entry.status_code == 200
+    message = json_reply(get_entry)
+    assert message['title'] == 'Title'
 
 
 # def test_modifiy_entry(client):
