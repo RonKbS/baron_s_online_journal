@@ -10,7 +10,7 @@ from app.api import entries
 user = {'name': 'jon', 'email': 'ron@gmail.com', 'password': 'words'}
 user_sign_in = {'name': 'jon', 'password': 'words'}
 entry = {"title": "Title", "content": 'New content added'}
-
+moded_entry = {"title": "Changed Title", "content": 'Modified content'}
 
 def post_json(client, url, json_dict):
     return client.post(url, data=json.dumps(json_dict),
@@ -86,13 +86,14 @@ def test_get_entry(client):
     assert message['title'] == 'Title'
 
 
-# def test_modifiy_entry(client):
-#     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-#              {"content": ' content to be modified'})
-#     response_to_change = client.put('http://127.0.0.1:5000/api/v1/entries/1', data=
-#                                     json.dumps({"content": 'content modified'}),
-#                                     content_type = 'application/json')
-#     assert response_to_change.status_code == 201
+def test_modifiy_entry(client):
+    post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
+             entry)
+    response_to_change = client.put('http://127.0.0.1:5000/api/v1/entries/1', 
+                                    headers=sample_login(client),
+                                    data = json.dumps(moded_entry),
+                                    content_type = 'application/json')
+    assert response_to_change.status_code == 201
 
 
 # def test_delete_entry(client):

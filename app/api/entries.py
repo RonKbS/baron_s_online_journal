@@ -112,7 +112,7 @@ def change_entry(user_id, entry_id):
         entry_id,
         new_entry['title'],
         new_entry['content'])
-    return jsonify({"Message": 'Entry has been modified'}), 200
+    return jsonify({"Message": 'Entry has been modified'}), 201
 
 
 @bp.route('/entries/<int:entry_id>', methods=['DELETE'])

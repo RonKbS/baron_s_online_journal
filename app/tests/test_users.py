@@ -15,13 +15,15 @@ class TestUsers(unittest.TestCase):
     '''Run the following code before all tests'''
 
     def setUp(self):
+        test_db = db()
+        test_db.create_tables('users', 'entries')
         self.test_client = app.test_client()
         app.testing = True
 
     def tearDown(self):
         commands = (
-            "DELETE FROM entries",
-            "DELETE FROM users WHERE name='{}'".format('jon')
+            "DROP TABLE entries",
+            "DROP TABLE users"
         )
         ob = db()
         cur = ob.connection.cursor()
