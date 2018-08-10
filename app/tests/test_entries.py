@@ -24,13 +24,6 @@ def json_reply(reponse):
 
 @pytest.fixture
 def client(request):
-    # test_db.create_tables('users', 'entries')
-    app.config['datab.connection'] = psycopg2.connect(
-            database='users',
-            user='postgres',
-            password=' ',
-            host='localhost',
-            port='5432')
     test_db = db()
     test_db.create_tables('users', 'entries')
     test_client = app.test_client()
@@ -96,11 +89,12 @@ def test_modifiy_entry(client):
     assert response_to_change.status_code == 201
 
 
-# def test_delete_entry(client):
-#     post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
-#              {"content": 'New content to be deleted'})
-#     '''Following test to get entry, this is the second entry added hence the id of two'''
-#     id = 1
-#     response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id))
-#     assert response.status_code == 200
-#     assert json_reply(response) == {"200": 'Entry deleted'}
+def test_delete_entry(client):
+    post_json(client, 'http://127.0.0.1:5000/api/v1/entries',
+             entry)
+    '''Following test to get entry, this is the second entry added hence the id of two'''
+    id = 1
+    response = client.delete('http://127.0.0.1:5000/api/v1/entries/' + str(id),
+                              headers=sample_login(client))
+    assert response.status_code == 200
+    assert json_reply(response) == {"Message": 'Entry deleted'}
