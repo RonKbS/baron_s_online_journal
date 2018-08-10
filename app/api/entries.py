@@ -54,18 +54,23 @@ def add_user():
     try:
         user = request.get_json() or {}
 
-        if (not db.find_user_by_name(
-                user['name'])) and is_email(user['email']):
+        if (db.reg_ex(user['name']) == False\
+        or db.reg_ex(user['password']) == False) or\
+        (len(user['name']) and len(user['password'])) < 5:
+            return jsonify(
+                {'Error': 'Password and username should be atleast \
+                 5 alphanumeric characters and contain no spaces'}), 400
+
+        if not is_email(user['email']):
+            return jsonify({'Error': 'Wrong email, format'}), 400
+
+        if not db.find_user_by_name(user['name']):
             Users.add_user(
                 user['name'],
                 user['email'],
                 Diary.set_password(
                     user['password']))
             return jsonify({'Message': 'User added'}), 201
-
-        if (len(user['name']) and len(user['password'])) < 5:
-            return jsonify(
-                {'Error': 'Password and/or username too short'}), 400
         return jsonify({'Error': 'User exists'}), 400
     except BaseException:
         return jsonify({'Error': 'Wrong format used'}), 400

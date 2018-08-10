@@ -1,4 +1,5 @@
 import os
+import re
 import psycopg2
 import psycopg2.extras
 
@@ -39,6 +40,15 @@ class db:
             cur.execute(command)
         cur.close()
         self.connection.close()
+
+    @staticmethod
+    def reg_ex(word):
+        u_name = re.compile(r'^[a-zA-Z_]*$')
+        p_word = re.compile(r'^[a-zA-Z0-9_]*$')
+        if u_name.match(word) or p_word.match(word):
+            return True
+        return False
+
 
     @staticmethod
     def adds(entry):
