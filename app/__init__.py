@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.config['TESTING'] = False
 app.config['connection'] = psycopg2.connect(
-            database='travis_ci_test',
+            database='users',
             user='postgres',
             password=' ',
             host='localhost',

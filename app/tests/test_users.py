@@ -18,7 +18,7 @@ class TestUsers(unittest.TestCase):
     def setUp(self):
         app.config['DEBUG'] = True
         app.config['connection'] = psycopg2.connect(
-            database='users',
+            database='travis_ci_test',
             user='postgres',
             password=' ',
             host='localhost',
@@ -35,7 +35,6 @@ class TestUsers(unittest.TestCase):
         )
         conn = app.config['connection']
         cur = conn.cursor()
-        # cur = ob.connection.cursor()
         for command in commands:
             cur.execute(command)
         cur.close()

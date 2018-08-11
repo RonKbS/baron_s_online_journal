@@ -11,7 +11,7 @@ class db:
         # psycopg2.connect(
         #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
-
+    
     def create_tables(self, users, entries):
         """create tables in the PostgreSQL database"""
         commands = (
