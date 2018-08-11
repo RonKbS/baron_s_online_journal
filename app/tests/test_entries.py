@@ -25,13 +25,7 @@ def json_reply(reponse):
 
 @pytest.fixture
 def client(request):
-    app.config['DEBUG'] = True
-    app.config['connection'] = psycopg2.connect(
-        database='travis_ci_test',
-        user='postgres',
-        password=' ',
-        host='localhost',
-        port='5432')
+    app.config['TESTING'] = True
     test_db = db()
     test_db.create_tables('users', 'entries')
     test_client = app.test_client()
