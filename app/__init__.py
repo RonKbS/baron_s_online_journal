@@ -8,14 +8,14 @@ app = Flask(__name__)
 app.config.from_object(Config)
 if app.config['TESTING'] == False:
     app.config['connection'] = psycopg2.connect(
-                database='users',
+                database='travis_ci_test',
                 user='postgres',
                 password=' ',
                 host='localhost',
                 port='5432')
 elif app.config['TESTING'] == True:
     app.config['connection'] = psycopg2.connect(
-                database='travis_ci_test',
+                database='users',
                 user='postgres',
                 password=' ',
                 host='localhost',
