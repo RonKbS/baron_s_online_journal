@@ -1,4 +1,5 @@
 import json
+import psycopg2
 from database.queries import db
 from datetime import datetime
 from app import app
@@ -15,6 +16,13 @@ class TestUsers(unittest.TestCase):
     '''Run the following code before all tests'''
 
     def setUp(self):
+        app.config['DEBUG'] = True
+        app.config['connection'] = psycopg2.connect(
+            database='users',
+            user='postgres',
+            password=' ',
+            host='localhost',
+            port='5432')
         test_db = db()
         test_db.create_tables('users', 'entries')
         self.test_client = app.test_client()
@@ -25,8 +33,9 @@ class TestUsers(unittest.TestCase):
             "DROP TABLE entries",
             "DROP TABLE users"
         )
-        ob = db()
-        cur = ob.connection.cursor()
+        conn = app.config['connection']
+        cur = conn.cursor()
+        # cur = ob.connection.cursor()
         for command in commands:
             cur.execute(command)
         cur.close()

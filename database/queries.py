@@ -2,16 +2,12 @@ import os
 import re
 import psycopg2
 import psycopg2.extras
+from app import app
 
 
 class db:
     def __init__(self):
-        self.connection = psycopg2.connect(
-            database='travis_ci_test',
-            user='postgres',
-            password=' ',
-            host='localhost',
-            port='5432')
+        self.connection = app.config['connection']
         # psycopg2.connect(
         #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
@@ -39,7 +35,6 @@ class db:
         for command in commands:
             cur.execute(command)
         cur.close()
-        self.connection.close()
 
     @staticmethod
     def reg_ex(word):
@@ -75,7 +70,6 @@ class db:
         cur.execute(sql)
         user = cur.fetchone()
         cur.close()
-        ob.connection.close()
         return user
 
     @staticmethod
@@ -87,7 +81,6 @@ class db:
         cur.execute(sql)
         user = cur.fetchone()
         cur.close()
-        ob.connection.close()
         if user:
             return user
         return False
@@ -100,7 +93,6 @@ class db:
         sql = '''SELECT * FROM entries WHERE user_id=%s''' % (user_id)
         cur.execute(sql)
         entries = cur.fetchall()
-        ob.connection.close()
         cur.close()
         return entries
 
