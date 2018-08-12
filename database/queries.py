@@ -22,9 +22,9 @@ class db:
             password VARCHAR(150) NOT NULL\
             )".format(users),
             "CREATE TABLE IF NOT EXISTS {} (\
+            title VARCHAR(30),\
             user_id INTEGER NOT NULL,\
             date VARCHAR(30) NOT NULL,\
-            title VARCHAR(30),\
             content VARCHAR(500),\
             entry_id SERIAL PRIMARY KEY,\
             FOREIGN KEY (user_id)\
