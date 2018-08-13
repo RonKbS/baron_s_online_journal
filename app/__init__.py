@@ -2,6 +2,7 @@ import os
 import psycopg2
 from flask import Flask
 from config import Config
+from flask_mail import Mail
 
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ app.config['connection'] = psycopg2.connect(
             password=' ',
             host='localhost',
             port='5432')
+mail = Mail(app)
 
 from database.queries import db
 datab = db()

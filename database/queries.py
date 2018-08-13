@@ -3,7 +3,14 @@ import re
 import psycopg2
 import psycopg2.extras
 from pyisemail import is_email
-from app import app
+from flask_mail import Message
+from app import app, mail
+
+
+def send_reminders(subject, sender, recipient, json_body):
+    msg = Message(subject=subject, sender=sender, recipients=recipient)
+    msg.body = json_body['body']
+    mail.send(msg)
 
 
 class db:
