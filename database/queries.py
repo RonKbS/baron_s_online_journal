@@ -2,6 +2,7 @@ import os
 import re
 import psycopg2
 import psycopg2.extras
+from pyisemail import is_email
 from app import app
 
 
@@ -118,6 +119,23 @@ class db:
                 ' WHERE user_id='{2}' AND entry_id='{3}'"\
                 .format(title, content, user_id, entry_id)
         cur.execute(sql)
+        cur.close()
+
+    @staticmethod
+    def update_user_details(user_id, *args):
+        ob = db()
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        if args is not None and is_email(args):
+            sql = "UPDATE users SET email ='{0}\
+                ' WHERE user_id='{1}'"\
+                .format(args, user_id)
+            cur.execute(sql)
+        elif args is not None and not is_email(args):
+            sql = "UPDATE users SET password ='{0}\
+                ' WHERE user_id='{1}'"\
+                .format(args, user_id)
+            cur.execute(sql)
         cur.close()
 
     @staticmethod
