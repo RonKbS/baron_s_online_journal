@@ -10,7 +10,8 @@ import unittest
 user = {'name': 'jon', 'email': 'ron@gmail.com', 'password': 'words'}
 user_sign_in = {'name': 'jon', 'password': 'words'}
 wrong_user = {'name': 'ron', 'password': 'words'}
-
+moded_email = {"email": "new@email.com"}
+moded_password = {"password": "laaaadidiaaa"}
 
 class TestUsers(unittest.TestCase):
     '''Run the following code before all tests'''
@@ -78,3 +79,28 @@ class TestUsers(unittest.TestCase):
         self.assertTrue(request2.status_code, 400)
         response = json.loads(request2.data.decode())
         self.assertIn(response['Error'], 'Wrong credentials entered')
+
+    def test_update_details(self):
+        self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/auth/signup',
+            data=json.dumps(user),
+            content_type='application/json')
+        response = self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/login',
+            data=json.dumps(user_sign_in),
+            content_type='application/json')
+        token = json.loads(response.data.decode('utf-8'))
+
+        response_to_email_change = self.test_client.put(
+            'http://127.0.0.1:5000/api/v1/account',
+            headers=token,
+            data=json.dumps(moded_email),
+            content_type='application/json')
+        self.assertTrue(response_to_email_change.status_code, 201)
+
+        response_to_password_change = self.test_client.put(
+            'http://127.0.0.1:5000/api/v1/account',
+            headers=token,
+            data=json.dumps(moded_password),
+            content_type='application/json')
+        self.assertTrue(response_to_password_change.status_code, 201)

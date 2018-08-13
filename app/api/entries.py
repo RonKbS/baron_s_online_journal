@@ -76,6 +76,22 @@ def add_user():
         return jsonify({'Error': 'Wrong format used'}), 400
 
 
+@bp.route('/account', methods=['PUT'])
+@token_required
+def update(user_id):
+    try:
+        details = request.get_json() or {}
+        if is_email(details['email']):
+            Users.modify_detail(user_id, details['email'])
+            return jsonify({"Message": 'Email has been changed'}), 201
+        elif db.reg_ex(details['password']) and len(details['password']) > 5:
+            Users.modify_detail(user_id, details['email'])
+            return jsonify({"Message": 'Password has been changed'}), 201
+        return jsonify({'Message': 'Details incorrectly worded'})
+    except BaseException:
+        return jsonify({'Error': 'Wrong format used'}), 400
+
+
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
 @token_required
 def get_entry(user_id, entry_id):
@@ -113,7 +129,7 @@ def change_entry(user_id, entry_id):
             new_entry['content']) == 'No such entry':
         return jsonify({"Error": 'No such entry'}), 200
     Diary.modify_entry(
-        entry_id,
+        user_id,
         entry_id,
         new_entry['title'],
         new_entry['content'])

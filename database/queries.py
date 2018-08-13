@@ -122,19 +122,19 @@ class db:
         cur.close()
 
     @staticmethod
-    def update_user_details(user_id, *args):
+    def update_user_details(user_id, detail):
         ob = db()
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        if args is not None and is_email(args):
+        if detail is not None and is_email(detail):
             sql = "UPDATE users SET email ='{0}\
                 ' WHERE user_id='{1}'"\
-                .format(args, user_id)
+                .format(detail, user_id)
             cur.execute(sql)
-        elif args is not None and not is_email(args):
+        elif detail is not None and not is_email(detail):
             sql = "UPDATE users SET password ='{0}\
                 ' WHERE user_id='{1}'"\
-                .format(args, user_id)
+                .format(detail, user_id)
             cur.execute(sql)
         cur.close()
 

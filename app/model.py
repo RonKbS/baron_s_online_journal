@@ -26,6 +26,10 @@ class Users:
         return User
 
     @staticmethod
+    def modify_detail(user_id, detail):
+        db.update_user_details(user_id, detail)
+
+    @staticmethod
     def find_user_by_id(user_id):
         for user in Diary.entries:
             if user_id == user["ID"]:
