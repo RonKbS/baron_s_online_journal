@@ -1,7 +1,9 @@
-form = new FormData(document.getElementById('creds'))
+//https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js
+
+let form = document.getElementById('creds');
 
 function signup() {
-    fetch('http://127.0.0.1:5000/api/v1/auth/signup', {
+    GlobalFetch.fetch('http://localhost/api/v1/auth/signup', {
             method: 'POST',
             body: JSON.stringify({
                 'name': form.get('name'),
