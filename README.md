@@ -1,6 +1,5 @@
-[![Build Status](https://travis-ci.com/RonKbS/baron_s_online_journal.svg?branch=api_feature)](https://travis-ci.com/RonKbS/baron_s_online_journal)
-[![Coverage Status](https://coveralls.io/repos/github/RonKbS/baron_s_online_journal/badge.svg)](https://coveralls.io/github/RonKbS/baron_s_online_journal)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/test_coverage)](https://codeclimate.com/github/codeclimate/codeclimate/test_coverage)
+[![Build Status](https://travis-ci.com/RonKbS/baron_s_online_journal.svg?branch=challenge_3)](https://travis-ci.com/RonKbS/baron_s_online_journal)
+[![Coverage Status](https://coveralls.io/repos/github/RonKbS/baron_s_online_journal/badge.svg?branch=challenge_3)](https://coveralls.io/github/RonKbS/baron_s_online_journal?branch=challenge_3)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8f742ab7eebfdcf3af26/maintainability)](https://codeclimate.com/github/RonKbS/baron_s_online_journal/maintainability)
 
 # MyDiary
@@ -11,8 +10,9 @@ The MyDiary app is one that stores your thoughts safely online. It includes html
 UI branch and a python-flask API on the api_branch
 
 # Getting started
+To run the MyDiary app on pc, create a postgres database for a postgres user and a blank password,
 
-To run the MyDiary app on pc, clone from the following url:
+Then clone from the following url:
 ````
 https://github.com/RonKbS/baron_s_online_journal.git
 ````
@@ -21,10 +21,19 @@ https://github.com/RonKbS/baron_s_online_journal.git
 
 Set up a virtual environment and activate it, there after running the following from the same folder:
 ````
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ````
 This will install all required packages
 Note that python needs to be installed globally
+
+### Run the app
+The application is then run by:
+````
+set FLASK_APP=MyDiary
+
+flask run
+````
+Note: Replace set with export if running linux
 
 ## Running tests
 
@@ -42,7 +51,7 @@ coverage html
 ## Deployment
 
 API hosted at:
-http://bbron-s-mydiary.herokuapp.com/api/v1/entries
+https://baron-s-mydiary.herokuapp.com/api/v1/auth/signup
 
 ## Built With
 

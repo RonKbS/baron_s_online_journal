@@ -1,7 +1,6 @@
 venv_mydiary/
-__pycache__/
-mydiary/__pycache__/
-mydiary/api/__pycache__/
+**/__pycache__/*
 .pytest_cache/
-MyDiary/api/__pycache__/entries.cpython-36.pyc
 htmlcov/
+.coverage
+app/.env
