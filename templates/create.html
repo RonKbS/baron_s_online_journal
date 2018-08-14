@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="app.js"></script>
     <link rel="stylesheet" href="static/styles.css">
     <title>MyDiary</title>
 </head>
+
 <body>
-    <a href="index.html"><h1 class="appear">MyDiary</h1></a>
+    <a href="index.html">
+        <h1 class="appear">MyDiary</h1>
+    </a>
     <h2 class="appear">Online Diary</h2>
     <div class="appear">Fill in the form to start an online diary:</div>
-    <form action="index.html">
+    <form method='post' action="" id="creds">
         <table id="credentials" class="appear">
             <tr>
                 <td>
@@ -19,13 +25,13 @@
                 </td>
             </tr>
             <tr>
-                    <td>
-                        <input type="text" id="name" required>
-                    </td>
-                </tr>
+                <td>
+                    <input type="text" id="name" required>
+                </td>
+            </tr>
             <tr>
                 <td>
-                        <label for="mail">Email</label>
+                    <label for="mail">email</label>
                 </td>
             </tr>
             <tr>
@@ -35,7 +41,7 @@
             </tr>
             <tr>
                 <td>
-                    <label for="lock">Lock Key</label>
+                    <label for="lock">password</label>
                 </td>
             </tr>
             <tr>
@@ -43,7 +49,11 @@
                     <input type="password" id="lock" minlength="4" required>
                 </td>
             </tr>
-            <tr><td><input type="submit" value="Create"></td></tr>
+            <tr>
+                <td>
+                    <input type="submit" onclick="signup()" value="Create">
+                </td>
+            </tr>
         </table>
     </form>
     </form>

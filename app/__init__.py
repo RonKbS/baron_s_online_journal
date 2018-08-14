@@ -2,9 +2,11 @@ import os
 import psycopg2
 from flask import Flask
 from config import Config
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 app.config['TESTING'] = False
 app.config['connection'] = psycopg2.connect(
