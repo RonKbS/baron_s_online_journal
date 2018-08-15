@@ -1,18 +1,17 @@
-// https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js
 
-$(document).ready(function (){
-    function signup() {
-        //let form = document.getElementById('creds');
-        fetch('http://localhost/api/v1/auth/signup', {
-                method: 'POST',
-                mode: 'cors',
-                body: JSON.stringify({
-                    'name': document.getElementById('name'),
-                    'email': document.getElementById('mail'),
-                    'password': document.getElementById('lock')
-                })
-            })
-            .then(response => console.log('Success:', response.json()))
-            .catch(error => console.error('Error:', error))
-    }
-});
+function signup() {
+    // Let form = document.getElementById('creds');
+    fetch('http://127.0.0.1:5000/api/v1/auth/signup', {
+            method: 'POST',
+            body: JSON.stringify({
+                'name': document.getElementById('name').value,
+                'email': document.getElementById('mail').value,
+                'password': document.getElementById('lock').value
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => console.log('Success:', response.json()))
+        .catch(error => console.error('Error:', error))
+}
