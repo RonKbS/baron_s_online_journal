@@ -2,7 +2,7 @@ import jwt
 import datetime
 from pyisemail import is_email
 from config import Config
-from flask import jsonify, request, make_response
+from flask import jsonify, request, make_response, redirect
 from app import model
 from app.api import bp
 from app.model import Users, Diary
@@ -27,6 +27,11 @@ def token_required(f):
             return jsonify({'message': 'Token is invalid!'}), 401
         return f(current_user['user_id'], *args, **kwargs)
     return decorated
+
+
+@bp.route('/docs')
+def docs():
+    return redirect('https://baronsmydiary.docs.apiary.io/')
 
 
 @bp.route('/login', methods=['POST'])
