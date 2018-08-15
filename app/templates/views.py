@@ -6,3 +6,8 @@ from app.templates import bp
 @bp.route('/index')
 def index():
     return render_template('index.html')
+
+
+@bp.route('/create')
+def create():
+    return render_template('create.html')
