@@ -92,6 +92,12 @@ def update(user_id):
         return jsonify({'Error': 'Wrong format used'}), 400
 
 
+@bp.route('/account/notifications', methods=['POST'])
+@token_required
+def notifications(user_id):
+    pass
+
+
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
 @token_required
 def get_entry(user_id, entry_id):

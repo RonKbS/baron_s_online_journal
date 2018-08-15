@@ -12,6 +12,7 @@ user_sign_in = {'name': 'jon', 'password': 'words'}
 wrong_user = {'name': 'ron', 'password': 'words'}
 moded_email = {"email": "new@email.com"}
 moded_password = {"password": "laaaadidiaaa"}
+send_email = {'send': 'monday'}
 
 class TestUsers(unittest.TestCase):
     '''Run the following code before all tests'''
@@ -32,6 +33,7 @@ class TestUsers(unittest.TestCase):
     def tearDown(self):
         commands = (
             "DROP TABLE entries",
+            "DROP TABLE notifications",
             "DROP TABLE users"
         )
         conn = app.config['connection']
@@ -110,3 +112,21 @@ class TestUsers(unittest.TestCase):
             data=json.dumps(moded_password),
             content_type='application/json')
         self.assertTrue(response_to_password_change.status_code, 201)
+
+    def test_notifications(self):
+        self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/auth/signup',
+            data=json.dumps(user),
+            content_type='application/json')
+        response = self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/login',
+            data=json.dumps(user_sign_in),
+            content_type='application/json')
+        token = json.loads(response.data.decode('utf-8'))
+
+        response = self.test_client.post(
+            'http://127.0.0.1:5000/api/v1/account/notifications',
+            headers=token,
+            data=json.dumps(send_email),
+            content_type='application/json')
+        self.assertTrue(response.status_code, 200)
