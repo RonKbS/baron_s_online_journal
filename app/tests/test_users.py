@@ -25,7 +25,7 @@ class TestUsers(unittest.TestCase):
             host='localhost',
             port='5432')
         test_db = db()
-        test_db.create_tables('users', 'entries')
+        test_db.create_tables('users', 'entries', 'notifications')
         self.test_client = app.test_client()
         app.testing = True
 

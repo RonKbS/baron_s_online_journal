@@ -20,7 +20,7 @@ class db:
         #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
     
-    def create_tables(self, users, entries):
+    def create_tables(self, users, entries, notifications):
         """create tables in the PostgreSQL database"""
         commands = (
             "CREATE TABLE IF NOT EXISTS {} (\
@@ -37,7 +37,19 @@ class db:
             entry_id SERIAL PRIMARY KEY,\
             FOREIGN KEY (user_id)\
                 REFERENCES Users (user_id)\
-            )".format(entries)
+            )".format(entries),
+            "CREATE TABLE IF NOT EXISTS {} (\
+            user_id INTEGER NOT NULL,\
+            Monday BOOLEAN DEFAULT false,\
+            Tuesday BOOLEAN DEFAULT false,\
+            Wednesday BOOLEAN DEFAULT false,\
+            Thursday BOOLEAN DEFAULT false,\
+            Friday BOOLEAN DEFAULT false,\
+            Saturday BOOLEAN DEFAULT false,\
+            Sunday BOOLEAN DEFAULT false,\
+            FOREIGN KEY (user_id)\
+                REFERENCES Users (user_id)\
+            )".format(notifications)
         )
         cur = self.connection.cursor()
         for command in commands:

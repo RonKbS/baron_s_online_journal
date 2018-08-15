@@ -18,7 +18,7 @@ mail = Mail(app)
 
 from database.queries import db
 datab = db()
-datab.create_tables('users', 'entries')
+datab.create_tables('users', 'entries', 'notifications')
 
 from app.api import bp as bp_api
 app.register_blueprint(bp_api, url_prefix='/api/v1')

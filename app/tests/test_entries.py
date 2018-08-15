@@ -33,7 +33,7 @@ def client(request):
             host='localhost',
             port='5432')
     test_db = db()
-    test_db.create_tables('users', 'entries')
+    test_db.create_tables('users', 'entries', 'notifications')
     test_client = app.test_client()
     test_client.post('http://127.0.0.1:5000/api/v1/auth/signup',
                      data=json.dumps(user),
