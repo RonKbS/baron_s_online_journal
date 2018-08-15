@@ -75,10 +75,15 @@ class db:
         if len(entry) == 4:
             sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (
             columns, placeholders)
+            cur.execute(sql, list(entry.values()))
         elif len(entry) < 4:
             sql = '''INSERT INTO users ( %s ) VALUES ( %s )''' % (
                 columns, placeholders)
-        cur.execute(sql, list(entry.values()))
+            cur.execute(sql, list(entry.values()))
+            user = db.find_user_by_name(entry['name'])
+            notifs = '''INSERT INTO notifications VALUES ( %s )''' % (
+                user['user_id'])
+            cur.execute(notifs)
         cur.close()
 
     @staticmethod
