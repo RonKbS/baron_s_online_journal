@@ -63,8 +63,7 @@ def add_user():
         or db.reg_ex(user['password']) == False) or\
         (len(user['name']) and len(user['password'])) < 5:
             return jsonify(
-                {'Error': 'Password and username should be atleast \
-                 5 alphanumeric characters and contain no spaces'}), 400
+                {'Error': 'Password and username should be atleast 5 alphanumeric characters and contain no spaces'}), 400
 
         if not is_email(user['email']):
             return jsonify({'Error': 'Wrong email, format'}), 400

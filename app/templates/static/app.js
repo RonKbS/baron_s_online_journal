@@ -11,6 +11,7 @@ function signup() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(window.location.href = 'index.html', Body => Body.body)
-        .then(data => alert(data))
+        }).then(Body => Body.json())
+        .then(data => alert(data['Error']))
+        // .then(window.location.href = 'index.html')
 }
