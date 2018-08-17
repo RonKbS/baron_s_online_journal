@@ -11,6 +11,7 @@ function signup() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(Response => Response.body)
+        }).then(Body => Body.text())
+        .then(data => console.log(data))
         .catch(error => console.log(error.body))
 }
