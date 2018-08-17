@@ -12,6 +12,6 @@ function signup() {
                 'Content-Type': 'application/json'
             }
         }).then(Body => Body.text())
-        .then(data => console.log(data))
-        .catch(error => console.log(error.body))
+        .then(data => alert(data), data => alert(data))
+        .catch(error => console.log(error))
 }
