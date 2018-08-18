@@ -48,7 +48,7 @@ def login():
             token = jwt.encode({'id': logged_user['user_id'],
                                 'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
-            return jsonify({'Message': token.decode('UTF-8')})
+            return jsonify({'token': token.decode('UTF-8')})
         return jsonify({'Message': 'Wrong credentials entered'}), 400
     except BaseException:
         return jsonify({'Message': 'Wrong format used'}), 400

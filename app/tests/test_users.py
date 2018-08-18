@@ -47,7 +47,7 @@ class TestUsers(unittest.TestCase):
             content_type='application/json')
         self.assertEqual(request.status_code, 201)
         reponse = json.loads(request.data.decode())
-        self.assertIn(reponse['Message'], 'User added')
+        self.assertIn(reponse['Message'], "Karibu! Let's begin by logging in")
 
     def test_repeated_signup(self):
         request1 = self.test_client.post(
@@ -61,7 +61,7 @@ class TestUsers(unittest.TestCase):
         self.assertEqual(request1.status_code, 201)
         self.assertEqual(request2.status_code, 400)
         reponse = json.loads(request2.data.decode())
-        self.assertIn(reponse['Error'], 'User exists')
+        self.assertIn(reponse['Message'], 'User exists')
 
     def test_correct_login(self):
         self.test_client.post(
@@ -84,7 +84,7 @@ class TestUsers(unittest.TestCase):
                                content_type='application/json')
         self.assertTrue(request2.status_code, 400)
         response = json.loads(request2.data.decode())
-        self.assertIn(response['Error'], 'Wrong credentials entered')
+        self.assertIn(response['Message'], 'Wrong credentials entered')
 
     def test_update_details(self):
         self.test_client.post(
