@@ -12,24 +12,32 @@ function signup() {
                 'Content-Type': 'application/json'
             }
         }).then(Body => Body.json())
-        .then(data => alert(data['Message']))
-        // .then(window.location.href = 'index.html')
+        .then(data => {
+            alert(data['Message'])
+            return data['Message']
+        })
+        .finally(message => {
+            if (message === 'User added') {
+                window.location.href = 'index.html'
+            }
+        })
 }
 function login() {
     fetch('http://127.0.0.1:5000/api/v1/login', {
             method: 'POST',
-            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 'name': document.getElementById('name').value,
                 'password': document.getElementById('lock').value
             }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            mode: 'cors',
+            redirect: 'manual'
         })
-        .then(Body => Body.json())
+        .then(Response => Response.json())
+        .then(reply => console.log(reply['Message']))
         .catch(error => alert(error))
-        .then(reply => alert(reply['Message']))
         // Return window.alert(reply())
         /* .then(window.location.href = 'index.html')*/
 }
