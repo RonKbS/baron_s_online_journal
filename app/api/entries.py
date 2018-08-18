@@ -42,16 +42,16 @@ def login():
         logged_user = db.find_user_by_name(auth['name'])
 
         if not logged_user:
-            return jsonify({'Error': 'Wrong credentials entered'}), 400
+            return jsonify({'Message': 'Wrong credentials entered'}), 400
 
         if Users.check_password(logged_user['password'], auth['password']):
             token = jwt.encode({'id': logged_user['user_id'],
                                 'exp': datetime.datetime.utcnow() +
                                 datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
-            return jsonify({'token': token.decode('UTF-8')})
-        return jsonify({'Error': 'Wrong credentials entered'}), 400
+            return jsonify({'Message': token.decode('UTF-8')})
+        return jsonify({'Message': 'Wrong credentials entered'}), 400
     except BaseException:
-        return jsonify({'Error': 'Wrong format used'}), 400
+        return jsonify({'Message': 'Wrong format used'}), 400
 
 
 @bp.route('/auth/signup', methods=['POST'])
@@ -63,10 +63,10 @@ def add_user():
         or db.reg_ex(user['password']) == False) or\
         (len(user['name']) and len(user['password'])) < 5:
             return jsonify(
-                {'Error': 'Password and username should be atleast 5 alphanumeric characters and contain no spaces'}), 400
+                {'Message': 'Password and username should be atleast 5 alphanumeric characters and contain no spaces'}), 400
 
         if not is_email(user['email']):
-            return jsonify({'Error': 'Wrong email, format'}), 400
+            return jsonify({'Message': 'Wrong email, format'}), 400
 
         if not db.find_user_by_name(user['name']):
             Users.add_user(
@@ -75,9 +75,9 @@ def add_user():
                 Diary.set_password(
                     user['password']))
             return jsonify({'Message': 'User added'}), 201
-        return jsonify({'Error': 'User exists'}), 400
+        return jsonify({'Message': 'User exists'}), 400
     except BaseException:
-        return jsonify({'Error': 'Wrong format used'}), 400
+        return jsonify({'Message': 'Wrong format used'}), 400
 
 
 @bp.route('/account', methods=['PUT'])
