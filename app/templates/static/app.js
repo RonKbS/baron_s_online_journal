@@ -13,12 +13,13 @@ function signup() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            alert(data['Message'])
-            return data['Message']
-        })
-        .finally(message => {
-            if (message === 'User added') {
-                window.location.href = 'index.html'
+            if (data['Message'] === "Karibu! Let's begin by logging in") {
+                alert(data['Message']);
+                window.location.href = 'index.html';
+            }
+            else if (data['Message'] != 'User added') {
+                alert(data['Message']);
+                return data['Message'];
             }
         })
 }

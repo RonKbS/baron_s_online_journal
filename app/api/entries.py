@@ -74,7 +74,7 @@ def add_user():
                 user['email'],
                 Diary.set_password(
                     user['password']))
-            return jsonify({'Message': 'User added'}), 201
+            return jsonify({'Message': "Karibu! Let's begin by logging in"}), 201
         return jsonify({'Message': 'User exists'}), 400
     except BaseException:
         return jsonify({'Message': 'Wrong format used'}), 400
