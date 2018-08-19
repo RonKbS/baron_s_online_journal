@@ -13,7 +13,7 @@ function signup() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            if (data['Message'] === "Karibu! Let's begin by logging in") {
+            if (data['Message'] === 'Karibu! Let\'s begin by logging in') {
                 alert(data['Message']);
                 window.location.href = 'index.html';
             }
@@ -37,7 +37,10 @@ function login() {
             redirect: 'manual'
         })
         .then(Response => Response.json())
-        .then(reply => console.log(reply['Message']))
+        .then(reply => {
+            Cookies.set('token', reply['token']);
+            console.log(Cookies.get('token'));
+        })
         .catch(error => alert(error))
         // Return window.alert(reply())
         /* .then(window.location.href = 'index.html')*/
