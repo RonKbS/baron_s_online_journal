@@ -17,7 +17,7 @@ function signup() {
                 alert(data['Message']);
                 window.location.href = 'index.html';
             }
-            else if (data['Message'] != 'User added') {
+            else if (data['Message'] != 'Karibu! Let\'s begin by logging in') {
                 alert(data['Message']);
                 return data['Message'];
             }
@@ -38,13 +38,21 @@ function login() {
         })
         .then(Response => Response.json())
         .then(reply => {
-            // alert(String(reply['token']))
-            let key = 'token';
-            let value = reply['token'];
-            localStorage.setItem(key, value);
-            console.log(localStorage.getItem('token'));
+            if (!reply['Message']) {
+                let key = 'token';
+                let value = reply['token'];
+                localStorage.setItem(key, value);
+                console.log(localStorage.getItem('token'));
+                window.location.href = 'home_page.html';
+            } else if (reply['Message']) {
+                return alert(reply['Message'])
+            }
+            return true;
         })
         .catch(error => alert(error))
-        // Return window.alert(reply())
-        /* .then(window.location.href = 'index.html')*/
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    window.location.href = 'index.html';
 }
