@@ -39,11 +39,10 @@ function login() {
         .then(Response => Response.json())
         .then(reply => {
             // alert(String(reply['token']))
-            let value = 'token'
-            let key = reply['token']
-            console.log(key, value)
-            Cookies.set(key, value, {expires: 7 });
-            console.log(Cookies.get());
+            let key = 'token';
+            let value = reply['token'];
+            localStorage.setItem(key, value);
+            console.log(localStorage.getItem('token'));
         })
         .catch(error => alert(error))
         // Return window.alert(reply())
