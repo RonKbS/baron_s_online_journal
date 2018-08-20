@@ -38,8 +38,12 @@ function login() {
         })
         .then(Response => Response.json())
         .then(reply => {
-            Cookies.set('token', reply['token']);
-            console.log(Cookies.get('token'));
+            // alert(String(reply['token']))
+            let value = 'token'
+            let key = reply['token']
+            console.log(key, value)
+            Cookies.set(key, value, {expires: 7 });
+            console.log(Cookies.get());
         })
         .catch(error => alert(error))
         // Return window.alert(reply())
