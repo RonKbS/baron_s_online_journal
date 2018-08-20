@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="static/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="static/jquery-3.3.1.min.js"></script>
+    <script src="static/app.js"></script>
     <title>Entry</title>
 </head>
 <body>
@@ -21,9 +23,10 @@
             <ul><div class="appear">
                     <a href="home_page.html">Delete,</a>
                     <span>....</span><label for="entry">Edit, </label>
-                    <span>....</span><a href="home_page.html">Save</a>
+                    <span>....</span><input type="button" onclick="add_entry()" value="Save"></input>
             </ul></div>
-            <ul><textarea id="entry" cols="1" rows="30"></textarea></ul>
+            <ul><textarea id="entry" id="titles" class="appear" cols="1" rows="1"></textarea></ul>
+            <ul><textarea id="entry" id="adding" cols="1" rows="30"></textarea></ul>
         </li>
     </div>
 </body>

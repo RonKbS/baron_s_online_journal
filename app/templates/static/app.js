@@ -56,3 +56,29 @@ function logout() {
     localStorage.removeItem('token');
     window.location.href = 'index.html';
 }
+
+function add_entry() {
+    fetch('http://127.0.0.1:5000/api/v1/auth/entries', {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({
+                'title': document.getElementById('titles').value,
+                'content': document.getElementById('adding').value
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
+            }
+        }).then(Body => Body.json())
+        .then(data => {
+            if (data['Message'] === 'Entry added') {
+                alert('Thoughts immortalized');
+                window.location.href = 'home_page.html';
+            }
+            else if (data['Message'] != 'Entry added') {
+                alert(data['Message']);
+                return data['Message'];
+            }
+        })
+
+}
