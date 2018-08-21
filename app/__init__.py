@@ -23,3 +23,5 @@ datab.create_tables('users', 'entries')
 
 from app.api import bp as bp_api
 app.register_blueprint(bp_api, url_prefix='/api/v1')
+
+from app import views

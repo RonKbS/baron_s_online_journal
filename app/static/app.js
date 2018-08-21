@@ -58,9 +58,10 @@ function logout() {
 }
 
 function add_entry() {
-    fetch('http://127.0.0.1:5000/api/v1/auth/entries', {
+    fetch('http://127.0.0.1:5000/api/v1/entries', {
             method: 'POST',
             mode: 'cors',
+            credentials: 'include',
             body: JSON.stringify({
                 'title': document.getElementsByClassName('titles').value,
                 'content': document.getElementsByClassName('adding').value
@@ -73,12 +74,13 @@ function add_entry() {
         .then(data => {
             if (data['Message'] === 'Entry added') {
                 alert('Thoughts immortalized');
-                window.location.href = 'home_page.html';
+                return window.location.href = 'home_page.html';
             }
             else if (data['Message'] != 'Entry added') {
                 alert(data['Message']);
                 return data['Message'];
             }
         })
+        .catch(error => console.error(error))
 
 }
