@@ -62,9 +62,10 @@ function add_entry() {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
+            cache: 'reload',
             body: JSON.stringify({
-                'title': document.getElementsByClassName('titles').value,
-                'content': document.getElementsByClassName('adding').value
+                'title': document.getElementById('title').value,
+                'content': document.getElementById('content').value
             }),
             headers: {
                 'Content-Type': 'application/json',

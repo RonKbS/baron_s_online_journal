@@ -111,6 +111,19 @@ input {
     font-weight: bold;
 }
 
+.added {
+    color: white;
+    outline: none;
+    min-width: 100%;
+    width: 70%;
+    border-radius: 5px;
+    background-color: transparent; 
+    border-color: rgba(63, 36, 36, 0.473);
+    border-width: 4px;
+    box-shadow: 6px 6px rgba(245, 223, 223, 0.219);
+    font-style: italic;
+    font-weight: bold;
+}
 .each {
     height: 30px;
     width: 700px;
