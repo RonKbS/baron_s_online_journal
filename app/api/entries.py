@@ -18,13 +18,13 @@ def token_required(f):
         if 'token' in request.headers:
             token = request.headers['token']
         elif not token:
-            return jsonify({'token': 'Token is missing'}), 401
+            return jsonify({'Message': 'Token is missing'}), 401
         try:
             user_id = jwt.decode(token, Config.SECRET_KEY)
             current_user = db.find_user_by_id(user_id['id'])
         except BaseException:
             #import pdb; pdb.set_trace()
-            return jsonify({'message': 'Token is invalid!'}), 401
+            return jsonify({'Message': 'Token is invalid!'}), 401
         return f(current_user['user_id'], *args, **kwargs)
     return decorated
 

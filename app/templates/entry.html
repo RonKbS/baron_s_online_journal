@@ -15,7 +15,7 @@
     <div class="appear">
         <a href="account.html" class="appear">Account</a>
         ...or...
-        <a href="index.html" class="appear">Close Diary</a>
+        <input type="button" onclick="logout()" class="appear" value="Close Diary"></input>
     </div>
     <div class="list">
         <li>
@@ -25,8 +25,8 @@
                     <span>....</span><label for="entry">Edit, </label>
                     <span>....</span><input type="button" onclick="add_entry()" value="Save"></input>
             </ul></div>
-            <ul><textarea id="entry" id="titles" class="appear" cols="1" rows="1"></textarea></ul>
-            <ul><textarea id="entry" id="adding" cols="1" rows="30"></textarea></ul>
+            <ul><textarea id="entry" class="titles" class="appear" cols="1" rows="1"></textarea></ul>
+            <ul><textarea id="entry" class="adding" cols="1" rows="30"></textarea></ul>
         </li>
     </div>
 </body>
