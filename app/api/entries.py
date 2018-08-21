@@ -119,7 +119,7 @@ def add_entry(user_id):
         Diary.add_entry(new_entry["title"], new_entry["content"], user_id)
         return jsonify({"Message": 'Entry added'}), 201
     else:
-        jsonify({'Error': 'Wrong format used to send data'}), 400
+        return jsonify({'Message': 'Wrong format used to send data'}), 400
 
 
 @bp.route('/entries/<int:entry_id>', methods=['PUT'])
