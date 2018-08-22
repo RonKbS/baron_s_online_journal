@@ -112,7 +112,7 @@ function display_entries () {
                     let title = document.createElement("input");
                     title.setAttribute("id", x);
                     title.setAttribute("type", 'button');
-                    title.setAttribute("onclick", "view_entry()");
+                    title.setAttribute("onclick", "get_entry()");
                     title.setAttribute("value", list_entries[x]['title']);
                     c.appendChild(title);
                     
@@ -128,7 +128,7 @@ function display_entries () {
                     c.appendChild(box)
                     let title = document.createElement("input");
                     title.setAttribute("type", 'button');
-                    title.setAttribute("onclick", 'view_entry()');
+                    title.setAttribute("onclick", 'get_entry()');
                     title.setAttribute("value", data['Entries']);
                     c.appendChild(title);
             }
@@ -136,7 +136,7 @@ function display_entries () {
         .catch(error => console.error(error))
 }
 
-function view_entry() {
+function get_entry() {
     let entry = event.currentTarget;
     if (!entry.getAttribute('id')) {
         return window.location.href = 'entry.html';
@@ -153,13 +153,23 @@ function view_entry() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            window.location.href = 'entry.html';
-            let t = document.getElementById('title')
-            t.setAttribute('value', data['title']);
-            let c = document.getElementById('content');
-            c.setAttribute('value', data['content']);
-            return true;
+            localStorage.setItem('title', data['title'])
+            localStorage.setItem('content', data['content'])
+            return window.location.href = 'entry.html';
         })
         .catch(error => console.error(error))
 
+}
+
+function view_entry() {
+    if (localStorage.getItem('title')) {    
+        let t = document.getElementById('title')
+        t.value = localStorage.getItem('title');
+        let c = document.getElementById('content');
+        c.value = localStorage.getItem('content');
+        localStorage.removeItem('title');
+        localStorage.removeItem('content');
+        return true;
+    }
+    return false;
 }
