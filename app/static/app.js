@@ -116,7 +116,7 @@ function display_entries () {
                     c.appendChild(title);
                     
                 }
-                return window.location.href = 'home_page.html';
+                return true;
             }
             else if (data['Entries'] === 'No entries') {
                 let r = t.insertRow();
@@ -127,38 +127,10 @@ function display_entries () {
                     c.appendChild(box)
                     let title = document.createElement("input");
                     title.setAttribute("type", 'button');
-                    title.setAttribute("onclick='view_entry()'");
-                    let text = document.createTextNode(data['Entries']);
-                    title.appendChild(text)
+                    title.setAttribute("onclick", 'view_entry()');
+                    title.setAttribute("value", data['Entries']);
                     c.appendChild(title);
             }
         })
         .catch(error => console.error(error))
 }
-/*
-function view_entry() {
-    let entry = document.getElementById('thought').value;
-    fetch('http://127.0.0.1:5000/api/v1/entries', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            cache: 'reload',
-            headers: {
-                'Content-Type': 'application/json',
-                'token': localStorage.getItem('token')
-            }
-        }).then(Body => Body.json())
-        .then(data => {
-            if (data['Message'] === 'Entry added') {
-                alert('Thoughts immortalized');
-                return window.location.href = 'home_page.html';
-            }
-            else if (data['Message'] != 'Entry added') {
-                alert(data['Message']);
-                return data['Message'];
-            }
-        })
-        .catch(error => console.error(error))
-
-}
-*/
