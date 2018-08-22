@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,37 +10,45 @@
     <link rel="stylesheet" href="static/styles.css">
     <title>MyDiary</title>
 </head>
+
 <body>
     <h1 class="appear">MyDiary</h1>
     <h2 class="appear">online diary</h2>
     <div id='reg' class="appear">
-        <div class="create"><a class="appear" href="create.html">Create Diary</a></div>
-            <div id="log_in">
-                <form action="">
-                    <table id="credentials" class="appear">
-                        <tr>
-                            <td>
-                                <label for="name">Name</label>
-                            </td>
-                        </tr>
-                        <tr>
-                                <td>
-                                    <input type="text" id="name" autocomplete="on" required>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td>
-                                <label for="lock">Lock</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="password" id="lock" minlength="4" required>
-                            </td>
-                            </tr>
-                            <tr><td><input type="button" onclick="login()" value="open" class="appear"></td></tr>
-                    </table>
-                </form>
-            </div>
+        <div class="create">
+            <a class="appear" href="create.html">Create Diary</a>
+        </div>
+        <div id="log_in">
+            <form action="">
+                <table id="credentials" class="appear">
+                    <tr>
+                        <td>
+                            <label for="name">Name</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="name" autocomplete="on" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="lock">Lock</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="password" id="lock" minlength="4" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" onclick="login()" value="open" class="appear">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
 </body>
+
 </html>

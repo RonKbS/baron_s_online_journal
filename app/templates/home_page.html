@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="static/styles.css">
@@ -9,6 +10,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
     <title>Home</title>
 </head>
+
 <body>
     <h1 class="appear">MyDiary</h1>
     <h2 class="appear">Online Diary</h2>
@@ -21,13 +23,28 @@
         <a href="entry.html" class="appear">Add Entry</a>
         <div class="appear" id="del"> Delete Selected </div>
         <table id="entries_table">
-            <script type="text/javascript">display_entries()</script>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Monday 24th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html"></a></td></tr>
+            <script type="text/javascript">
+                display_entries()
+            </script>
+            <tr>
+                <td class="each">
+                    <input type="checkbox">
+                    <a href="entry.html">Monday 24th</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="each">
+                    <input type="checkbox">
+                    <a href="entry.html"></a>
+                </td>
+            </tr>
         </table>
         <div class="appear" id="del">
-            <h4><a href="older.html">Older...</a></h4>
+            <h4>
+                <a href="older.html">Older...</a>
+            </h4>
         </div>
     </div>
 </body>
+
 </html>

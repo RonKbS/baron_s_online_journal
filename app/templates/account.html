@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="static/styles.css">
     <title>MyDiary</title>
 </head>
+
 <body>
     <h1 class="appear">MyDiary</h1>
     <h2 class="appear">Online Diary</h2>
@@ -20,38 +21,83 @@
     </div>
     <div class="account">
         <table class="account_table">
-            <tr class="day_selector"><td class="remind appear">
-                <input type="checkbox" class="check">
-                Send reminders for new entry
-            </td></tr>
-            <tr><td class="remind appear">Select Days:</td></tr>
+            <tr class="day_selector">
+                <td class="remind appear">
+                    <input type="checkbox" class="check"> Send reminders for new entry
+                </td>
+            </tr>
             <tr>
-                <td class="remind appear"><input type="checkbox">Monday</td>
-                <td class="remind appear"><input type="checkbox">Tuesday</td>
-                <td class="remind appear"><input type="checkbox">Wednesday</td>
-                <td class="remind appear"><input type="checkbox">Thursday</td>
-                <td class="remind appear"><input type="checkbox">Friday</td>
-                <td class="remind appear"><input type="checkbox">Saturday</td>
-                <td class="remind appear"><input type="checkbox">Sunday</td>
+                <td class="remind appear">Select Days:</td>
+            </tr>
+            <tr>
+                <td class="remind appear">
+                    <input type="checkbox">Monday</td>
+                <td class="remind appear">
+                    <input type="checkbox">Tuesday</td>
+                <td class="remind appear">
+                    <input type="checkbox">Wednesday</td>
+                <td class="remind appear">
+                    <input type="checkbox">Thursday</td>
+                <td class="remind appear">
+                    <input type="checkbox">Friday</td>
+                <td class="remind appear">
+                    <input type="checkbox">Saturday</td>
+                <td class="remind appear">
+                    <input type="checkbox">Sunday</td>
             </tr>
         </table>
         <table class="account_table password_settings">
-            <tr><td class="appear">Change Lock</td></tr>
-            <tr><td><input type="password" placeholder="old lock"></td></tr>
+            <tr>
+                <td class="appear">Change Lock</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" placeholder="old lock">
+                </td>
+            </tr>
             <form action="">
-                <tr><td class="appear"><legend>New Lock</legend></td></tr>
-                <tr><td class="appear"><input type="password" placeholder="lock" required></td></tr>
-                <tr><td class="appear"><input type="password" placeholder="confirm new lock"></td></tr>
-                <tr><td><input type="submit" value="save new lock" class="appear"></td></tr>
+                <tr>
+                    <td class="appear">
+                        <legend>New Lock</legend>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="appear">
+                        <input type="password" placeholder="lock" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="appear">
+                        <input type="password" placeholder="confirm new lock">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="save new lock" class="appear">
+                    </td>
+                </tr>
             </form>
-            </table>
+        </table>
         <table class="account_table account_settings">
             <form action="">
-                <tr><td class="appear"><label for="email">Change Mail</label></td></tr>
-                <tr><td><input type="email"></td></tr>
-                <tr><td><input type="submit" value="save" class="appear"></td></tr>
+                <tr>
+                    <td class="appear">
+                        <label for="email">Change Mail</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="email">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="save" class="appear">
+                    </td>
+                </tr>
             </form>
         </table>
     </div>
 </body>
+
 </html>
