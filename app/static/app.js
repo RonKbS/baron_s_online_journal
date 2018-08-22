@@ -110,8 +110,7 @@ function update_entry() {
 }
 
 function add_entry() {
-    update_entry();
-    if (!update_entry()) {
+    if (update_entry() === false) {
         fetch('http://127.0.0.1:5000/api/v1/entries', {
             method: 'POST',
             mode: 'cors',
@@ -137,6 +136,9 @@ function add_entry() {
             }
         })
         .catch(error => console.error(error))
+    }
+    else {
+        window.location.href = 'home_page.html';
     }
 
 }
