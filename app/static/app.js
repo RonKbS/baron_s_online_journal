@@ -99,14 +99,20 @@ function display_entries () {
         }).then(Body => Body.json())
         .then(data => {
             if (data['Entries'] != 'No entries') {
-                let len = data['Entries'].length;
+                let list_entries = data['Entries'];
+                let len = list_entries.length;
                 for (let x = 0; x < len; x++) {
                     let r = t.insertRow(x);
                     let c = r.insertCell();
                     c.className = 'each';
-                    let box = document.createElement("input type='checkbox'");
+                    let box = document.createElement("input");
+                    box.setAttribute('type', 'checkbox')
                     c.appendChild(box)
-                    let title = document.createElement("a onclick='view_entry()'");
+                    let title = document.createElement("input");
+                    title.setAttribute("id", 'thought');
+                    title.setAttribute("type", 'button');
+                    title.setAttribute("onclick", "view_entry()");
+                    title.setAttribute("value", list_entries[x]['title']);
                     c.appendChild(title);
                     
                 }
@@ -116,7 +122,12 @@ function display_entries () {
                 let r = t.insertRow();
                     let c = r.insertCell();
                     c.className = 'each';
-                    let title = document.createElement("a onclick='view_entry()'");
+                    let box = document.createElement("input");
+                    box.setAttribute("type", 'checkbox')
+                    c.appendChild(box)
+                    let title = document.createElement("input");
+                    title.setAttribute("type", 'button');
+                    title.setAttribute("onclick='view_entry()'");
                     let text = document.createTextNode(data['Entries']);
                     title.appendChild(text)
                     c.appendChild(title);
@@ -124,3 +135,30 @@ function display_entries () {
         })
         .catch(error => console.error(error))
 }
+/*
+function view_entry() {
+    let entry = document.getElementById('thought').value;
+    fetch('http://127.0.0.1:5000/api/v1/entries', {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            cache: 'reload',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
+            }
+        }).then(Body => Body.json())
+        .then(data => {
+            if (data['Message'] === 'Entry added') {
+                alert('Thoughts immortalized');
+                return window.location.href = 'home_page.html';
+            }
+            else if (data['Message'] != 'Entry added') {
+                alert(data['Message']);
+                return data['Message'];
+            }
+        })
+        .catch(error => console.error(error))
+
+}
+*/
