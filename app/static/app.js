@@ -110,7 +110,7 @@ function display_entries () {
                     box.setAttribute('type', 'checkbox')
                     c.appendChild(box)
                     let title = document.createElement("input");
-                    title.setAttribute("id", 'thought');
+                    title.setAttribute("id", x);
                     title.setAttribute("type", 'button');
                     title.setAttribute("onclick", "view_entry()");
                     title.setAttribute("value", list_entries[x]['title']);
@@ -137,8 +137,12 @@ function display_entries () {
 }
 
 function view_entry() {
-    let entry = document.getElementById('thought').value;
-    fetch('http://127.0.0.1:5000/api/v1/entries', {
+    let entry = event.currentTarget;
+    if (!entry.getAttribute('id')) {
+        return window.location.href = 'entry.html';
+    }
+    let id_value = 1 + parseInt(entry.getAttribute('id'));
+    fetch('http://127.0.0.1:5000/api/v1/entries/' + id_value, {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
@@ -149,14 +153,12 @@ function view_entry() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            if (data['Message'] === 'Entry added') {
-                alert('Thoughts stored');
-                return window.location.href = 'home_page.html';
-            }
-            else if (data['Message'] != 'Entry added') {
-                alert(data['Message']);
-                return data['Message'];
-            }
+            window.location.href = 'entry.html';
+            let t = document.getElementById('title')
+            t.setAttribute('value', data['title']);
+            let c = document.getElementById('content');
+            c.setAttribute('value', data['content']);
+            return true;
         })
         .catch(error => console.error(error))
 
