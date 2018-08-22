@@ -57,8 +57,62 @@ function logout() {
     window.location.href = 'index.html';
 }
 
+function update_entry() {
+    if (document.getElementById('title').value) {
+        fetch('http://127.0.0.1:5000/api/v1/entries', {
+                method: 'GET',
+                credentials: 'include',
+                cache: 'reload',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+            }).then(Body => Body.json())
+            .then(data => {
+                let t = localStorage.getItem('title');
+                let listEntries = data['Entries'];
+                let len = listEntries.length;
+                for (let x = 0; x < len; x++) {
+                    if (listEntries[x]['title'] === t) {
+                        let id = listEntries[x]['entry_id']
+                        fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
+                            method: 'PUT',
+                            mode: 'cors',
+                            credentials: 'include',
+                            cache: 'reload',
+                            body: JSON.stringify({
+                                'title': document.getElementById('title').value,
+                                'content': document.getElementById('content').value
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'token': localStorage.getItem('token')
+                            }
+                        }).then(Body => Body.json())
+                        .then(data => {
+                        if (data['Message'] === 'Entry has been modified') {
+                            alert('Thoughts updated!!');
+                            return true;
+                        }
+                        else if (data['Message'] != 'Entry has been modified') {
+                            alert(data['Message']);
+                            return window.location.href = 'home_page.html';
+                        }
+                    })
+                    .catch(error => console.error(error))
+                    }
+                }       
+            })
+    }
+    else {
+        return false;
+    } 
+}
+
 function add_entry() {
-    fetch('http://127.0.0.1:5000/api/v1/entries', {
+    update_entry();
+    if (!update_entry()) {
+        fetch('http://127.0.0.1:5000/api/v1/entries', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -83,10 +137,11 @@ function add_entry() {
             }
         })
         .catch(error => console.error(error))
+    }
 
 }
 
-function display_entries () {
+function display_entries() {
     let t = document.getElementById('entries_table');
     fetch('http://127.0.0.1:5000/api/v1/entries', {
             method: 'GET',
@@ -173,8 +228,8 @@ function view_entry() {
         t.value = localStorage.getItem('title');
         let c = document.getElementById('content');
         c.value = localStorage.getItem('content');
-        localStorage.removeItem('title');
-        localStorage.removeItem('content');
+        // localStorage.removeItem('title');
+        // localStorage.removeItem('content');
         return true;
     }
     return false;

@@ -131,7 +131,7 @@ def change_entry(user_id, entry_id):
             entry_id,
             new_entry['title'],
             new_entry['content']) == 'No such entry':
-        return jsonify({"Error": 'No such entry'}), 200
+        return jsonify({"Message": 'No such entry'}), 200
     Diary.modify_entry(
         user_id,
         entry_id,
