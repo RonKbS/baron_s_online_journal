@@ -141,8 +141,8 @@ function get_entry() {
     if (!entry.getAttribute('id')) {
         return window.location.href = 'entry.html';
     }
-    let id_value = 1 + parseInt(entry.getAttribute('id'));
-    fetch('http://127.0.0.1:5000/api/v1/entries/' + id_value, {
+    let t = entry.getAttribute('value');
+    fetch('http://127.0.0.1:5000/api/v1/entries', {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
@@ -153,9 +153,15 @@ function get_entry() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            localStorage.setItem('title', data['title'])
-            localStorage.setItem('content', data['content'])
-            return window.location.href = 'entry.html';
+            let listEntries = data['Entries'];
+            let len = listEntries.length;
+            for (let x = 0; x < len; x++) {
+                if (listEntries[x]['title'] === t) {
+                    localStorage.setItem('title', listEntries[x]['title'])
+                    localStorage.setItem('content', listEntries[x]['content'])
+                    return window.location.href = 'entry.html'
+                }
+            }
         })
         .catch(error => console.error(error))
 
