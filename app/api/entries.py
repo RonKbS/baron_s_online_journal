@@ -145,4 +145,4 @@ def change_entry(user_id, entry_id):
 def delete_entry(user_id, entry_id):
     if Diary.delete_entry(user_id, entry_id) == 'Entry deleted':
         return jsonify({"Message": 'Entry deleted'}), 200
-    return jsonify({"Error": Diary.find_entry_by_id(user_id, entry_id)}), 404
+    return jsonify({"Message": Diary.find_entry_by_id(user_id, entry_id)}), 404
