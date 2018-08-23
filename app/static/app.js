@@ -58,59 +58,55 @@ function logout() {
 }
 
 function update_entry() {
-    if (document.getElementById('title').value) {
-        fetch('http://127.0.0.1:5000/api/v1/entries', {
-                method: 'GET',
-                credentials: 'include',
-                cache: 'reload',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': localStorage.getItem('token')
-                }
-            }).then(Body => Body.json())
-            .then(data => {
-                let t = localStorage.getItem('title');
-                let listEntries = data['Entries'];
-                let len = listEntries.length;
-                for (let x = 0; x < len; x++) {
-                    if (listEntries[x]['title'] === t) {
-                        let id = listEntries[x]['entry_id']
-                        fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
-                            method: 'PUT',
-                            mode: 'cors',
-                            credentials: 'include',
-                            cache: 'reload',
-                            body: JSON.stringify({
-                                'title': document.getElementById('title').value,
-                                'content': document.getElementById('content').value
-                            }),
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'token': localStorage.getItem('token')
-                            }
-                        }).then(Body => Body.json())
-                        .then(data => {
-                        if (data['Message'] === 'Entry has been modified') {
-                            alert('Thoughts updated!!');
-                            return true;
+    fetch('http://127.0.0.1:5000/api/v1/entries', {
+            method: 'GET',
+            credentials: 'include',
+            cache: 'reload',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
+            }
+        }).then(Body => Body.json())
+        .then(data => {
+            let t = localStorage.getItem('title');
+            localStorage.removeItem('title');
+            let listEntries = data['Entries'];
+            let len = listEntries.length;
+            for (let x = 0; x < len; x++) {
+                if (listEntries[x]['title'] === t) {
+                    let id = listEntries[x]['entry_id']
+                    fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
+                        method: 'PUT',
+                        mode: 'cors',
+                        credentials: 'include',
+                        cache: 'reload',
+                        body: JSON.stringify({
+                            'title': document.getElementById('title').value,
+                            'content': document.getElementById('content').value
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'token': localStorage.getItem('token')
                         }
-                        else if (data['Message'] != 'Entry has been modified') {
-                            alert(data['Message']);
-                            return window.location.href = 'home_page.html';
-                        }
-                    })
-                    .catch(error => console.error(error))
+                    }).then(Body => Body.json())
+                    .then(data => {
+                    if (data['Message'] === 'Entry has been modified') {
+                        alert('Thoughts updated!!');
+                        return window.location.href = 'home_page.html';
                     }
-                }       
-            })
-    }
-    else {
-        return false;
-    } 
+                    else if (data['Message'] != 'Entry has been modified') {
+                        alert('No changes made');
+                        return window.location.href = 'home_page.html';
+                    }
+                })
+                .catch(error => console.error(error))
+                }
+            }       
+        })
 }
 
 function add_entry() {
-    if (update_entry() === false) {
+    if (!localStorage.getItem('title')) {
         fetch('http://127.0.0.1:5000/api/v1/entries', {
             method: 'POST',
             mode: 'cors',
@@ -127,7 +123,7 @@ function add_entry() {
         }).then(Body => Body.json())
         .then(data => {
             if (data['Message'] === 'Entry added') {
-                alert('Thoughts immortalized');
+                alert('Thoughts immortalized!!');
                 return window.location.href = 'home_page.html';
             }
             else if (data['Message'] != 'Entry added') {
@@ -138,7 +134,7 @@ function add_entry() {
         .catch(error => console.error(error))
     }
     else {
-        window.location.href = 'home_page.html';
+        update_entry();
     }
 
 }
@@ -230,8 +226,7 @@ function view_entry() {
         t.value = localStorage.getItem('title');
         let c = document.getElementById('content');
         c.value = localStorage.getItem('content');
-        // localStorage.removeItem('title');
-        // localStorage.removeItem('content');
+        localStorage.removeItem('content');
         return true;
     }
     return false;
