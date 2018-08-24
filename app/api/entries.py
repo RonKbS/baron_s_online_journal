@@ -85,11 +85,11 @@ def add_user():
 def update(user_id):
     try:
         details = request.get_json() or {}
-        if is_email(details['email']):
+        if details.keys() == 'email' and is_email(details['email']):
             Users.modify_detail(user_id, details['email'])
             return jsonify({"Message": 'Email has been changed'}), 201
-        elif db.reg_ex(details['password']) and len(details['password']) > 5:
-            Users.modify_detail(user_id, details['email'])
+        if db.reg_ex(details['password']) and len(details['password']) > 5:
+            Users.modify_detail(user_id, details['password'])
             return jsonify({"Message": 'Password has been changed'}), 201
         return jsonify({'Message': 'Details incorrectly worded'})
     except BaseException:
