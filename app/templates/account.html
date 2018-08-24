@@ -17,7 +17,7 @@
     <div class="appear">
         <a href="home_page.html" class="appear">Home</a>
         ...or...
-        <a href="index.html" class="appear">Close Diary</a>
+        <a onclick="logout()" class="appear">Close Diary</a>
     </div>
     <div class="account">
         <table class="account_table">
@@ -47,23 +47,15 @@
             </tr>
         </table>
         <table class="account_table password_settings">
-            <tr>
-                <td class="appear">Change Lock</td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="password" id="old_p1" placeholder="old lock">
-                </td>
-            </tr>
             <form action="" id="creds_2">
                 <tr>
                     <td class="appear">
-                        <legend>New Lock</legend>
+                        <legend>Change Lock</legend>
                     </td>
                 </tr>
                 <tr>
                     <td class="appear">
-                        <input type="password" id="new_p1" placeholder="lock" onkeyup="same_password();">
+                        <input type="password" id="new_p1" placeholder="new lock" onkeyup="same_password();">
                     </td>
                 </tr>
                 <tr>
@@ -74,7 +66,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="save new lock" class="appear">
+                        <input type="button" value="save new lock" onclick="update_details()" class="appear">
                     </td>
                 </tr>
             </form>
@@ -93,7 +85,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="save" class="appear">
+                        <input type="button" onclick="update_details()" value="save" class="appear">
                     </td>
                 </tr>
             </form>

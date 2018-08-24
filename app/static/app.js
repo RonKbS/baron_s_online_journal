@@ -289,29 +289,57 @@ function same_password() {
 
 
 function update_details() {
-    fetch('http://127.0.0.1:5000/api/v1/account', {
-        method: 'PUT',
-        mode: 'cors',
-        credentials: 'include',
-        cache: 'reload',
-        body: JSON.stringify({
-            'title': document.getElementById('title').value,
-            'content': document.getElementById('content').value
-        }),
-        headers: {
-            'Content-Type': 'application/json',
-            'token': localStorage.getItem('token')
+    form1 = document.forms[0]
+    form2 = document.forms[1]
+    if (form1.new_p2.value) {
+        let details = form1.new_p2.value;
+        alert(details)
+        fetch('http://127.0.0.1:5000/api/v1/account', {
+            method: 'PUT',
+            mode: 'cors',
+            credentials: 'include',
+            cache: 'reload',
+            body: JSON.stringify({
+                'password': details
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
+            }
+        }).then(Body => Body.json())
+        .then(data => {
+            if (data['Message'] === 'Password has been changed') {
+                alert(data['Message']);
+            }
+            else if (data['Message'] != 'Password has been changed') {
+                alert('No changes made');
         }
-    }).then(Body => Body.json())
-    .then(data => {
-        if (data['Message'] === 'Entry has been modified') {
-            alert('Thoughts updated!!');
-            return window.location.href = 'home_page.html';
-        }
-        else if (data['Message'] != 'Entry has been modified') {
-            alert('No changes made');
-            return window.location.href = 'home_page.html';
+    })
+        .catch(error => console.error(error))
     }
-})
-    .catch(error => console.error(error))
+    else {
+        let details = form2.email.value;
+        fetch('http://127.0.0.1:5000/api/v1/account', {
+            method: 'PUT',
+            mode: 'cors',
+            credentials: 'include',
+            cache: 'reload',
+            body: JSON.stringify({
+                'email': details
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
+            }
+        }).then(Body => Body.json())
+        .then(data => {
+            if (data['Message'] === 'Email has been changed') {
+                alert(data['Message']);
+            }
+            else if (data['Message'] != 'Email has been changed') {
+                alert('No changes made');
+        }
+    })
+        .catch(error => console.error(error))
+    }
 }
