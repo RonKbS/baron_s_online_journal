@@ -52,10 +52,10 @@
             </tr>
             <tr>
                 <td>
-                    <input type="password" placeholder="old lock">
+                    <input type="password" id="old_p1" placeholder="old lock">
                 </td>
             </tr>
-            <form action="">
+            <form action="" id="creds_2">
                 <tr>
                     <td class="appear">
                         <legend>New Lock</legend>
@@ -63,12 +63,13 @@
                 </tr>
                 <tr>
                     <td class="appear">
-                        <input type="password" placeholder="lock" required>
+                        <input type="password" id="new_p1" placeholder="lock" onkeyup="same_password();">
                     </td>
                 </tr>
                 <tr>
                     <td class="appear">
-                        <input type="password" placeholder="confirm new lock">
+                        <input type="password" id="new_p2" placeholder="confirm new lock" onkeyup="same_password();">
+                        <span id="message"></span>
                     </td>
                 </tr>
                 <tr>
