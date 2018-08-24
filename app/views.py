@@ -22,6 +22,11 @@ def entry():
     return render_template('entry.html')
 
 
+@app.route('/account.html')
+def account():
+    return render_template('account.html')
+
+
 @app.route('/docs')
 def docs():
     return redirect('https://baronsmydiary.docs.apiary.io/')
