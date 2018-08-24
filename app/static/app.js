@@ -1,12 +1,13 @@
 
 function signup() {
+    form = document.forms[0]
     fetch('http://127.0.0.1:5000/api/v1/auth/signup', {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
-                'name': document.getElementById('name').value,
-                'email': document.getElementById('mail').value,
-                'password': document.getElementById('lock').value
+                'name': form.name.value,
+                'email': form.mail.value,
+                'password': form.lock.value
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -274,4 +275,43 @@ function delete_entry() {
                 }
             }       
         })
+}
+
+function same_password() {
+    form = document.forms[0]
+    if (form.new_p1.value == form.new_p2.value) {
+        document.getElementById('message').innerHTML = 'matching';
+    }
+    else {
+        document.getElementById('message').innerHTML = 'not matching';
+    }
+}
+
+
+function update_details() {
+    fetch('http://127.0.0.1:5000/api/v1/account', {
+        method: 'PUT',
+        mode: 'cors',
+        credentials: 'include',
+        cache: 'reload',
+        body: JSON.stringify({
+            'title': document.getElementById('title').value,
+            'content': document.getElementById('content').value
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'token': localStorage.getItem('token')
+        }
+    }).then(Body => Body.json())
+    .then(data => {
+        if (data['Message'] === 'Entry has been modified') {
+            alert('Thoughts updated!!');
+            return window.location.href = 'home_page.html';
+        }
+        else if (data['Message'] != 'Entry has been modified') {
+            alert('No changes made');
+            return window.location.href = 'home_page.html';
+    }
+})
+    .catch(error => console.error(error))
 }
