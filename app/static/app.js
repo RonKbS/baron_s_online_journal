@@ -293,7 +293,6 @@ function update_details() {
     form2 = document.forms[1]
     if (form1.new_p2.value) {
         let details = form1.new_p2.value;
-        alert(details)
         fetch('http://127.0.0.1:5000/api/v1/account', {
             method: 'PUT',
             mode: 'cors',

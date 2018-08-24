@@ -43,7 +43,6 @@ def login():
 
         if not logged_user:
             return jsonify({'Message': 'Wrong credentials entered'}), 400
-
         if Users.check_password(logged_user['password'], auth['password']):
             token = jwt.encode({'id': logged_user['user_id'],
                                 'exp': datetime.datetime.utcnow() +
@@ -89,7 +88,7 @@ def update(user_id):
             Users.modify_detail(user_id, details['email'])
             return jsonify({"Message": 'Email has been changed'}), 201
         if db.reg_ex(details['password']) and len(details['password']) > 5:
-            Users.modify_detail(user_id, details['password'])
+            Users.modify_detail(user_id, Diary.set_password(details['password']))
             return jsonify({"Message": 'Password has been changed'}), 201
         return jsonify({'Message': 'Details incorrectly worded'})
     except BaseException:

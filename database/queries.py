@@ -115,8 +115,7 @@ class db:
         ob = db()
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = "UPDATE entries SET title ='{0}', content ='{1}\
-                ' WHERE user_id='{2}' AND entry_id='{3}'"\
+        sql = "UPDATE entries SET title ='{0}', content ='{1}' WHERE user_id='{2}' AND entry_id='{3}'"\
                 .format(title, content, user_id, entry_id)
         cur.execute(sql)
         cur.close()
@@ -127,14 +126,10 @@ class db:
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
         if detail is not None and is_email(detail):
-            sql = "UPDATE users SET email ='{0}\
-                ' WHERE user_id='{1}'"\
-                .format(detail, user_id)
+            sql = "UPDATE users SET email ='{0}' WHERE user_id='{1}'".format(detail, user_id)
             cur.execute(sql)
         elif detail is not None and not is_email(detail):
-            sql = "UPDATE users SET password ='{0}\
-                ' WHERE user_id='{1}'"\
-                .format(detail, user_id)
+            sql = "UPDATE users SET password ='{0}' WHERE user_id='{1}'".format(detail, user_id)
             cur.execute(sql)
         cur.close()
 
