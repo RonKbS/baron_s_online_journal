@@ -30,10 +30,12 @@ table {
 a {
     color: rgba(26, 14, 14, 0.658);
     text-decoration: none;
+    cursor: pointer;
 }
 button {
     background-color: transparent;
     border-color: transparent;
+    cursor: pointer;
 }
 ::-webkit-input-placeholder {
     color: rgb(63, 36, 36);
