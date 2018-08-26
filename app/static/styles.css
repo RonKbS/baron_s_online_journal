@@ -15,6 +15,7 @@ body {
     color: rgba(245, 240, 240, 0.966);
     text-align: center;
     position: relative;
+    text-decoration: none;
 }
 h1{
     -webkit-text-fill-color: rgba(245, 240, 240, 0.966);
