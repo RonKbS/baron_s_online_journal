@@ -78,7 +78,6 @@ async function return_id() {
                 if (listEntries[x]['title'] === t) {
                     id = listEntries[x]['entry_id']
                     localStorage.setItem('id', id)
-                    alert(localStorage.getItem('id'))
                 }
             }
             return id
@@ -244,48 +243,32 @@ function view_entry() {
     return false;
 }
 
-function delete_entry() {
-    fetch('http://127.0.0.1:5000/api/v1/entries', {
-            method: 'GET',
-            credentials: 'include',
-            cache: 'reload',
-            headers: {
-                'Content-Type': 'application/json',
-                'token': localStorage.getItem('token')
-            }
-        }).then(Body => Body.json())
-        .then(data => {
-            let t = localStorage.getItem('title');
-            localStorage.removeItem('title');
-            let listEntries = data['Entries'];
-            let len = listEntries.length;
-            for (let x = 0; x < len; x++) {
-                if (listEntries[x]['title'] === t) {
-                    let id = listEntries[x]['entry_id']
-                    fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
-                        method: 'DELETE',
-                        mode: 'cors',
-                        credentials: 'include',
-                        cache: 'reload',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'token': localStorage.getItem('token')
-                        }
-                    }).then(Body => Body.json())
-                    .then(data => {
-                    if (data['Message'] === 'Entry deleted') {
-                        alert('Thoughts removed!!');
-                        return window.location.href = 'home_page.html';
-                    }
-                    else if (data['Message'] != 'Entry deleted') {
-                        alert('No changes made');
-                        return window.location.href = 'home_page.html';
-                    }
-                })
-                .catch(error => console.error(error))
-                }
-            }       
-        })
+async function delete_entry() {
+    await return_id();
+    let id = localStorage.getItem('id')
+    localStorage.removeItem('id')
+    fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
+        method: 'DELETE',
+        mode: 'cors',
+        credentials: 'include',
+        cache: 'reload',
+        headers: {
+            'Content-Type': 'application/json',
+            'token': localStorage.getItem('token')
+        }
+    }).then(Body => Body.json())
+    .then(data => {
+    if (data['Message'] === 'Entry deleted') {
+        alert('Thoughts removed!!');
+        localStorage.removeItem('id')
+        return window.location.href = 'home_page.html';
+    }
+    else if (data['Message'] != 'Entry deleted') {
+        alert('No changes made');
+        return window.location.href = 'home_page.html';
+        }
+    })
+    .catch(error => console.error(error))
 }
 
 function same_password() {
