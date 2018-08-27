@@ -30,3 +30,8 @@ def account():
 @app.route('/docs')
 def docs():
     return redirect('https://baronsmydiary.docs.apiary.io/')
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
