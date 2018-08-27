@@ -61,9 +61,14 @@ button {
 }
 #credentials {
     font-size: 40px;
-    border: 5px;
+    /* border: 5px; */
     background-color: transparent;
     left: 40%;
+    border: solid;
+    border-width: 2px;
+    background-color: rgba(245, 223, 223, 0.219);
+    border-color: rgba(63, 36, 36, 0.473);
+    border-radius: 5%;
 }
 #alt_credentials {
     position: relative;
