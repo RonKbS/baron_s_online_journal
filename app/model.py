@@ -38,7 +38,7 @@ class Users:
     
     @staticmethod
     def notifs(days, values, user_id):
-        for day, val in days, values:
+        for day, val in zip(days, values):
             if val == 'true':
                 value = True
             else:

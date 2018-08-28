@@ -102,7 +102,8 @@ def update(user_id):
 def notifications(user_id):
     try:
         notifs = request.get_json() or {}
-        Users.notifs(notifs.keys(), notifs.items(), user_id)
+        Users.notifs(notifs.keys(), notifs.values(), user_id)
+        return jsonify({'Message': 'Notifications set'}), 200
     except BaseException:
         return jsonify({'Message': 'Wrong format used'}), 400
 

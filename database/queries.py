@@ -117,8 +117,7 @@ class db:
         ob = db()
         cur = ob.connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        sql = "UPDATE notifications SET '{0}' ='{1}' WHERE user_id='{2}'"\
-                .format(day, val, user_id)
+        sql = "UPDATE notifications SET %s=%s WHERE user_id=%s" % (day, val, user_id)
         cur.execute(sql)
         cur.close()
 
