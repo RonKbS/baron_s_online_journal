@@ -43,7 +43,6 @@ function login() {
                 let key = 'token';
                 let value = reply['token'];
                 localStorage.setItem(key, value);
-                console.log(localStorage.getItem('token'));
                 window.location.href = 'home_page.html';
             } else if (reply['Message']) {
                 return alert(reply['Message'])
@@ -229,7 +228,6 @@ async function update_entry() {
     }).then(Body => Body.json())
     .then(data => {
         if (data['Message'] === 'Entry has been modified') {
-            alert('Thoughts updated!!');
             localStorage.removeItem('id')
             return window.location.href = 'home_page.html';
         }
@@ -257,7 +255,6 @@ async function delete_entry() {
     }).then(Body => Body.json())
     .then(data => {
     if (data['Message'] === 'Entry deleted') {
-        alert('Thoughts removed!!');
         return window.location.href = 'home_page.html';
     }
     else if (data['Message'] != 'Entry deleted') {
@@ -269,29 +266,31 @@ async function delete_entry() {
 }
 
 async function delete_several() {
-    let checked_box = document.querySelectorAll('input[type="checkbox"]')
-    for (const box of checked_box) {
-        if (box.checked) {
-            let title = box.nextSibling.value
-            localStorage.setItem('title', title)
-            await return_id();
-            let id = localStorage.getItem('id')
-            localStorage.removeItem('id')
-            fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
-                method: 'DELETE',
-                mode: 'cors',
-                credentials: 'include',
-                cache: 'reload',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': localStorage.getItem('token')
-                }
-            }).then(Body => Body.json())
-            .catch(error => console.error(error))
+    let result = confirm('Are you sure you want to delete')
+    if (result) {
+        let checked_box = document.querySelectorAll('input[type="checkbox"]')
+        for (const box of checked_box) {
+            if (box.checked) {
+                let title = box.nextSibling.value
+                localStorage.setItem('title', title)
+                await return_id();
+                let id = localStorage.getItem('id')
+                localStorage.removeItem('id')
+                fetch('http://127.0.0.1:5000/api/v1/entries/' + id, {
+                    method: 'DELETE',
+                    mode: 'cors',
+                    credentials: 'include',
+                    cache: 'reload',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem('token')
+                    }
+                }).then(Body => Body.json())
+                .catch(error => console.error(error))
+            }
         }
+        return window.location.href = 'home_page.html';
     }
-    alert('Thoughts removed')
-    return window.location.href = 'home_page.html';
 }
 
 
