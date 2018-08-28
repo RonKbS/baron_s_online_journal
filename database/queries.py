@@ -95,7 +95,9 @@ class db:
         cur.execute(sql)
         user = cur.fetchone()
         cur.close()
-        return user
+        if user:
+            return user
+        return False
 
     @staticmethod
     def find_user_by_name(name):
@@ -109,6 +111,16 @@ class db:
         if user:
             return user
         return False
+    
+    @staticmethod
+    def set_notifs(day, val, user_id):
+        ob = db()
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = "UPDATE notifications SET '{0}' ='{1}' WHERE user_id='{2}'"\
+                .format(day, val, user_id)
+        cur.execute(sql)
+        cur.close()
 
     @staticmethod
     def find_entries(user_id):
