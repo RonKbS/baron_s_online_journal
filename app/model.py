@@ -35,6 +35,16 @@ class Users:
             if user_id == user["ID"]:
                 return user
         return 'No such entry'
+    
+    @staticmethod
+    def notifs(days, values, user_id):
+        for day, val in days, values:
+            if val == 'true':
+                value = True
+            else:
+                value = False
+            db.set_notifs(day, value, user_id)
+        return 'Notifications set'
 
 
 class Diary(Users):

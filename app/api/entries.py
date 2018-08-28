@@ -100,7 +100,11 @@ def update(user_id):
 @bp.route('/account/notifications', methods=['POST'])
 @token_required
 def notifications(user_id):
-    pass
+    try:
+        notifs = request.get_json() or {}
+        Users.notifs(notifs.keys(), notifs.items(), user_id)
+    except BaseException:
+        return jsonify({'Message': 'Wrong format used'}), 400
 
 
 @bp.route('/entries/<int:entry_id>', methods=['GET'])
