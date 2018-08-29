@@ -74,13 +74,12 @@ function add_entry() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            if (data['Message'] === 'Entry added') {
-                alert('Thoughts immortalized!!');
+            if (data['Message'] != 'Token is invalid!' && data['Message'] === 'Entry added') {
                 return window.location.href = 'http://127.0.0.1:5000/home';
             }
-            else if (data['Message'] != 'Entry added') {
-                alert(data['Message']);
-                return data['Message'];
+            else if (data['Message'] === 'Token is invalid!') {
+                alert('Please login first');
+                window.location.href = 'http://127.0.0.1:5000/';
             }
         })
         .catch(error => console.error(error))
@@ -103,7 +102,7 @@ function display_entries() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            if (data['Message'] != 'Token is invalid' && data['Message'] != 'No entries') {
+            if (data['Message'] != 'Token is invalid!' && data['Message'] != 'No entries') {
                 let list_entries = data['Message'];
                 let len = list_entries.length;
                 for (let x = 0; x < len; x++) {
@@ -125,7 +124,7 @@ function display_entries() {
                 }
                 return true;
             }
-            else if (data['Message'] != 'Token is invalid' && data['Message'] === 'No entries') {
+            else if (data['Message'] != 'Token is invalid!' && data['Message'] === 'No entries') {
                 let r = t.insertRow();
                     let c = r.insertCell();
                     c.className = 'each';
@@ -136,7 +135,7 @@ function display_entries() {
                     title.setAttribute("value", data['Message']);
                     c.appendChild(title);
             }
-            else if (data['Message'] === 'Token is invalid') {
+            else if (data['Message'] === 'Token is invalid!') {
                 alert('Please login first');
                 window.location.href = 'http://127.0.0.1:5000/';
             }
@@ -161,7 +160,7 @@ function get_entry() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            if (data['Message'] != 'Token is invalid') {
+            if (data['Message'] != 'Token is invalid!') {
                 let listEntries = data['Message'];
                 let len = listEntries.length;
                 for (let x = 0; x < len; x++) {
@@ -172,7 +171,7 @@ function get_entry() {
                     }
                 }
             }
-            else if (data['Message'] === 'Token is invalid') {
+            else if (data['Message'] === 'Token is invalid!') {
                 alert('Please login first');
                 window.location.href = 'http://127.0.0.1:5000/';
             }
@@ -204,7 +203,7 @@ async function return_id() {
             }
         }).then(Body => Body.json())
         .then(data => {
-            if (data['Message'] != 'Token is invalid') {
+            if (data['Message'] != 'Token is invalid!') {
                 let id;
                 let t = localStorage.getItem('title');
                 localStorage.removeItem('title');
@@ -218,7 +217,7 @@ async function return_id() {
                 }
                 return id
             }
-            else if (data['Message'] === 'Token is invalid') {
+            else if (data['Message'] === 'Token is invalid!') {
                 alert('Please login first');
                 window.location.href = 'http://127.0.0.1:5000/';
             }
@@ -344,10 +343,10 @@ function update_details() {
             if (data['Message'] === 'Password has been changed') {
                 alert(data['Message']);
             }
-            else if (data['Message'] != 'Token is invalid' && data['Message'] != 'Password has been changed') {
+            else if (data['Message'] != 'Token is invalid!' && data['Message'] != 'Password has been changed') {
                 alert('No changes made');
             }
-            else if (data['Message'] === 'Token is invalid') {
+            else if (data['Message'] === 'Token is invalid!') {
                 alert('Please login first');
                 window.location.href = 'http://127.0.0.1:5000/';
             }
@@ -373,10 +372,10 @@ function update_details() {
             if (data['Message'] === 'Email has been changed') {
                 alert(data['Message']);
             }
-            else if (data['Message'] != 'Token is invalid' && data['Message'] != 'Email has been changed') {
+            else if (data['Message'] != 'Token is invalid!' && data['Message'] != 'Email has been changed') {
                 alert('No changes made');
             }
-            else if (data['Message'] === 'Token is invalid') {
+            else if (data['Message'] === 'Token is invalid!') {
                 alert('Please login first');
                 window.location.href = 'http://127.0.0.1:5000/';
             }
