@@ -25,9 +25,7 @@ h2 {
     -webkit-text-fill-color: rgba(245, 240, 240, 0.966);
     width: 100%;
     left: -40%;
-    border-bottom: solid;
     border-width: 2px;
-    border-color: rgba(63, 36, 36, 0.473);
 }
 table {
     position: relative;
@@ -51,12 +49,23 @@ button {
     border-top: solid;
     border-width: 2px;
     border-color: rgba(63, 36, 36, 0.473);
+    background-color: rgba(8, 0, 0, 0.39);
     text-align: center;
     position: fixed;
     z-index: -3;
     width: 100%;
     left: 0;
     top: 93%;
+}
+
+.line {
+    border-top: solid;
+    border-width: 2px;
+    border-color: rgba(63, 36, 36, 0.473);
+    width: 100%;
+    left: 0;
+    position: fixed;
+    bottom: 83%;
 }
 
 /*Login and sign up pages*/
@@ -83,7 +92,7 @@ button {
     left: 40%;
     border: solid;
     border-width: 2px;
-    background-color: rgba(245, 223, 223, 0.219);
+    background-color: rgba(8, 0, 0, 0.39);
     border-color: rgba(63, 36, 36, 0.473);
     border-radius: 5%;
 }
