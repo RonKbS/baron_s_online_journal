@@ -106,7 +106,7 @@ def get_entry(user_id, entry_id):
 @bp.route('/entries', methods=['GET'])
 @token_required
 def get_all_entries(user_id):
-    return jsonify({'Entries': Diary.list_all_entries(user_id)})
+    return jsonify({'Message': Diary.list_all_entries(user_id)})
 
 
 @bp.route('/entries', methods=['POST'])
