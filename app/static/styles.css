@@ -23,7 +23,11 @@ h1{
 }
 h2 { 
     -webkit-text-fill-color: rgba(245, 240, 240, 0.966);
-    width: 20%;
+    width: 100%;
+    left: -40%;
+    border-bottom: solid;
+    border-width: 2px;
+    border-color: rgba(63, 36, 36, 0.473);
 }
 table {
     position: relative;
@@ -43,15 +47,16 @@ button {
 }
 
 .footer{
+    font-style: italic;
     border-top: solid;
     border-width: 2px;
-    background-color: rgba(24, 19, 19, 0.219);
     border-color: rgba(63, 36, 36, 0.473);
     text-align: center;
-    position: absolute;
+    position: fixed;
+    z-index: -3;
     width: 100%;
     left: 0;
-    bottom: 0%;
+    top: 93%;
 }
 
 /*Login and sign up pages*/
