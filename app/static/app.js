@@ -16,7 +16,7 @@ function signup() {
         .then(data => {
             if (data['Message'] === 'Karibu! Let\'s begin by logging in') {
                 alert(data['Message']);
-                window.location.href = 'index.html';
+                window.location.href = 'http://127.0.0.1:5000/';
             }
             else if (data['Message'] != 'Karibu! Let\'s begin by logging in') {
                 alert(data['Message']);
@@ -43,7 +43,7 @@ function login() {
                 let key = 'token';
                 let value = reply['token'];
                 localStorage.setItem(key, value);
-                window.location.href = 'home_page.html';
+                window.location.href = 'http://127.0.0.1:5000/home';
             } else if (reply['Message']) {
                 return alert(reply['Message'])
             }
@@ -54,7 +54,7 @@ function login() {
 
 function logout() {
     localStorage.removeItem('token');
-    window.location.href = 'index.html';
+    window.location.href = 'http://127.0.0.1:5000/';
 }
 
 function add_entry() {
@@ -76,7 +76,7 @@ function add_entry() {
         .then(data => {
             if (data['Message'] === 'Entry added') {
                 alert('Thoughts immortalized!!');
-                return window.location.href = 'home_page.html';
+                return window.location.href = 'http://127.0.0.1:5000/home';
             }
             else if (data['Message'] != 'Entry added') {
                 alert(data['Message']);
@@ -128,8 +128,9 @@ function display_entries() {
             else if (data['Entries'] === 'No entries') {
                 let r = t.insertRow();
                     let c = r.insertCell();
+                    c.className = 'each';
                     let title = document.createElement("input");
-                    title.className = 'each';
+                    title.className = 'appear';
                     title.setAttribute("type", 'button');
                     title.setAttribute("onclick", 'get_entry()');
                     title.setAttribute("value", data['Entries']);
@@ -142,7 +143,7 @@ function display_entries() {
 function get_entry() {
     let entry = event.currentTarget;
     if (!entry.getAttribute('id')) {
-        return window.location.href = 'entry.html';
+        return window.location.href = 'http://127.0.0.1:5000/entry';
     }
     let t = entry.getAttribute('value');
     fetch('http://127.0.0.1:5000/api/v1/entries', {
@@ -162,7 +163,7 @@ function get_entry() {
                 if (listEntries[x]['title'] === t) {
                     localStorage.setItem('title', listEntries[x]['title'])
                     localStorage.setItem('content', listEntries[x]['content'])
-                    return window.location.href = 'entry.html'
+                    return window.location.href = 'http://127.0.0.1:5000/entry'
                 }
             }
         })
@@ -229,11 +230,11 @@ async function update_entry() {
     .then(data => {
         if (data['Message'] === 'Entry has been modified') {
             localStorage.removeItem('id')
-            return window.location.href = 'home_page.html';
+            return window.location.href = 'http://127.0.0.1:5000/home';
         }
         else if (data['Message'] != 'Entry has been modified') {
             alert('No changes made');
-            return window.location.href = 'home_page.html';
+            return window.location.href = 'http://127.0.0.1:5000/home';
         }
     })
     .catch(error => console.error(error))
@@ -255,11 +256,11 @@ async function delete_entry() {
     }).then(Body => Body.json())
     .then(data => {
     if (data['Message'] === 'Entry deleted') {
-        return window.location.href = 'home_page.html';
+        return window.location.href = 'http://127.0.0.1:5000/home';
     }
     else if (data['Message'] != 'Entry deleted') {
         alert('No changes made');
-        return window.location.href = 'home_page.html';
+        return window.location.href = 'http://127.0.0.1:5000/home';
         }
     })
     .catch(error => console.error(error))
@@ -289,7 +290,7 @@ async function delete_several() {
                 .catch(error => console.error(error))
             }
         }
-        return window.location.href = 'home_page.html';
+        return window.location.href = 'http://127.0.0.1:5000/home';
     }
 }
 

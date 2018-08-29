@@ -15,23 +15,18 @@
     <h1 class="appear">MyDiary</h1>
     <h2 class="appear">Online Diary</h2>
     <div class="appear">
-        <a href="account.html" class="appear">Check Account</a>
+        <a href="http://127.0.0.1:5000/account" class="appear">Check Account</a>
         ...or...
         <a onclick="logout()" class="appear">Close Diary</a>
     </div>
     <div id="entries_block">
-        <a href="entry.html" class="appear">Add Entry</a>
+        <a href="http://127.0.0.1:5000/entry" class="appear">Add Entry</a>
         <a onclick="delete_several()" class="appear" id="del"> Delete Selected </a>
         <table id="entries_table">
             <script type="text/javascript">
                 display_entries()
             </script>
         </table>
-        <div class="appear" id="del">
-            <h4>
-                <a href="older.html">Older...</a>
-            </h4>
-        </div>
     </div>
 </body>
 

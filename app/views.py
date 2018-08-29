@@ -4,25 +4,24 @@ from app import app
 
 @app.route('/')
 @app.route('/index')
-@app.route('/index.html')
 def index():
     return render_template('index.html')
 
-@app.route('/create.html')
+@app.route('/create')
 def create():
     return render_template('create.html')
 
-@app.route('/home_page.html')
+@app.route('/home')
 def home():
     return render_template('home_page.html')
 
 
-@app.route('/entry.html')
+@app.route('/entry')
 def entry():
     return render_template('entry.html')
 
 
-@app.route('/account.html')
+@app.route('/account')
 def account():
     return render_template('account.html')
 
