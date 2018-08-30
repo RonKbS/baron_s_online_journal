@@ -2,14 +2,16 @@ import os
 import re
 import psycopg2
 import psycopg2.extras
+from app import app, mail
+from datetime import datetime
 from pyisemail import is_email
 from flask_mail import Message
-from app import app, mail
 
 
-def send_reminders(subject, sender, recipient, json_body):
-    msg = Message(subject=subject, sender=sender, recipients=recipient)
-    msg.body = json_body['body']
+def message(sender, recipient, name):
+    msg = Message(subject="MyDiary Reminder", sender=sender, recipients=recipient.split())
+    msg.body = 'Hello' + name + 'It\'s that time again!\
+    Checkout your diary and save any highlights you\'ve had today'
     mail.send(msg)
 
 
@@ -55,6 +57,29 @@ class db:
         for command in commands:
             cur.execute(command)
         cur.close()
+
+    def send_email(self):
+        cur = self.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        #Get all the names from users table
+        sql = '''SELECT name, email, user_id FROM users'''
+        cur.execute(sql)
+        names = cur.fetchall()
+
+        sql2 = '''SELECT * FROM notifications'''
+        cur.execute(sql2)
+        notifications = cur.fetchall()
+        cur.close()
+
+        days = ['monday', 'tuesday', 'wednesday', 'thursday'\
+                , 'friday', 'saturday', 'sunday']
+        date = datetime.now()
+        for day in days:
+            if date.strftime('%A').lower() == day:
+                for name, notification in zip(names, notifications):
+                    if notification[day] == True:
+                        message(app.config['ADMINS'][0], name['email'], name['name'])
+
 
     @staticmethod
     def reg_ex(word):
