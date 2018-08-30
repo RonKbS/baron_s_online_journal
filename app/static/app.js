@@ -383,3 +383,36 @@ function update_details() {
         .catch(error => console.error(error))
     }
 }
+
+function set_reminders() {
+    let checked_box = document.querySelectorAll('input[type="checkbox"]')
+    for (const box of checked_box) {
+        if (box.checked) {
+            let date = box.value
+            alert(date)
+            let notif_dict = new Map([[date, 'true']])
+            fetch('http://127.0.0.1:5000/api/v1/account/notifications', {
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'reload',
+                body: JSON.stringify(notif_dict),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+            }).then(Body => Body.json())
+            .then(data => {
+                if (data['Message'] === 'Token is invalid!') {
+                    alert('Please login first')
+                    window.location.href = 'http://127.0.0.1:5000/'
+                }
+                else {
+                    return true
+                }
+            })
+            .catch(error => console.error(error))
+        }
+    }
+    return true
+}
