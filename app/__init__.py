@@ -1,8 +1,12 @@
 import os
+import atexit
 import psycopg2
 from flask import Flask
 from config import Config
 from flask_cors import CORS
+from flask_mail import Mail
+from apscheduler.triggers.interval import IntervalTrigger
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 app = Flask(__name__)
@@ -15,10 +19,24 @@ app.config['connection'] = psycopg2.connect(
             password=' ',
             host='localhost',
             port='5432')
+mail = Mail(app)
+
 
 from database.queries import db
 datab = db()
-datab.create_tables('users', 'entries')
+datab.create_tables('users', 'entries', 'notifications')
+
+
+scheduler = BackgroundScheduler()
+scheduler.start()
+scheduler.add_job(
+    func=datab.send_email,
+    trigger=IntervalTrigger(minutes=0.5),
+    id='sending_mails',
+    name='Send email notifications daily',
+    replace_existing=True
+)
+atexit.register(lambda: scheduler.shutdown())
 
 
 from app.api import bp as bp_api

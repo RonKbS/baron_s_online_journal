@@ -35,6 +35,24 @@ class Users:
             if user_id == user["ID"]:
                 return user
         return 'No such entry'
+    
+    @staticmethod
+    def notifs(days, values, user_id):
+        # import pdb;pdb.set_trace()
+        if len(days) == 1:
+                if list(values)[0] == 'true':
+                    value = True
+                else:
+                    value = False
+                db.set_notifs(list(days)[0], value, user_id)
+        elif len(days) > 1:
+            for day, val in zip(days, values):
+                if val == 'true':
+                    value = True
+                else:
+                    value = False
+                db.set_notifs(day, value, user_id)
+        return 'Notifications set'
 
 
 class Diary(Users):

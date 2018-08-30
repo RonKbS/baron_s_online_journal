@@ -2,8 +2,19 @@ import os
 import re
 import psycopg2
 import psycopg2.extras
+from app import app, mail
+from datetime import datetime
 from pyisemail import is_email
-from app import app
+from flask_mail import Message
+
+
+def message(sender, recipient, name):
+    msg = Message(
+        subject="MyDiary Reminder", sender=sender,\
+        recipients=recipient.split())
+    msg.body = 'Hello, ' + name + '. It\'s that time again!\nCheckout your diary and save any highlights you\'ve had today.'
+    with app.app_context():
+        mail.send(msg)
 
 
 class db:
@@ -12,8 +23,8 @@ class db:
         # psycopg2.connect(
         #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
-    
-    def create_tables(self, users, entries):
+
+    def create_tables(self, users, entries, notifications):
         """create tables in the PostgreSQL database"""
         commands = (
             "CREATE TABLE IF NOT EXISTS {} (\
@@ -30,12 +41,46 @@ class db:
             entry_id SERIAL PRIMARY KEY,\
             FOREIGN KEY (user_id)\
                 REFERENCES Users (user_id)\
-            )".format(entries)
+            )".format(entries),
+            "CREATE TABLE IF NOT EXISTS {} (\
+            user_id INTEGER NOT NULL,\
+            Monday BOOLEAN DEFAULT false,\
+            Tuesday BOOLEAN DEFAULT false,\
+            Wednesday BOOLEAN DEFAULT false,\
+            Thursday BOOLEAN DEFAULT false,\
+            Friday BOOLEAN DEFAULT false,\
+            Saturday BOOLEAN DEFAULT false,\
+            Sunday BOOLEAN DEFAULT false,\
+            FOREIGN KEY (user_id)\
+                REFERENCES Users (user_id)\
+            )".format(notifications)
         )
         cur = self.connection.cursor()
         for command in commands:
             cur.execute(command)
         cur.close()
+
+    def send_email(self):
+        cur = self.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        #Get all the names from users table
+        sql = '''SELECT name, email, user_id FROM users'''
+        cur.execute(sql)
+        names = cur.fetchall()
+
+        sql2 = '''SELECT * FROM notifications'''
+        cur.execute(sql2)
+        notifications = cur.fetchall()
+        cur.close()
+
+        days = ['monday', 'tuesday', 'wednesday', 'thursday'\
+                , 'friday', 'saturday', 'sunday']
+        date = datetime.now()
+        for day in days:
+            if date.strftime('%A').lower() == day:
+                for name, notification in zip(names, notifications):
+                    if notification[day] == True:
+                        message(app.config['ADMINS'][0], name['email'], name['name'])
 
     @staticmethod
     def reg_ex(word):
@@ -44,7 +89,6 @@ class db:
         if u_name.match(word) or p_word.match(word):
             return True
         return False
-
 
     @staticmethod
     def adds(entry):
@@ -56,10 +100,15 @@ class db:
         if len(entry) == 4:
             sql = '''INSERT INTO entries ( %s ) VALUES ( %s )''' % (
             columns, placeholders)
+            cur.execute(sql, list(entry.values()))
         elif len(entry) < 4:
             sql = '''INSERT INTO users ( %s ) VALUES ( %s )''' % (
                 columns, placeholders)
-        cur.execute(sql, list(entry.values()))
+            cur.execute(sql, list(entry.values()))
+            user = db.find_user_by_name(entry['name'])
+            notifs = '''INSERT INTO notifications VALUES ( %s )''' % (
+                user['user_id'])
+            cur.execute(notifs)
         cur.close()
 
     @staticmethod
@@ -71,7 +120,9 @@ class db:
         cur.execute(sql)
         user = cur.fetchone()
         cur.close()
-        return user
+        if user:
+            return user
+        return False
 
     @staticmethod
     def find_user_by_name(name):
@@ -85,6 +136,15 @@ class db:
         if user:
             return user
         return False
+
+    @staticmethod
+    def set_notifs(day, val, user_id):
+        ob = db()
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = "UPDATE notifications SET %s=%s WHERE user_id=%s" % (day, val, user_id)
+        cur.execute(sql)
+        cur.close()
 
     @staticmethod
     def find_entries(user_id):
