@@ -216,11 +216,16 @@ td.each :hover {
     background-color: transparent;
     display: flex;
     flex-wrap: wrap;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .check {/*adjust chcekbox color*/
-    appearance: none;
     background-color: transparent;
+    text-decoration: none;
+    cursor: pointer;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .account_settings {
