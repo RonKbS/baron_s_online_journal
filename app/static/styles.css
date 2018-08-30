@@ -20,12 +20,12 @@ body {
 h1{
     -webkit-text-fill-color: rgba(245, 240, 240, 0.966);
     width: 10%;
+    left: 0;
 }
 h2 { 
     -webkit-text-fill-color: rgba(245, 240, 240, 0.966);
-    width: 100%;
-    left: -40%;
-    border-width: 2px;
+    width: 25%;
+    left: 0;
 }
 table {
     position: relative;
@@ -63,8 +63,8 @@ button {
     border-width: 2px;
     border-color: rgba(63, 36, 36, 0.473);
     width: 100%;
-    left: 0;
-    position: fixed;
+    left: 15%;
+    position: relative;
     bottom: 83%;
 }
 
@@ -131,6 +131,11 @@ input {
 }
 
 /*Home page and Entry page*/
+#home_nav{
+    left: 40%;
+    width: 75%;
+}
+
 #entry {
     color: white;
     outline: none;
@@ -159,11 +164,12 @@ input {
     font-weight: bold;
 }
 .each {
+    color: rgba(245, 240, 240, 0.966);
     height: 30px;
     width: 700px;
     border: solid;
     border-width: 2px;
-    background-color: rgba(245, 223, 223, 0.219);
+    background-color: rgba(8, 0, 0, 0.39);
     border-color: transparent;
     font-weight: bold;
     cursor: pointer;
