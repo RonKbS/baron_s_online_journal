@@ -43,6 +43,7 @@ def client(request):
 
     commands = (
         "DROP TABLE entries",
+        "DROP TABLE notifications",
         "DROP TABLE users"
     )
     ob = db()

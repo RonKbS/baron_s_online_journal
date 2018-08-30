@@ -12,7 +12,7 @@ user_sign_in = {'name': 'jon', 'password': 'words'}
 wrong_user = {'name': 'ron', 'password': 'words'}
 moded_email = {"email": "new@email.com"}
 moded_password = {"password": "laaaadidiaaa"}
-send_email = {'send': 'monday'}
+set_notif = {'monday': 'true', 'friday': 'true'}
 
 class TestUsers(unittest.TestCase):
     '''Run the following code before all tests'''
@@ -127,6 +127,6 @@ class TestUsers(unittest.TestCase):
         response = self.test_client.post(
             'http://127.0.0.1:5000/api/v1/account/notifications',
             headers=token,
-            data=json.dumps(send_email),
+            data=json.dumps(set_notif),
             content_type='application/json')
         self.assertTrue(response.status_code, 200)
