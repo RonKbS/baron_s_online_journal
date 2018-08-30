@@ -7,7 +7,6 @@ from flask_mail import Mail
 from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.schedulers.background import BackgroundScheduler
 
-scheduler = BackgroundScheduler()
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -26,6 +25,7 @@ datab = db()
 datab.create_tables('users', 'entries', 'notifications')
 
 
+scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
     func=datab.send_email,

@@ -9,10 +9,12 @@ from flask_mail import Message
 
 
 def message(sender, recipient, name):
-    msg = Message(subject="MyDiary Reminder", sender=sender, recipients=recipient.split())
-    msg.body = 'Hello' + name + 'It\'s that time again!\
-    Checkout your diary and save any highlights you\'ve had today'
-    mail.send(msg)
+    msg = Message(
+        subject="MyDiary Reminder", sender=sender,\
+        recipients=recipient.split())
+    msg.body = 'Hello, ' + name + '. It\'s that time again!\nCheckout your diary and save any highlights you\'ve had today.'
+    with app.app_context():
+        mail.send(msg)
 
 
 class db:
@@ -21,7 +23,7 @@ class db:
         # psycopg2.connect(
         #     'postgresql://postgres:lefty3064@localhost:5432')
         self.connection.autocommit = True
-    
+
     def create_tables(self, users, entries, notifications):
         """create tables in the PostgreSQL database"""
         commands = (
@@ -80,7 +82,6 @@ class db:
                     if notification[day] == True:
                         message(app.config['ADMINS'][0], name['email'], name['name'])
 
-
     @staticmethod
     def reg_ex(word):
         u_name = re.compile(r'^[a-zA-Z_]*$')
@@ -88,7 +89,6 @@ class db:
         if u_name.match(word) or p_word.match(word):
             return True
         return False
-
 
     @staticmethod
     def adds(entry):
@@ -136,7 +136,7 @@ class db:
         if user:
             return user
         return False
-    
+
     @staticmethod
     def set_notifs(day, val, user_id):
         ob = db()
