@@ -385,35 +385,38 @@ function update_details() {
 }
 
 function set_reminders() {
-    let checked_box = document.querySelectorAll('input[type="checkbox"]')
-    for (const box of checked_box) {
+    let boxes = document.querySelectorAll('input[type="checkbox"]')
+    let notif_dict = {}
+    for (const box of boxes) {
+        let date = box.value
         if (box.checked) {
-            let date = box.value
-            let notif_dict = {}
             notif_dict[date] = 'true'
-            fetch('http://127.0.0.1:5000/api/v1/account/notifications', {
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'include',
-                cache: 'reload',
-                body: JSON.stringify(notif_dict),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': localStorage.getItem('token')
-                }
-            }).then(Body => Body.json())
-            .then(data => {
-                if (data['Message'] === 'Token is invalid!') {
-                    alert('Please login first')
-                    window.location.href = 'http://127.0.0.1:5000/'
-                }
-                else {
-                    return true
-                }
-            })
-            .catch(error => console.error(error))
+        }
+        else if (!box.checked) {
+            notif_dict[date] = 'false'
         }
     }
+    fetch('http://127.0.0.1:5000/api/v1/account/notifications', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        cache: 'reload',
+        body: JSON.stringify(notif_dict),
+        headers: {
+            'Content-Type': 'application/json',
+            'token': localStorage.getItem('token')
+        }
+    }).then(Body => Body.json())
+    .then(data => {
+        if (data['Message'] === 'Token is invalid!') {
+            alert('Please login first')
+            window.location.href = 'http://127.0.0.1:5000/'
+        }
+        else {
+            return true
+        }
+    })
+    .catch(error => console.error(error))
     return true
 }
 
