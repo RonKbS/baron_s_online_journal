@@ -416,3 +416,38 @@ function set_reminders() {
     }
     return true
 }
+
+
+function display_notifications() {
+    let t = document.getElementById('entries_table');
+    fetch('http://127.0.0.1:5000/api/v1/account/notifications', {
+            method: 'GET',
+            credentials: 'include',
+            cache: 'reload',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
+            }
+        }).then(Body => Body.json())
+        .then(data => {
+            if (data['Message'] != 'Token is invalid!') {
+                let checked_boxes = document.querySelectorAll('input[type="checkbox"]')
+                let list_notifs = data['Message'];
+                let dict_notifs = list_notifs[0];
+                let key_s = Object.keys(dict_notifs)
+                for (const key of key_s) {
+                    for (const box of checked_boxes) {
+                        if (box.value === key &&
+                            dict_notifs[key] == true) {
+                            box.checked = true;
+                        }
+                    }
+                }
+            }
+            else if (data['Message'] === 'Token is invalid!') {
+                alert('Please login first');
+                window.location.href = 'http://127.0.0.1:5000/';
+            }
+        })
+        .catch(error => console.error(error))
+}
