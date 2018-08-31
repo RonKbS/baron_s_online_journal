@@ -145,6 +145,18 @@ class db:
         sql = "UPDATE notifications SET %s=%s WHERE user_id=%s" % (day, val, user_id)
         cur.execute(sql)
         cur.close()
+    
+    @staticmethod
+    def get_notifs(user_id):
+        '''Return a dictionary of user_id and days'''
+        ob = db()
+        cur = ob.connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        sql = "SELECT * FROM notifications WHERE user_id=%s" % (user_id)
+        cur.execute(sql)
+        notifs = cur.fetchall()
+        cur.close()
+        return notifs
 
     @staticmethod
     def find_entries(user_id):

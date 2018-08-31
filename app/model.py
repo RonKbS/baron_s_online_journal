@@ -53,6 +53,11 @@ class Users:
                     value = False
                 db.set_notifs(day, value, user_id)
         return 'Notifications set'
+    
+    @staticmethod
+    def get_notifications(user_id):
+        notifs = db.get_notifs(user_id)
+        return notifs
 
 
 class Diary(Users):

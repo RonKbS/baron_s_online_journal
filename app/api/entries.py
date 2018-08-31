@@ -95,13 +95,16 @@ def update(user_id):
         return jsonify({'Error': 'Wrong format used'}), 400
 
 
-@bp.route('/account/notifications', methods=['POST'])
+@bp.route('/account/notifications', methods=['GET','POST'])
 @token_required
 def notifications(user_id):
     try:
-        notifs = request.get_json() or {}
-        Users.notifs(notifs.keys(), notifs.values(), user_id)
-        return jsonify({'Message': 'Notifications set'}), 200
+        if request.method == 'POST':
+            notifs = request.get_json() or {}
+            Users.notifs(notifs.keys(), notifs.values(), user_id)
+            return jsonify({'Message': 'Notifications set'}), 200
+        elif request.method == 'GET':
+            return jsonify({'Message': Users.get_notifications(user_id)}), 200
     except BaseException:
         return jsonify({'Message': 'Wrong format used'}), 400
 
