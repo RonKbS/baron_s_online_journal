@@ -389,8 +389,8 @@ function set_reminders() {
     for (const box of checked_box) {
         if (box.checked) {
             let date = box.value
-            alert(date)
-            let notif_dict = new Map([[date, 'true']])
+            let notif_dict = {}
+            notif_dict[date] = 'true'
             fetch('http://127.0.0.1:5000/api/v1/account/notifications', {
                 method: 'POST',
                 mode: 'cors',
