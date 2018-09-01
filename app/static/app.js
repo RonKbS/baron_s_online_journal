@@ -340,10 +340,13 @@ function update_details() {
             }
         }).then(Body => Body.json())
         .then(data => {
+            alert(data['Message'])
             if (data['Message'] === 'Password has been changed') {
                 alert(data['Message']);
             }
-            else if (data['Message'] != 'Token is invalid!' && data['Message'] != 'Password has been changed') {
+            else if (data['Message'] != 'Token is invalid!' &&
+                     data['Message'] != 'Password has been changed'
+                     && data['Message'] != 'Email has been changed') {
                 alert('No changes made');
             }
             else if (data['Message'] === 'Token is invalid!') {
