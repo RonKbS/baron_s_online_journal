@@ -31,7 +31,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
     func=datab.send_email,
-    trigger=IntervalTrigger(minutes=0.5),
+    trigger=IntervalTrigger(minutes=2),
     id='sending_mails',
     name='Send email notifications daily',
     replace_existing=True

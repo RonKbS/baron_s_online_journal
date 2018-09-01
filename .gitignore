@@ -4,3 +4,4 @@ venv_mydiary/
 htmlcov/
 .coverage
 app/.env
+/diary_env
