@@ -5,46 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
+    <script src="app.js"></script>
     <title>MyDiary</title>
 </head>
+
 <body>
-    <a href="index.html"><h1 class="appear">MyDiary</h1></a>
-    <h2 class="appear">Online Diary</h2>
-    <div class="appear">Fill in the form to start an online diary:</div>
-    <form action="index.html">
-        <table id="credentials" class="appear">
-            <tr>
-                <td>
-                    <label for="name">Name</label>
-                </td>
-            </tr>
-            <tr>
+        <a href="index.html">
+            <h1 class="appear">MyDiary</h1>
+        </a>
+        <h2 class="appear">Online Diary</h2>
+        <div class="appear">Fill in the form to start an online diary:</div>
+        <form id="creds">
+            <table id="credentials" class="appear">
+                <tr>
+                    <td>
+                        <label for="name">Name</label>
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <input type="text" id="name" required>
                     </td>
                 </tr>
-            <tr>
-                <td>
-                        <label for="mail">Email</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="email" id="mail" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lock">Lock Key</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="password" id="lock" minlength="4" required>
-                </td>
-            </tr>
-            <tr><td><input type="submit" value="Create"></td></tr>
-        </table>
-    </form>
-    </form>
-</body>
+                <tr>
+                    <td>
+                        <label for="mail">email</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="email" id="mail" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="lock">lock</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="password" id="lock" minlength="4" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" onclick="signup()" value="Create">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="footer">
+            <p class="appear">© Copyright バロン</p> 
+        </div>
+    </body>

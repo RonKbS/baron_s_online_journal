@@ -2,38 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="min_functionality.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
 </head>
+
 <body>
-    <h1 class="appear">MyDiary</h1>
-    <h2 class="appear">Online Diary</h2>
-    <div class="appear">
-        <a href="account.html" class="appear">Check Account</a>
-        ...or...
-        <a href="index.html" class="appear">Close Diary</a>
-    </div>
-    <div id="entries_block">
-        <a href="entry.html" class="appear">Add Entry</a>
-        <div class="appear" id="del"> Delete Selected </div>
-        <table id="entries_table">
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Monday 24th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Tuesday 25th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Wednesday 26th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Thursday 27th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Friday 28th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Saturday 29th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Sunday 30th</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Monday 1st</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Tuesday 2nd</a></td></tr>
-            <tr><td class="each"><input type="checkbox"><a href="entry.html">Wednesday 3rd</a></td></tr>
-        </table>
-        <div class="appear" id="del">
-            <h4><a href="older.html">Older...</a></h4>
+        <h1 class="appear">MyDiary</h1>
+        <h2 class="appear">Online Diary</h2>
+        <div class="appear" id="home_nav">
+            <a href="entry.html" class="each">Add Entry</a>
+            <a onclick="delete_several()" class="each"> Delete Selected </a>
+            ...or...
+            <a href="account.html" class="each">Check Account</a>
+            <a onclick="logout()" class="each">Close Diary</a>
         </div>
-    </div>
-</body>
-</html>
+        <div id="entries_block">
+            <table id="entries_table">
+                <script type="text/javascript">
+                    display_entries()
+                </script>
+            </table>
+        </div>
+        <div class="footer">
+            <p class="appear">© Copyright バロン</p> 
+        </div>
+    </body>
+    
+    </html>
